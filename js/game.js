@@ -2,6 +2,7 @@ let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 
 let testObject = new AnimatedOject("./img/4_enemie_boss_chicken/3_attack/G16.png", 200, 200);
+testObject.loadAnimationImages('http://127.0.0.1:5500/game/testObject.json');
 
 draw();
 
