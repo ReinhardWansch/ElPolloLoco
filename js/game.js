@@ -1,7 +1,7 @@
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 
-let testObject = new DrawableObject("./img/4_enemie_boss_chicken/3_attack/G16.png", 200, 200);
+let testObject = new AnimatedOject("./img/4_enemie_boss_chicken/3_attack/G16.png", 200, 200);
 
 draw();
 
@@ -35,5 +35,8 @@ function clearCanvas(ctx) {
 /*###########*/
 
 function tuEs() {
+    testObject.x= 200;
+    testObject.y= 150;
+    testObject.flipHorizontally();
     testObject.rotationAngle= 45;
 }
