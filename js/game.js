@@ -2,20 +2,17 @@ let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 
 let testObject = new DrawableObject("./img/4_enemie_boss_chicken/3_attack/G16.png", 200, 200);
-let testObject2 = new DrawableObject("./spielwiese/mauer-720x480.jpg", 720, 480);
-// draw();
-testObject.x = 250;
-testObject.y = 130;
+
+draw();
 
 /*##########*/
 /*## DRAW ##*/
 /*##########*/
 
 function draw() {
-    // console.log('draw()'); ///DEBUG
-    // clearCanvas(ctx);
+    clearCanvas(ctx);
     drawObject(testObject);
-    // requestAnimationFrame(draw);
+    requestAnimationFrame(draw);
 }
 
 function drawObjects(objects) {
@@ -38,16 +35,5 @@ function clearCanvas(ctx) {
 /*###########*/
 
 function tuEs() {
-    testObject.draw(ctx);
-    testObject.drawFlippedHorizontally(ctx);
-    testObject.x=10;
-    testObject.draw(ctx);
-    testObject.drawFlippedHorizontally(ctx);
-    testObject.x=500;
-    testObject.draw(ctx);
-    testObject.drawRotated(ctx, 180);
-    testObject.x=0;
-    testObject.y=0;
-    testObject.draw(ctx);
-    testObject.drawRotated(ctx, 180);
+    testObject.flipHorizontally();
 }

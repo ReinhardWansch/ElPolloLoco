@@ -6,6 +6,7 @@ class DrawableObject {
     height;
     ratio;
     isFlippedHorizontally = false;
+    rotationAngle = 0;
 
     constructor(imgPath, width = 100, height = 100) {
         this.img = new Image();
@@ -20,7 +21,7 @@ class DrawableObject {
             this.drawFlippedHorizontally(ctx);
         } else {
             this.drawNormal(ctx);
-        }
+        } 
     }
 
     drawNormal(ctx) {
@@ -29,10 +30,14 @@ class DrawableObject {
 
     drawFlippedHorizontally(ctx) {
         ctx.save();
-        ctx.scale(-1, 1);
-        ctx.translate(-this.x*2-this.width, 0);
+        this.transformCtxFlipHorizontally(ctx);
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         ctx.restore();
+    }
+
+    transformCtxFlipHorizontally(ctx) {
+        ctx.scale(-1, 1);
+        ctx.translate(-this.x*2-this.width, 0);
     }
 
     drawRotated(ctx, angle) {
