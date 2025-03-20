@@ -37,23 +37,17 @@ function clearCanvas(ctx) {
 /*## DEBUG ##*/
 /*###########*/
 
-/* function tuEs() {
-    drawObject(testObject);
-    let xSaved= testObject.x;
-    let ySaved= testObject.y;
-    testObject.x=-testObject.width/2;
-    testObject.y=-testObject.height/2;
-    ctx.translate(xSaved+testObject.width/2, ySaved+testObject.height/2);
-    ctx.rotate(Math.PI);
-    // ctx.translate(200, 0);
-    // ctx.rotate(Math.PI*0.25);
-    drawObject(testObject);
-} */
-
 function tuEs() {
     testObject.draw(ctx);
     testObject.drawFlippedHorizontally(ctx);
     testObject.x=10;
     testObject.draw(ctx);
     testObject.drawFlippedHorizontally(ctx);
+    testObject.x=500;
+    testObject.draw(ctx);
+    testObject.drawRotated(ctx, 180);
+    testObject.x=0;
+    testObject.y=0;
+    testObject.draw(ctx);
+    testObject.drawRotated(ctx, 180);
 }
