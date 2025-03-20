@@ -2,6 +2,8 @@ class DrawableObject {
     img;
     x = 0;
     y = 0;
+    storedX;
+    storedY;
     width;
     height;
     ratio;
@@ -17,19 +19,49 @@ class DrawableObject {
     }
 
     draw(ctx) {
-        if (this.isFlippedHorizontally) {
-            this.drawFlippedHorizontally(ctx);
-        } else if (this.rotationAngle !== 0){
-            this.drawRotated(ctx);
-        } else {
-            this.drawNormal(ctx);
+        this.storePosition();
+        ctx.save();
+        if (this.isRotated()) {
+            this.centerAtCartesianOrigin();
+            this.transformCtxRotate(ctx, this.rotationAngle, this.storedX, this.storedY);
         }
-    }
-
-    drawNormal(ctx) {
+        if (this.isFlippedHorizontally) this.transformCtxFlipHorizontally(ctx);
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        ctx.restore();
+        this.restorePosition();
     }
 
+    isTransformed() {
+        return this.isFlippedHorizontally || this.rotationAngle !== 0;
+    }
+    // isTransformed() könnte man auch als get isTransformed() schreiben.
+    // welche Version ist besser hinsichtlich Wartbarkeit und Lesbarkeit?
+
+    isRotated() {
+        return this.rotationAngle !== 0;
+    }
+    // isTransformed() könnte man auch als get isRotated() schreiben.
+    // welche Version ist besser hinsichtlich Wartbarkeit und Lesbarkeit?
+
+    /*##############*/
+    /*## POSITION ##*/
+    /*##############*/
+
+    storePosition() {
+        this.storedX = this.x;
+        this.storedY = this.y;
+    }
+
+    restorePosition() {
+        this.x = this.storedX;
+        this.y = this.storedY;
+    }
+
+    centerAtCartesianOrigin() {
+        this.x = -this.width / 2;
+        this.y = -this.height / 2;
+    }
+    
     /*##########*/
     /*## FLIP ##*/
     /*##########*/
@@ -38,16 +70,9 @@ class DrawableObject {
         this.isFlippedHorizontally = !this.isFlippedHorizontally;
     }
 
-    drawFlippedHorizontally(ctx) {
-        ctx.save();
-        this.transformCtxFlipHorizontally(ctx);
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-        ctx.restore();
-    }
-
     transformCtxFlipHorizontally(ctx) {
         ctx.scale(-1, 1);
-        ctx.translate(-this.x*2-this.width, 0);
+        ctx.translate(-this.x * 2 - this.width, 0);
     }
 
     /*############*/
@@ -58,23 +83,8 @@ class DrawableObject {
         this.rotationAngle = angle;
     }
 
-    drawRotated(ctx) {
-        let xSaved = this.x;
-        let ySaved = this.y;
-        this.x = -this.width / 2;
-        this.y = -this.height / 2;
-        ctx.save();
-        // ctx.translate(xSaved + this.width / 2, ySaved + this.height / 2);
-        // ctx.rotate(angle * Math.PI / 180);
-        this.transformCtxRotate(ctx, this.rotationAngle, xSaved, ySaved);
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-        ctx.restore();
-        this.x = xSaved;
-        this.y = ySaved;
-    }
-
-    transformCtxRotate(ctx, angle, xSaved, ySaved) {
-        ctx.translate(xSaved + this.width / 2, ySaved + this.height / 2);
+    transformCtxRotate(ctx, angle, xStored, yStored) {
+        ctx.translate(xStored + this.width / 2, yStored + this.height / 2);
         ctx.rotate(angle * Math.PI / 180);
     }
 
@@ -88,12 +98,21 @@ class DrawableObject {
     }
 
     scaleToHeight(height) {
-        this.width = this.height * this.ratio;
         this.height = height;
+        this.width = this.height * this.ratio;
     }
 
     scaleToWidth(width) {
         this.width = width;
         this.height = this.width / this.ratio;
+    }
+
+    /*##########*/
+    /*## MISC ##*/
+    /*##########*/
+
+    resetTransformations() {
+        this.isFlippedHorizontally = false;
+        this.rotationAngle = 0;
     }
 }
