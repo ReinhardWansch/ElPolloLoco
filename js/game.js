@@ -35,5 +35,5 @@ function clearCanvas(ctx) {
 /*###########*/
 
 function tuEs() {
-    testObject.flipHorizontally();
+    testObject.rotationAngle= 45;
 }

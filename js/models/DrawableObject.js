@@ -19,13 +19,23 @@ class DrawableObject {
     draw(ctx) {
         if (this.isFlippedHorizontally) {
             this.drawFlippedHorizontally(ctx);
+        } else if (this.rotationAngle !== 0){
+            this.drawRotated(ctx);
         } else {
             this.drawNormal(ctx);
-        } 
+        }
     }
 
     drawNormal(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    /*##########*/
+    /*## FLIP ##*/
+    /*##########*/
+
+    flipHorizontally() {
+        this.isFlippedHorizontally = !this.isFlippedHorizontally;
     }
 
     drawFlippedHorizontally(ctx) {
@@ -40,19 +50,37 @@ class DrawableObject {
         ctx.translate(-this.x*2-this.width, 0);
     }
 
-    drawRotated(ctx, angle) {
+    /*############*/
+    /*## ROTATE ##*/
+    /*############*/
+
+    rotate(angle) {
+        this.rotationAngle = angle;
+    }
+
+    drawRotated(ctx) {
         let xSaved = this.x;
         let ySaved = this.y;
         this.x = -this.width / 2;
         this.y = -this.height / 2;
         ctx.save();
-        ctx.translate(xSaved + this.width / 2, ySaved + this.height / 2);
-        ctx.rotate(angle * Math.PI / 180);
-        this.draw(ctx);
+        // ctx.translate(xSaved + this.width / 2, ySaved + this.height / 2);
+        // ctx.rotate(angle * Math.PI / 180);
+        this.transformCtxRotate(ctx, this.rotationAngle, xSaved, ySaved);
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         ctx.restore();
         this.x = xSaved;
         this.y = ySaved;
     }
+
+    transformCtxRotate(ctx, angle, xSaved, ySaved) {
+        ctx.translate(xSaved + this.width / 2, ySaved + this.height / 2);
+        ctx.rotate(angle * Math.PI / 180);
+    }
+
+    /*###########*/
+    /*## SCALE ##*/
+    /*###########*/
 
     scale(factor) {
         this.width *= factor;
@@ -67,9 +95,5 @@ class DrawableObject {
     scaleToWidth(width) {
         this.width = width;
         this.height = this.width / this.ratio;
-    }
-
-    flipHorizontally(ctx) {
-        this.isFlippedHorizontally = !this.isFlippedHorizontally;
     }
 }
