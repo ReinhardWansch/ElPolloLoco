@@ -47,6 +47,11 @@ class DrawableObject {
     /*## POSITION ##*/
     /*##############*/
 
+    setPosition(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    
     storePosition() {
         this.storedX = this.x;
         this.storedY = this.y;
