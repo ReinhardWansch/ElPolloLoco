@@ -7,12 +7,13 @@ class AnimatedObject extends DrawableObject {
         super(imgPath, width, height);
     }
 
+    //TODO refactor loadAnimationImages
     loadAnimationImages(pathToJson) {
         fetch(pathToJson)
             .then(response => response.json())
             .then(json => {
                 json.animations.forEach((animationI) => {
-                    this.animationImages[animationI.name]= {};
+                    this.animationImages[animationI.name] = {};
                     this.animationImages[animationI.name].images = [];
                     this.animationImages[animationI.name].imageDuration = animationI.imageDuration;
                     animationI.imagePaths.forEach((path) => {
@@ -26,13 +27,13 @@ class AnimatedObject extends DrawableObject {
 
     animate(animationName) {
         this.stopAnimation();
-        let imageDuration= this.animationImages[animationName].imageDuration;
+        let imageDuration = this.animationImages[animationName].imageDuration;
         this.currentImageIndex = 0;
-        this.img= this.animationImages[animationName].images[0];
+        this.img = this.animationImages[animationName].images[0];
         this.currentAnimationInterval = window.setInterval(() => {
             this.setNextImage(animationName);
         }, imageDuration);
-        
+
     }
 
     setNextImage(animationName) {
