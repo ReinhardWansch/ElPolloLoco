@@ -1,36 +1,68 @@
 class MoveableObject extends AnimatedObject {
-    speed = 1;
-    currentMotionInterval;
+    speedX = 0;
+    speedY = 0;
+    currentMotionIntervalX;
+    currentMotionIntervalY;
+    accelerationX=0;
+    accelerationY=0;
     refreshRate = 1000 / 60;
 
     constructor(x, y, width, height, image) {
         super(x, y, width, height, image);
     }
 
-    moveRight() {
-        this.stopMotion();
-        if (this.isFlippedHorizontally) this.flipHorizontally();
-        this.currentMotionInterval = window.setInterval(() => {
-            this.x += this.speed;
+    /*############*/
+    /*## MOTION ##*/
+    /*############*/
+
+    startMotion() {
+        this.startMotionX();
+        this.startMotionY();
+    }
+    
+    startMotionX() {
+        this.stopMotionX();
+        this.currentMotionIntervalX= window.setInterval(() => {
+            this.x += this.speedX;
+            this.speedX += this.accelerationX;
         }, this.refreshRate);
-        this.stopAnimation();
-        this.animate('walk');
+    }
+    
+    startMotionY() {
+        this.stopMotionY();
+        this.currentMotionIntervalY= window.setInterval(() => {
+            this.y += this.speedY;
+            this.speedY += this.accelerationY;
+        }, this.refreshRate);
     }
 
-    moveLeft() {
-        this.stopMotion();
-        if (!this.isFlippedHorizontally) this.flipHorizontally();
-        this.currentMotionInterval = window.setInterval(() => {
-            this.x -= this.speed;
-        }, this.refreshRate);
-        this.stopAnimation();
-        this.animate('walk');
-    }   
+
 
     stopMotion() {
-        clearInterval(this.currentMotionInterval);
-        this.stopAnimation();
-        this.animate('alert');
+        this.stopMotionX();
+        this.stopMotionY();
+    }
+    
+    stopMotionX() {
+        clearInterval(this.currentMotionIntervalX);
+        this.currentAnimationIntervalX = null;
+    }
+
+    stopMotionY() {
+        clearInterval(this.currentMotionIntervalY);
+        this.currentAnimationIntervalY = null;
+    }
+
+    /*##################*/
+    /*## ACCELERATION ##*/
+    /*##################*/
+
+    setAccelearationX(a){
+        this.accelerationX = a;
+    }
+    
+    setAccelearationY(a){
+        this.accelerationY = a;
     }
 
 }

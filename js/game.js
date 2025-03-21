@@ -36,11 +36,13 @@ function clearCanvas(ctx) {
 /*###########*/
 
 async function tuEs() {
-    testObject.moveRight();
-    await wait(2000);
-    testObject.stopMotion();
+    testObject.setAccelearationY(0.1);
+    testObject.setAccelearationX(0.2);
+    testObject.startMotion();
     await wait(500);
-    testObject.moveLeft();
+    testObject.setAccelearationY(-0.1);
+    testObject.setAccelearationX(-0.2);
+    testObject.startMotion();
 }
 
 function wait(ms) {
