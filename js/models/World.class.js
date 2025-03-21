@@ -16,14 +16,23 @@ class World {
     /*#############*/
 
     loadLevel(pathToJson) {
-        fetch(pathToJson)
+        return fetch(pathToJson)
             .then(response => response.json())
             .then(json => {
                 json.backgroundImagePaths.forEach((path) => {
-                    let backgroundObject= new DrawableObject(path);
+                    let backgroundObject = new DrawableObject(path);
                     backgroundObject.scaleToHeight(canvas.height);
                     this.backgroundObjects.push(backgroundObject);
                 });
+            });
+    }
+
+    loadCharacter(pathToJson) {
+        return fetch(pathToJson)
+            .then(response => response.json())
+            .then(json => {
+                this.character = new AnimatedObject(json.staticImagePath);
+                this.character.scaleToHeight(json.height);
             });
     }
 
@@ -34,6 +43,7 @@ class World {
     draw(ctx) {
         this.clearCanvas();
         this.drawObjects(this.backgroundObjects);
+        this.drawObject(this.character);
         window.requestAnimationFrame(() => this.draw(ctx));
     }
 

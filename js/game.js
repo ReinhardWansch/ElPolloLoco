@@ -1,10 +1,13 @@
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 let world = new World(ctx);
-world.loadLevel('./game/level1.json');
+let levelLoaded= world.loadLevel('./game/level1.json');
+let characterLoaded= world.loadCharacter('./game/pepe.json');
 
 function init() {
-    world.draw(ctx);
+    Promise.all([levelLoaded, characterLoaded]).then(() => {
+        world.draw(ctx);
+    });
 }
 
 
@@ -24,4 +27,8 @@ async function tuEs() {
 
 function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function logObject(object) {
+    console.log(object);
 }
