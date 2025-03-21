@@ -1,8 +1,11 @@
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 
-let testObject = new MoveableObject("./img/4_enemie_boss_chicken/3_attack/G16.png", 200, 200);
-testObject.loadAnimationImages('http://127.0.0.1:5500/game/testObject.json');
+// let testObject = new MoveableObject("./img/4_enemie_boss_chicken/3_attack/G16.png", 200, 200);
+// testObject.loadAnimationImages('http://127.0.0.1:5500/game/testObject.json');
+
+let chick= new MoveableObject('./img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
+chick.loadAnimationImages('http://127.0.0.1:5500/game/chick.json');
 
 draw();
 
@@ -12,7 +15,7 @@ draw();
 
 function draw() {
     clearCanvas(ctx);
-    drawObject(testObject);
+    drawObject(chick);
     requestAnimationFrame(draw);
 }
 
@@ -36,13 +39,7 @@ function clearCanvas(ctx) {
 /*###########*/
 
 async function tuEs() {
-    testObject.setAccelearationY(0.1);
-    testObject.setAccelearationX(0.2);
-    testObject.startMotion();
-    await wait(500);
-    testObject.setAccelearationY(-0.1);
-    testObject.setAccelearationX(-0.2);
-    testObject.startMotion();
+    
 }
 
 function wait(ms) {

@@ -10,11 +10,16 @@ class DrawableObject {
     isFlippedHorizontally = false;
     rotationAngle = 0;
 
-    constructor(imgPath, width = 100, height = 100) {
+    constructor(imgPath, width, height) {
         this.img = new Image();
         this.img.src = imgPath;
-        this.width = width;
-        this.height = height;
+        if (!width) {
+            this.width = this.img.width;
+            this.height = this.img.height;
+        } else {
+            this.width = width;
+            this.height = height;
+        }
         this.ratio = this.width / this.height;
     }
 
@@ -34,7 +39,7 @@ class DrawableObject {
     isTransformed() {
         return this.isFlippedHorizontally || this.rotationAngle !== 0;
     }
-    // TDOD stell die Frage in einem Forum oder bei DevAk
+    // TODD stell die Frage in einem Forum oder bei DevAk
     // isTransformed() könnte man auch als get isTransformed() schreiben.
     // welche Version ist besser hinsichtlich Wartbarkeit und Lesbarkeit?
 

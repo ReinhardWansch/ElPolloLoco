@@ -7,8 +7,8 @@ class MoveableObject extends AnimatedObject {
     accelerationY=0;
     refreshRate = 1000 / 60;
 
-    constructor(x, y, width, height, image) {
-        super(x, y, width, height, image);
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
     }
 
     /*############*/
@@ -36,8 +36,6 @@ class MoveableObject extends AnimatedObject {
         }, this.refreshRate);
     }
 
-
-
     stopMotion() {
         this.stopMotionX();
         this.stopMotionY();
@@ -57,11 +55,11 @@ class MoveableObject extends AnimatedObject {
     /*## ACCELERATION ##*/
     /*##################*/
 
-    setAccelearationX(a){
+    setAccelerationX(a){
         this.accelerationX = a;
     }
     
-    setAccelearationY(a){
+    setAccelerationY(a){
         this.accelerationY = a;
     }
 

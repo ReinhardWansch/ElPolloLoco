@@ -3,7 +3,7 @@ class AnimatedObject extends DrawableObject {
     currentImageIndex = 0;
     currentAnimationInterval;
 
-    constructor(imgPath, width = 100, height = 100) {
+    constructor(imgPath, width, height) {
         super(imgPath, width, height);
     }
 
@@ -13,12 +13,12 @@ class AnimatedObject extends DrawableObject {
             .then(json => {
                 json.animations.forEach((animationI) => {
                     this.animationImages[animationI.name]= {};
-                    this.animationImages[animationI.name].paths = [];
+                    this.animationImages[animationI.name].images = [];
                     this.animationImages[animationI.name].imageDuration = animationI.imageDuration;
-                    animationI.paths.forEach((path) => {
+                    animationI.imagePaths.forEach((path) => {
                         let img = new Image();
                         img.src = path;
-                        this.animationImages[animationI.name].paths.push(img);
+                        this.animationImages[animationI.name].images.push(img);
                     });
                 });
             });
@@ -28,6 +28,7 @@ class AnimatedObject extends DrawableObject {
         this.stopAnimation();
         let imageDuration= this.animationImages[animationName].imageDuration;
         this.currentImageIndex = 0;
+        this.img= this.animationImages[animationName].images[0];
         this.currentAnimationInterval = window.setInterval(() => {
             this.setNextImage(animationName);
         }, imageDuration);
@@ -35,7 +36,7 @@ class AnimatedObject extends DrawableObject {
     }
 
     setNextImage(animationName) {
-        let images = this.animationImages[animationName].paths;
+        let images = this.animationImages[animationName].images;
         let i = this.currentImageIndex % images.length;
         this.img = images[i];
         this.currentImageIndex++;
