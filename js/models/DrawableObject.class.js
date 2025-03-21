@@ -34,12 +34,14 @@ class DrawableObject {
     isTransformed() {
         return this.isFlippedHorizontally || this.rotationAngle !== 0;
     }
+    // TDOD stell die Frage in einem Forum oder bei DevAk
     // isTransformed() könnte man auch als get isTransformed() schreiben.
     // welche Version ist besser hinsichtlich Wartbarkeit und Lesbarkeit?
 
     isRotated() {
         return this.rotationAngle !== 0;
     }
+    // TDOD stell die Frage in einem Forum oder bei DevAk
     // isTransformed() könnte man auch als get isRotated() schreiben.
     // welche Version ist besser hinsichtlich Wartbarkeit und Lesbarkeit?
 

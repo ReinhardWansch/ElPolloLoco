@@ -1,7 +1,6 @@
-class AnimatedOject extends DrawableObject {
+class AnimatedObject extends DrawableObject {
     animationImages = {};
     currentImageIndex = 0;
-    //name der Animation als key, value ist ein Array von Image-Objekten
     currentAnimationInterval;
 
     constructor(imgPath, width = 100, height = 100) {

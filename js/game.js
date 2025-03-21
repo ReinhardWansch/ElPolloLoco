@@ -1,7 +1,7 @@
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 
-let testObject = new AnimatedOject("./img/4_enemie_boss_chicken/3_attack/G16.png", 200, 200);
+let testObject = new MoveableObject("./img/4_enemie_boss_chicken/3_attack/G16.png", 200, 200);
 testObject.loadAnimationImages('http://127.0.0.1:5500/game/testObject.json');
 
 draw();
@@ -35,8 +35,14 @@ function clearCanvas(ctx) {
 /*## DEBUG ##*/
 /*###########*/
 
-function tuEs() {
-    testObject.setPosition(200, 150);
-    testObject.flipHorizontally();
-    testObject.rotationAngle= 45;
+async function tuEs() {
+    testObject.moveRight();
+    await wait(2000);
+    testObject.stopMotion();
+    await wait(500);
+    testObject.moveLeft();
+}
+
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
