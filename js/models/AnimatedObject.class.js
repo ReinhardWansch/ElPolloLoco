@@ -11,14 +11,15 @@ class AnimatedObject extends DrawableObject {
     animationImages = {};
     currentImageIndex = 0;
     currentAnimationInterval;
+    currentAnimationName;
 
     constructor(imgPath, width, height) {
         super(imgPath, width, height);
     }
 
     //TODO refactor loadAnimationImages
-    loadAnimationImages(pathToJson) {
-        fetch(pathToJson)
+    async loadAnimationImages(pathToJson) {
+        await fetch(pathToJson)
             .then(response => response.json())
             .then(json => {
                 json.animations.forEach((animationI) => {
@@ -53,15 +54,15 @@ class AnimatedObject extends DrawableObject {
     }
 
     animate(animationName) {
+        console.log(`animate(${animationName})`); ///DEBUG
         this.stopAnimation();
-        let imageDuration = this.animationImages.die.imageDuration;
-        // let imageDuration = this.animationImages[animationName][imageDuration];
+        let imageDuration = this.animationImages[animationName].imageDuration;
         this.currentImageIndex = 0;
         this.img = this.animationImages[animationName].images[0];
         this.currentAnimationInterval = window.setInterval(() => {
             this.setNextImage(animationName);
         }, imageDuration);
-
+        this.currentAnimationName = animationName;
     }
 
     setNextImage(animationName) {
@@ -73,5 +74,6 @@ class AnimatedObject extends DrawableObject {
 
     stopAnimation() {
         clearInterval(this.currentAnimationInterval);
+        this.currentAnimationName = null;
     }
 }

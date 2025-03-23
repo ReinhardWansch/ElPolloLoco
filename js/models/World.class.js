@@ -3,13 +3,13 @@ class World {
     character;
     enemies = [];
     backgroundObjects = [];
-    // keyboard;
-    gravity = 0.1;
-    grouxndY;
+    keyboard;
+    gravity = 0.5;
+    groundY;
 
     constructor(ctx) {
         this.ctx = ctx;
-        // this.keyboard = new Keyboard();
+        this.keyboard = new Keyboard();
     }
 
     /*#############*/
@@ -33,10 +33,12 @@ class World {
         return fetch(pathToJson)
             .then(response => response.json())
             .then(json => {
-                this.character = new MoveableObject(json.staticImagePath);
+                this.character = new Character(json.staticImagePath, this.keyboard);
                 this.character.scaleToHeight(json.height);
-            }, reason => {
-                console.log('loading character rejected: ' + reason);
+                this.character.speedX = json.speedX;
+                this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
+                this.character.groundY = this.groundY;
+                this.character.jumpSpeed = json.jumpSpeed;
             })
             .catch((reason) => {
                 console.log('error while loading character: ' + reason);
@@ -81,7 +83,7 @@ class World {
     /*##########*/
 
     applyGravity() {
-        this.character.applyGravity(this.gravity, this.groundY);
+        this.character.applyGravity(this.gravity);
     }
 
 }

@@ -1,7 +1,7 @@
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 let world = new World(ctx);
-let levelLoaded = world.loadLevel('./game/level1.json'). then(() => {
+let levelLoaded = world.loadLevel('./game/level1.json').then(() => {
         world.decodeBackgroundImages();
     });
 let characterLoaded = world.loadCharacter('./game/pepe.json').then(() => {
@@ -12,6 +12,10 @@ let loadings = [
     characterLoaded,
 ]
 
+//TODO: Why is canvas black on first load in browser?
+//  - tried to load images after decode()
+//  - tried to load images after "load" event
+//  - both didn't work
 function init() {
     Promise.all(loadings).then(() => {
         world.draw(ctx);
@@ -29,8 +33,7 @@ function init() {
 /*###########*/
 
 function tuEs() {
-    world.character.y -= 1;
-    world.character.speedY = -5;
+    console.log('tuEs()'); ///DEBUG
 }
 
 function wait(ms) {
