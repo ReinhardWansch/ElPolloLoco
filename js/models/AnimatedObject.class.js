@@ -54,7 +54,6 @@ class AnimatedObject extends DrawableObject {
     }
 
     animate(animationName) {
-        console.log(`animate(${animationName})`); ///DEBUG
         this.stopAnimation();
         let imageDuration = this.animationImages[animationName].imageDuration;
         this.currentImageIndex = 0;

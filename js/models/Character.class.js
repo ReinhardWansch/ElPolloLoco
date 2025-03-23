@@ -9,7 +9,6 @@ class Character extends MoveableObject {
     }
 
     draw(ctx) {
-        console.log(this.airborne); ///DEBUG
         if (this.keyboard.ArrowRight) {
             if (this.isFlippedHorizontally) this.flipHorizontally();
             if (!this.airborne && this.currentAnimationName != 'walk') this.animate('walk');
