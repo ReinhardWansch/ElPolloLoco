@@ -58,7 +58,6 @@ class MoveableObject extends AnimatedObject {
     applyGravity(g, groundY) {
         this.stopMotionY();
         this.currentMotionIntervalY= window.setInterval(() => {
-            console.log(this.speedY); ///DEBUG
             if (this.y+this.height < groundY) {
                 this.accelerationY = g;
                 this.y += this.speedY;
