@@ -5,5 +5,11 @@
         "./img/5_background/layers/3_third_layer/full.png",
         "./img/5_background/layers/2_second_layer/full.png",
         "./img/5_background/layers/1_first_layer/1.png"
+    ],
+    "clouds": [
+        {
+            "speedX": -0.1,
+            "imagePath": "./img/5_background/layers/4_clouds/full.png"
+        }
     ]
 }

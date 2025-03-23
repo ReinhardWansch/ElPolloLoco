@@ -3,6 +3,7 @@ class World {
     character;
     enemies = [];
     backgroundObjects = [];
+    cloudObjects = [];
     keyboard;
     gravity = 0.5;
     groundY;
@@ -24,6 +25,13 @@ class World {
                     let backgroundObject = new DrawableObject(path);
                     backgroundObject.scaleToHeight(canvas.height);
                     this.backgroundObjects.push(backgroundObject);
+                });
+                json.clouds.forEach((cloud) => {
+                    let cloudObject= new MoveableObject(cloud.imagePath);
+                    cloudObject.scaleToHeight(canvas.height);
+                    cloudObject.speedX= cloud.speedX;
+                    cloudObject.startMotionX();
+                    this.cloudObjects.push(cloudObject);
                 });
                 this.groundY = json.groundY;
             });
@@ -52,6 +60,7 @@ class World {
     draw(ctx) {
         this.clearCanvas();
         this.drawObjects(this.backgroundObjects);
+        this.drawObjects(this.cloudObjects);
         this.drawObject(this.character);
         window.requestAnimationFrame(() => this.draw(ctx));
     }
