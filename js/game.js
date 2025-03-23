@@ -33,7 +33,12 @@ function init() {
 /*###########*/
 
 function tuEs() {
-    console.log('tuEs()'); ///DEBUG
+    world.backgroundObjects.forEach((object) => {
+        console.log(object); ///DEBUG
+        for (let i=0; i<3; i++) {
+            ctx.drawImage(object.img, object.x + i * object.width, object.y, object.width, object.height);
+        }
+    });
 }
 
 function wait(ms) {

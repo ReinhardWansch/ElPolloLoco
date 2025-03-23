@@ -44,7 +44,7 @@ class World {
             .then(json => {
                 this.character = new Character(json.staticImagePath, this.keyboard);
                 this.character.scaleToHeight(json.height);
-                this.character.x= json.positionX;
+                this.character.x = json.positionX;
                 this.character.speedX = json.speedX;
                 this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
                 this.character.groundY = this.groundY;
@@ -64,7 +64,8 @@ class World {
         if (this.keyboard.ArrowLeft) this.cameraX += this.character.speedX;
         this.clearCanvas();
         ctx.translate(this.cameraX, 0);
-        this.drawObjects(this.backgroundObjects);
+        // this.drawObjects(this.backgroundObjects);
+        this.drawBackgroundObjects();
         this.drawObjects(this.cloudObjects);
         ctx.translate(-this.cameraX, 0);
         this.drawObject(this.character);
@@ -79,6 +80,20 @@ class World {
 
     drawObject(object) {
         object.draw(this.ctx);
+    }
+
+    drawBackgroundObjects() {
+        this.backgroundObjects.forEach((backgroundObject) => {
+            for (let i = 0; i < 3; i++) {
+                this.ctx.drawImage(
+                    backgroundObject.img,
+                    (backgroundObject.x + i * backgroundObject.width) -i*2,
+                    backgroundObject.y,
+                    backgroundObject.width,
+                    backgroundObject.height
+                );
+            }
+        });
     }
 
     clearCanvas() {
