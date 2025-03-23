@@ -3,9 +3,14 @@ let ctx = canvas.getContext("2d");
 let world = new World(ctx);
 let levelLoaded= world.loadLevel('./game/level1.json');
 let characterLoaded= world.loadCharacter('./game/pepe.json');
+let loadings= [
+    levelLoaded,
+    characterLoaded
+]
 
 function init() {
-    Promise.all([levelLoaded, characterLoaded]).then(() => {
+    world.character.animations.
+    Promise.all(loadings).then(() => {
         world.draw(ctx);
     });
 }

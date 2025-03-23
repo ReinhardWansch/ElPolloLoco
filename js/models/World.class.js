@@ -31,7 +31,7 @@ class World {
         return fetch(pathToJson)
             .then(response => response.json())
             .then(json => {
-                this.character = new AnimatedObject(json.staticImagePath);
+                this.character = new MoveableObject(json.staticImagePath);
                 this.character.scaleToHeight(json.height);
             });
     }
@@ -59,6 +59,10 @@ class World {
 
     clearCanvas() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    decodeImages() {
+        
     }
 
 }

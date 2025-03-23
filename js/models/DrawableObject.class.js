@@ -1,3 +1,4 @@
+//TODO decode - Funktion wenn alle Bilde decodiert sind
 class DrawableObject {
     img;
     x = 0;
@@ -47,7 +48,7 @@ class DrawableObject {
         return this.rotationAngle !== 0;
     }
     // TDOD stell die Frage in einem Forum oder bei DevAk
-    // isTransformed() könnte man auch als get isRotated() schreiben.
+    // isRotated() könnte man auch als get isRotated() schreiben.
     // welche Version ist besser hinsichtlich Wartbarkeit und Lesbarkeit?
 
     /*##############*/
