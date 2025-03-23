@@ -1,4 +1,13 @@
+//TODO decode - Funktion wenn alle Bilde decodiert sind
 class AnimatedObject extends DrawableObject {
+    // --- animationImages ---
+    // {
+    //    "name": {
+    //         "imageDuration": durationInMs
+    //         "images": ["path1", "path2", "path3", ...]
+    //     }, 
+    //     ...
+    // }
     animationImages = {};
     currentImageIndex = 0;
     currentAnimationInterval;
@@ -23,11 +32,30 @@ class AnimatedObject extends DrawableObject {
                     });
                 });
             });
+        return this.decodeImagesAll();
+    }
+
+    decodeImagesAll() {
+        let decodePromises = [];
+        for (let animationName in this.animationImages) {
+            decodePromises.push(this.decodeImages(animationName));
+        }
+        return Promise.all(decodePromises);
+    }
+    
+    decodeImages(animationName) {
+        let images = this.animationImages[animationName].images;
+        let decodedImagePromises = [];
+        images.forEach((img) => {
+            decodedImagePromises.push(img.decode());
+        });
+        return Promise.all(decodedImagePromises);
     }
 
     animate(animationName) {
         this.stopAnimation();
-        let imageDuration = this.animationImages[animationName].imageDuration;
+        let imageDuration = this.animationImages.die.imageDuration;
+        // let imageDuration = this.animationImages[animationName][imageDuration];
         this.currentImageIndex = 0;
         this.img = this.animationImages[animationName].images[0];
         this.currentAnimationInterval = window.setInterval(() => {

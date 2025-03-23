@@ -1,4 +1,3 @@
-//TODO decode - Funktion wenn alle Bilde decodiert sind
 class DrawableObject {
     img;
     x = 0;
@@ -35,6 +34,10 @@ class DrawableObject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
         ctx.restore();
         this.restorePosition();
+    }
+
+    decodeImage() {
+        return this.img.decode();
     }
 
     isTransformed() {

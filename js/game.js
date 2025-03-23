@@ -1,17 +1,21 @@
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 let world = new World(ctx);
-let levelLoaded= world.loadLevel('./game/level1.json');
-let characterLoaded= world.loadCharacter('./game/pepe.json');
-let loadings= [
+let levelLoaded = world.loadLevel('./game/level1.json'). then(() => {
+        world.decodeBackgroundImages();
+    });
+let characterLoaded = world.loadCharacter('./game/pepe.json').then(() => {
+        world.character.loadAnimationImages('./game/pepe.json');
+    });
+let loadings = [
     levelLoaded,
-    characterLoaded
+    characterLoaded,
 ]
 
 function init() {
-    world.character.animations.
     Promise.all(loadings).then(() => {
         world.draw(ctx);
+        world.applyGravity();
     });
 }
 
@@ -24,10 +28,9 @@ function init() {
 /*## DEBUG ##*/
 /*###########*/
 
-async function tuEs() {
-    world.backgroundObjects[0].x -= 100;
-    world.backgroundObjects[1].x -= 100;
-    world.backgroundObjects[2].x -= 100;
+function tuEs() {
+    world.character.y -= 1;
+    world.character.speedY = -5;
 }
 
 function wait(ms) {

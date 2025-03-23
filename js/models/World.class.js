@@ -4,7 +4,8 @@ class World {
     enemies = [];
     backgroundObjects = [];
     // keyboard;
-    floorHeight;
+    gravity = 0.1;
+    grouxndY;
 
     constructor(ctx) {
         this.ctx = ctx;
@@ -24,6 +25,7 @@ class World {
                     backgroundObject.scaleToHeight(canvas.height);
                     this.backgroundObjects.push(backgroundObject);
                 });
+                this.groundY = json.groundY;
             });
     }
 
@@ -33,6 +35,11 @@ class World {
             .then(json => {
                 this.character = new MoveableObject(json.staticImagePath);
                 this.character.scaleToHeight(json.height);
+            }, reason => {
+                console.log('loading character rejected: ' + reason);
+            })
+            .catch((reason) => {
+                console.log('error while loading character: ' + reason);
             });
     }
 
@@ -61,8 +68,20 @@ class World {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    decodeImages() {
-        
+    decodeBackgroundImages() {
+        let decodePromises = [];
+        this.backgroundObjects.forEach((backgroundObject) => {
+            decodePromises.push(backgroundObject.img.decode());
+        });
+        return Promise.all(decodePromises);
+    }
+
+    /*##########*/
+    /*## MISC ##*/
+    /*##########*/
+
+    applyGravity() {
+        this.character.applyGravity(this.gravity, this.groundY);
     }
 
 }

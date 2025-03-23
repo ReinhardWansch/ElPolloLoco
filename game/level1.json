@@ -1,4 +1,5 @@
 {
+    "groundY": 430,
     "backgroundImagePaths": [
         "./img/5_background/layers/air.png",
         "./img/5_background/layers/3_third_layer/full.png",
