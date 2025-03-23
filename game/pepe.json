@@ -1,5 +1,6 @@
 {
     "staticImagePath": "./img/2_character_pepe/1_idle/idle/I-1.png",
+    "positionX": 125,
     "height": 300,
     "speedX": 10,
     "jumpSpeed": -10,

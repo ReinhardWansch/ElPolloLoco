@@ -12,12 +12,12 @@ class Character extends MoveableObject {
         if (this.keyboard.ArrowRight) {
             if (this.isFlippedHorizontally) this.flipHorizontally();
             if (!this.airborne && this.currentAnimationName != 'walk') this.animate('walk');
-            this.x += this.speedX;
+            // this.x += this.speedX;
         }
         else if (this.keyboard.ArrowLeft && this) {
             if (!this.isFlippedHorizontally) this.flipHorizontally();
             if (!this.airborne && this.currentAnimationName != 'walk') this.animate('walk');
-            this.x -= this.speedX;
+            // this.x -= this.speedX;
         } else {
             if (!this.airborne && this.currentAnimationName != 'idle') this.animate('idle');
         }

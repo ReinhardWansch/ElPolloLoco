@@ -7,6 +7,7 @@ class World {
     keyboard;
     gravity = 0.5;
     groundY;
+    cameraX = 0;
 
     constructor(ctx) {
         this.ctx = ctx;
@@ -27,9 +28,9 @@ class World {
                     this.backgroundObjects.push(backgroundObject);
                 });
                 json.clouds.forEach((cloud) => {
-                    let cloudObject= new MoveableObject(cloud.imagePath);
+                    let cloudObject = new MoveableObject(cloud.imagePath);
                     cloudObject.scaleToHeight(canvas.height);
-                    cloudObject.speedX= cloud.speedX;
+                    cloudObject.speedX = cloud.speedX;
                     cloudObject.startMotionX();
                     this.cloudObjects.push(cloudObject);
                 });
@@ -43,6 +44,7 @@ class World {
             .then(json => {
                 this.character = new Character(json.staticImagePath, this.keyboard);
                 this.character.scaleToHeight(json.height);
+                this.character.x= json.positionX;
                 this.character.speedX = json.speedX;
                 this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
                 this.character.groundY = this.groundY;
@@ -58,9 +60,13 @@ class World {
     /*##########*/
 
     draw(ctx) {
+        if (this.keyboard.ArrowRight) this.cameraX -= this.character.speedX;
+        if (this.keyboard.ArrowLeft) this.cameraX += this.character.speedX;
         this.clearCanvas();
+        ctx.translate(this.cameraX, 0);
         this.drawObjects(this.backgroundObjects);
         this.drawObjects(this.cloudObjects);
+        ctx.translate(-this.cameraX, 0);
         this.drawObject(this.character);
         window.requestAnimationFrame(() => this.draw(ctx));
     }
