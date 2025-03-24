@@ -66,18 +66,18 @@ class World {
     /*## DRAW ##*/
     /*##########*/
 
-    draw(ctx) {
+    draw() {
         if (this.keyboard.ArrowRight && this.cameraX >= this.rightBorder) 
             this.cameraX -= this.character.speedX;
         if (this.keyboard.ArrowLeft && this.cameraX <= this.leftBorder)
                 this.cameraX += this.character.speedX;
         this.clearCanvas();
-        ctx.translate(this.cameraX, 0);
+        this.ctx.translate(this.cameraX, 0);
         this.drawBackgroundObjects();
         this.drawObjects(this.cloudObjects);
-        ctx.translate(-this.cameraX, 0);
+        this.ctx.translate(-this.cameraX, 0);
         this.drawObject(this.character);
-        window.requestAnimationFrame(() => this.draw(ctx));
+        window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
     drawObjects(objects) {

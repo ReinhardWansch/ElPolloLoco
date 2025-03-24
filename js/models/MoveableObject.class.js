@@ -38,11 +38,6 @@ class MoveableObject extends AnimatedObject {
         }, this.refreshRate);
     }
 
-    moveRight(speed) {
-        this.speedX = speed;
-        this.startMotionX();
-    }
-
     stopMotion() {
         this.stopMotionX();
         this.stopMotionY();
@@ -62,6 +57,7 @@ class MoveableObject extends AnimatedObject {
     /*## ACCELERATION ##*/
     /*##################*/
 
+    //TODO refactor applyGravity
     applyGravity(g) {
         this.stopMotionY();
         this.currentMotionIntervalY = window.setInterval(() => {
