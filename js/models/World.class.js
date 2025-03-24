@@ -57,23 +57,31 @@ class World {
     async loadEnemies(json) {
         let loadingEnemiesPromises = [];
         json.enemies.forEach(async (enemy) => {
-            let enemyObject= await this.getEnemyObject(enemy.pathToJson);
-            enemyObject.x = enemy.spawnX;
-            enemyObject.speeX= enemy.speedX;
-            enemyObject.startMotionX();
-            loadingEnemiesPromises.push(enemyObject);
-            this.enemies.push(enemyObject);
+            let newEnemyObject= await this.getEnemyObject(enemy.pathToJson, enemy.speedX);
+            newEnemyObject.x = enemy.spawnX;
+            // newEnemyObject.speedX= enemy.speedX;
+            // newEnemyObject.startMotionX();
+            loadingEnemiesPromises.push(newEnemyObject);
+            this.enemies.push(newEnemyObject);
         });
         return Promise.all(loadingEnemiesPromises);
     }
 
-    async getEnemyObject(pathToJson) {
+    //TODO: refactor loadEnemies, getEnemyObject
+    //  - something like "start enemy" or "spawn enemy"
+    async getEnemyObject(pathToJson, speedX) {
         let enemyObject;
         await fetch(pathToJson)
             .then(response => response.json())
             .then(json => {
                 enemyObject = new MoveableObject(json.staticImagePath);
                 enemyObject.loadAnimationImagesFromJson(json);
+                enemyObject.scaleToHeight(json.height);
+                enemyObject.groundY= this.groundY;
+                enemyObject.speedX= speedX;
+                enemyObject.startMotion();
+                enemyObject.animate('walk');
+                enemyObject.applyGravity(this.gravity);
             });
         return enemyObject;
     }

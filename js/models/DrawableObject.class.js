@@ -62,7 +62,7 @@ class DrawableObject {
         this.x = x;
         this.y = y;
     }
-    
+
     storePosition() {
         this.storedX = this.x;
         this.storedY = this.y;
@@ -77,7 +77,7 @@ class DrawableObject {
         this.x = -this.width / 2;
         this.y = -this.height / 2;
     }
-    
+
     /*##########*/
     /*## FLIP ##*/
     /*##########*/

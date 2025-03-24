@@ -33,12 +33,12 @@
     "enemies": [
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 500,
+            "spawnX": 800,
             "speedX": -2
         },
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 800,
+            "spawnX": 1000,
             "speedX": -3
         }
 
