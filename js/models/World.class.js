@@ -22,10 +22,13 @@ class World {
         return fetch(pathToJson)
             .then(response => response.json())
             .then(json => {
-                json.backgroundImagePaths.forEach((path) => {
-                    let backgroundObject = new DrawableObject(path);
-                    backgroundObject.scaleToHeight(canvas.height);
-                    this.backgroundObjects.push(backgroundObject);
+                json.backgrounds.forEach((backgroundObjectI) => {
+                    let newBackgroundObject = {
+                        loopsX: backgroundObjectI.loopsX,
+                        mob: new DrawableObject(backgroundObjectI.imagePath)
+                    }
+                    newBackgroundObject.mob.scaleToHeight(canvas.height);
+                    this.backgroundObjects.push(newBackgroundObject);
                 });
                 json.clouds.forEach((cloud) => {
                     let cloudObject = new MoveableObject(cloud.imagePath);
@@ -83,14 +86,14 @@ class World {
     }
 
     drawBackgroundObjects() {
-        this.backgroundObjects.forEach((backgroundObject) => {
-            for (let i = 0; i < 3; i++) {
+        this.backgroundObjects.forEach((backgroundObjectI) => {
+            for (let i = 0; i < backgroundObjectI.loopsX; i++) {
                 this.ctx.drawImage(
-                    backgroundObject.img,
-                    (backgroundObject.x + i * backgroundObject.width) -i*2,
-                    backgroundObject.y,
-                    backgroundObject.width,
-                    backgroundObject.height
+                    backgroundObjectI.mob.img,
+                    (backgroundObjectI.mob.x + i * backgroundObjectI.mob.width) - i * 2,
+                    backgroundObjectI.mob.y,
+                    backgroundObjectI.mob.width,
+                    backgroundObjectI.mob.height
                 );
             }
         });
@@ -103,7 +106,7 @@ class World {
     decodeBackgroundImages() {
         let decodePromises = [];
         this.backgroundObjects.forEach((backgroundObject) => {
-            decodePromises.push(backgroundObject.img.decode());
+            decodePromises.push(backgroundObject.mob.img.decode());
         });
         return Promise.all(decodePromises);
     }
