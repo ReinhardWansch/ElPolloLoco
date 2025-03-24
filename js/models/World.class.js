@@ -24,25 +24,33 @@ class World {
         return fetch(pathToJson)
             .then(response => response.json())
             .then(json => {
-                json.backgrounds.forEach((backgroundObjectI) => {
-                    let newBackgroundObject = {
-                        loopsX: backgroundObjectI.loopsX,
-                        mob: new DrawableObject(backgroundObjectI.imagePath)
-                    }
-                    this.leftBorder= json.leftBorderCameraX;
-                    this.rightBorder= json.rightBorderCameraX;
-                    newBackgroundObject.mob.scaleToHeight(canvas.height);
-                    this.backgroundObjects.push(newBackgroundObject);
-                });
-                json.clouds.forEach((cloud) => {
-                    let cloudObject = new MoveableObject(cloud.imagePath);
-                    cloudObject.scaleToHeight(canvas.height);
-                    cloudObject.speedX = cloud.speedX;
-                    cloudObject.startMotionX();
-                    this.cloudObjects.push(cloudObject);
-                });
+                this.loadBackgrounds(json);
+                this.loadClouds(json);
+                this.leftBorder= json.leftBorderCameraX;
+                this.rightBorder= json.rightBorderCameraX;
                 this.groundY = json.groundY;
             });
+    }
+
+    loadBackgrounds(json) {
+        json.backgrounds.forEach((backgroundObjectI) => {
+            let newBackgroundObject = {
+                loopsX: backgroundObjectI.loopsX,
+                mob: new DrawableObject(backgroundObjectI.imagePath)
+            }
+            newBackgroundObject.mob.scaleToHeight(canvas.height);
+            this.backgroundObjects.push(newBackgroundObject);
+        });
+    }
+
+    loadClouds(json) {
+        json.clouds.forEach((cloud) => {
+            let cloudObject = new MoveableObject(cloud.imagePath);
+            cloudObject.scaleToHeight(canvas.height);
+            cloudObject.speedX = cloud.speedX;
+            cloudObject.startMotionX();
+            this.cloudObjects.push(cloudObject);
+        });
     }
 
     loadCharacter(pathToJson) {
