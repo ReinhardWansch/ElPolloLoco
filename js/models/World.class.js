@@ -8,6 +8,8 @@ class World {
     gravity = 0.5;
     groundY;
     cameraX = 0;
+    leftBorder;
+    rightBorder;
 
     constructor(ctx) {
         this.ctx = ctx;
@@ -27,6 +29,8 @@ class World {
                         loopsX: backgroundObjectI.loopsX,
                         mob: new DrawableObject(backgroundObjectI.imagePath)
                     }
+                    this.leftBorder= json.leftBorderCameraX;
+                    this.rightBorder= json.rightBorderCameraX;
                     newBackgroundObject.mob.scaleToHeight(canvas.height);
                     this.backgroundObjects.push(newBackgroundObject);
                 });
@@ -63,11 +67,12 @@ class World {
     /*##########*/
 
     draw(ctx) {
-        if (this.keyboard.ArrowRight) this.cameraX -= this.character.speedX;
-        if (this.keyboard.ArrowLeft) this.cameraX += this.character.speedX;
+        if (this.keyboard.ArrowRight && this.cameraX >= this.rightBorder) 
+            this.cameraX -= this.character.speedX;
+        if (this.keyboard.ArrowLeft && this.cameraX <= this.leftBorder)
+                this.cameraX += this.character.speedX;
         this.clearCanvas();
         ctx.translate(this.cameraX, 0);
-        // this.drawObjects(this.backgroundObjects);
         this.drawBackgroundObjects();
         this.drawObjects(this.cloudObjects);
         ctx.translate(-this.cameraX, 0);
@@ -87,6 +92,13 @@ class World {
 
     drawBackgroundObjects() {
         this.backgroundObjects.forEach((backgroundObjectI) => {
+            this.ctx.drawImage(
+                backgroundObjectI.mob.img,
+                -backgroundObjectI.mob.width + 1,
+                backgroundObjectI.mob.y,
+                backgroundObjectI.mob.width,
+                backgroundObjectI.mob.height
+            );
             for (let i = 0; i < backgroundObjectI.loopsX; i++) {
                 this.ctx.drawImage(
                     backgroundObjectI.mob.img,

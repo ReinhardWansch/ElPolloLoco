@@ -1,6 +1,9 @@
 {
     "groundY": 430,
 
+    "leftBorderCameraX": 0,
+    "rightBorderCameraX": -3950,
+
     "backgrounds": [
         {
             "loopsX": 5,
