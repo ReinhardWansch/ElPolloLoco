@@ -33,12 +33,11 @@ function init() {
 /*###########*/
 
 function tuEs() {
-    world.backgroundObjects.forEach((object) => {
-        console.log(object); ///DEBUG
-        for (let i=0; i<3; i++) {
-            ctx.drawImage(object.img, object.x + i * object.width, object.y, object.width, object.height);
-        }
-    });
+    fetch('./game/level1.json')
+        .then(response => response.json())
+        .then(async json => {
+            console.log(await world.loadEnemies(json));
+        });
 }
 
 function wait(ms) {

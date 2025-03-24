@@ -28,5 +28,19 @@
             "speedX": -0.1,
             "imagePath": "./img/5_background/layers/4_clouds/full.png"
         }
+    ],
+
+    "enemies": [
+        {
+            "pathToJson": "./game/chicken.json",
+            "spawnX": 500,
+            "speedX": -2
+        },
+        {
+            "pathToJson": "./game/chicken.json",
+            "spawnX": 800,
+            "speedX": -3
+        }
+
     ]
 }

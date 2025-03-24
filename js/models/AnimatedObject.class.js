@@ -17,23 +17,24 @@ class AnimatedObject extends DrawableObject {
         super(imgPath, width, height);
     }
 
-    //TODO refactor loadAnimationImages
     async loadAnimationImages(pathToJson) {
         await fetch(pathToJson)
             .then(response => response.json())
-            .then(json => {
-                json.animations.forEach((animationI) => {
-                    this.animationImages[animationI.name] = {};
-                    this.animationImages[animationI.name].images = [];
-                    this.animationImages[animationI.name].imageDuration = animationI.imageDuration;
-                    animationI.imagePaths.forEach((path) => {
-                        let img = new Image();
-                        img.src = path;
-                        this.animationImages[animationI.name].images.push(img);
-                    });
-                });
-            });
+            .then(json => this.loadAnimationImagesFromJson(json));
         return this.decodeImagesAll();
+    }
+
+    loadAnimationImagesFromJson(json) {
+        json.animations.forEach((animationI) => {
+            this.animationImages[animationI.name] = {};
+            this.animationImages[animationI.name].images = [];
+            this.animationImages[animationI.name].imageDuration = animationI.imageDuration;
+            animationI.imagePaths.forEach((path) => {
+                let img = new Image();
+                img.src = path;
+                this.animationImages[animationI.name].images.push(img);
+            });
+        });
     }
 
     decodeImagesAll() {

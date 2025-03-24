@@ -26,6 +26,7 @@ class World {
             .then(json => {
                 this.loadBackgrounds(json);
                 this.loadClouds(json);
+                this.loadEnemies(json);
                 this.leftBorder= json.leftBorderCameraX;
                 this.rightBorder= json.rightBorderCameraX;
                 this.groundY = json.groundY;
@@ -51,6 +52,30 @@ class World {
             cloudObject.startMotionX();
             this.cloudObjects.push(cloudObject);
         });
+    }
+
+    async loadEnemies(json) {
+        let loadingEnemiesPromises = [];
+        json.enemies.forEach(async (enemy) => {
+            let enemyObject= await this.getEnemyObject(enemy.pathToJson);
+            enemyObject.x = enemy.spawnX;
+            enemyObject.speeX= enemy.speedX;
+            enemyObject.startMotionX();
+            loadingEnemiesPromises.push(enemyObject);
+            this.enemies.push(enemyObject);
+        });
+        return Promise.all(loadingEnemiesPromises);
+    }
+
+    async getEnemyObject(pathToJson) {
+        let enemyObject;
+        await fetch(pathToJson)
+            .then(response => response.json())
+            .then(json => {
+                enemyObject = new MoveableObject(json.staticImagePath);
+                enemyObject.loadAnimationImagesFromJson(json);
+            });
+        return enemyObject;
     }
 
     loadCharacter(pathToJson) {
@@ -83,6 +108,7 @@ class World {
         this.ctx.translate(this.cameraX, 0);
         this.drawBackgroundObjects();
         this.drawObjects(this.cloudObjects);
+        this.drawObjects(this.enemies);
         this.ctx.translate(-this.cameraX, 0);
         this.drawObject(this.character);
         window.requestAnimationFrame(() => this.draw(this.ctx));

@@ -243,7 +243,7 @@
         <mxCell id="LCjPXOn7_VqUXKRkGsFx-34" value="loadBackgrounds(json)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="hGsbe-1YGpLsDvuC2prL-19">
           <mxGeometry y="346" width="160" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="LCjPXOn7_VqUXKRkGsFx-35" value="loadLevel(pathToJson)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="hGsbe-1YGpLsDvuC2prL-19">
+        <mxCell id="LCjPXOn7_VqUXKRkGsFx-35" value="loadClouds(json)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="hGsbe-1YGpLsDvuC2prL-19">
           <mxGeometry y="372" width="160" height="26" as="geometry" />
         </mxCell>
         <mxCell id="LCjPXOn7_VqUXKRkGsFx-21" value="loadCharacter(PathToJson)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="hGsbe-1YGpLsDvuC2prL-19">
