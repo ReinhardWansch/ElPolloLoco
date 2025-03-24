@@ -32,6 +32,7 @@ class DrawableObject {
         }
         if (this.isFlippedHorizontally) this.transformCtxFlipHorizontally(ctx);
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        this.drawBoundingBox(ctx);
         ctx.restore();
         this.restorePosition();
     }
@@ -130,5 +131,20 @@ class DrawableObject {
     resetTransformations() {
         this.isFlippedHorizontally = false;
         this.rotationAngle = 0;
+    }
+
+
+
+
+    /*###########*/
+    /*## DEBUG ##*/
+    /*###########*/
+
+    drawBoundingBox(ctx) {
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'black';
+        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.stroke();
     }
 }
