@@ -54,6 +54,8 @@ class World {
         });
     }
 
+    //TODO: refactor loadEnemies, getEnemyObject
+    //  - should only load enemies to array, spawning and "activating" could be done somewhere else
     async loadEnemies(json) {
         let loadingEnemiesPromises = [];
         json.enemies.forEach(async (enemy) => {
@@ -76,6 +78,7 @@ class World {
             .then(json => {
                 enemyObject = new MoveableObject(json.staticImagePath);
                 enemyObject.loadAnimationImagesFromJson(json);
+                enemyObject.setHitbox(json);
                 enemyObject.scaleToHeight(json.height);
                 enemyObject.groundY= this.groundY;
                 enemyObject.speedX= speedX;
@@ -91,6 +94,7 @@ class World {
             .then(response => response.json())
             .then(json => {
                 this.character = new Character(json.staticImagePath, this.keyboard);
+                this.character.setHitbox(json);
                 this.character.scaleToHeight(json.height);
                 this.character.x = json.positionX;
                 this.character.speedX = json.speedX;

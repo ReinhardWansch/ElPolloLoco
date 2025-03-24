@@ -4,6 +4,12 @@
     "height": 300,
     "speedX": 10,
     "jumpSpeed": -10,
+    "hitbox": {
+        "xRelative": 30,
+        "yRelative": 147,
+        "width": 76,
+        "height": 140
+    },
     "animations": [
         {
             "name": "idle",

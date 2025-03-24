@@ -35,10 +35,10 @@ function init() {
 /*###########*/
 
 function tuEs() {
-    fetch('./game/level1.json')
+    fetch('./game/pepe.json')
         .then(response => response.json())
         .then(async json => {
-            console.log(await world.loadEnemies(json));
+            world.character.setHitbox(json);
         });
 }
 

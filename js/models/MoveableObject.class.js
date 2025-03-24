@@ -1,4 +1,4 @@
-class MoveableObject extends AnimatedObject {
+class MoveableObject extends SolidObject {
     speedX = 0;
     speedY = 0;
     currentMotionIntervalX;
