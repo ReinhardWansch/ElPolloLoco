@@ -19,10 +19,6 @@ class SolidObject extends AnimatedObject {
         this.hitbox = json.hitbox;
     }
 
-    /*###############*/
-    /*## COLLISION ##*/
-    /*###############*/
-
     isCollision(otherObject, xOffset) {
         let thisCoords = this.getHitboxCoordinates();
         let otherCoords = otherObject.getHitboxCoordinates();
