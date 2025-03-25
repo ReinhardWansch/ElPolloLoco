@@ -20,74 +20,42 @@ class World {
     /*## LOADING ##*/
     /*#############*/
 
+    /*** Load Level ***/
+    /******************/
+
     loadLevel(pathToJson) {
         return fetch(pathToJson)
             .then(response => response.json())
             .then(json => {
-                this.loadBackgrounds(json);
-                this.loadClouds(json);
-                this.loadEnemies(json);
+                this.groundY = json.groundY;
                 this.leftBorder = json.leftBorderCameraX;
                 this.rightBorder = json.rightBorderCameraX;
-                this.groundY = json.groundY;
+                return json.backgrounds;
+            })
+            .then(backgrounds => {
+                console.log('creating background-objects'); ///DEBUG
+                return this.createBackgroundObjects(backgrounds);
             });
     }
 
-    loadBackgrounds(json) {
-        json.backgrounds.forEach((backgroundObjectI) => {
-            let newBackgroundObject = {
-                loopsX: backgroundObjectI.loopsX,
-                mob: new DrawableObject(backgroundObjectI.imagePath)
-            }
-            newBackgroundObject.mob.scaleToHeight(canvas.height);
-            this.backgroundObjects.push(newBackgroundObject);
+    createBackgroundObjects(backgrounds) {
+        let allImagesReady = [];
+        backgrounds.forEach((background) => {
+            let mob = new MoveableObject(background.imagePath, 0, 0);
+            console.log('creating Background, before Image ready, ', mob.toString()); ///DEBUG
+            let imageReady = mob.decodeImage()
+                .then(() => {
+                    console.log('creating Background, making Image ready, ', mob.toString()); ///DEBUG
+                    mob.scaleToHeight(this.ctx.canvas.height);
+                    this.backgroundObjects.push({ mob: mob, loopsX: background.loopsX });
+                });
+            allImagesReady.push(imageReady);
         });
+        return Promise.all(allImagesReady);
     }
 
-    loadClouds(json) {
-        json.clouds.forEach((cloud) => {
-            let cloudObject = new MoveableObject(cloud.imagePath);
-            cloudObject.scaleToHeight(canvas.height);
-            cloudObject.speedX = cloud.speedX;
-            cloudObject.startMotionX();
-            this.cloudObjects.push(cloudObject);
-        });
-    }
-
-    //TODO: refactor loadEnemies, getEnemyObject
-    //  - should only load enemies to array, spawning and "activating" could be done somewhere else
-    async loadEnemies(json) {
-        let loadingEnemiesPromises = [];
-        json.enemies.forEach(async (enemy) => {
-            let newEnemyObject = await this.getEnemyObject(enemy.pathToJson, enemy.speedX);
-            newEnemyObject.x = enemy.spawnX;
-            // newEnemyObject.speedX= enemy.speedX;
-            // newEnemyObject.startMotionX();
-            loadingEnemiesPromises.push(newEnemyObject);
-            this.enemies.push(newEnemyObject);
-        });
-        return Promise.all(loadingEnemiesPromises);
-    }
-
-    //TODO: refactor loadEnemies, getEnemyObject
-    //  - something like "start enemy" or "spawn enemy"
-    async getEnemyObject(pathToJson, speedX) {
-        let enemyObject;
-        await fetch(pathToJson)
-            .then(response => response.json())
-            .then(json => {
-                enemyObject = new MoveableObject(json.staticImagePath);
-                enemyObject.loadAnimationImagesFromJson(json);
-                enemyObject.setHitbox(json);
-                enemyObject.scaleToHeight(json.height);
-                enemyObject.groundY = this.groundY;
-                enemyObject.speedX = speedX;
-                enemyObject.startMotion();
-                enemyObject.animate('walk');
-                enemyObject.applyGravity(this.gravity);
-            });
-        return enemyObject;
-    }
+    /*** Load Character ***/
+    /**********************/
 
     loadCharacter(pathToJson) {
         return fetch(pathToJson)
@@ -122,8 +90,8 @@ class World {
         this.drawObjects(this.cloudObjects);
         this.drawObjects(this.enemies);
         this.ctx.translate(-this.cameraX, 0);
-        this.drawObject(this.character);
-        this.debugCheckCollision();
+        // this.drawObject(this.character);
+        // this.debugCheckCollision();
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
@@ -138,6 +106,7 @@ class World {
     }
 
     drawBackgroundObjects() {
+        console.log('drawBackgroundObjects()    '); ///DEBUG
         this.backgroundObjects.forEach((backgroundObjectI) => {
             this.ctx.drawImage(
                 backgroundObjectI.mob.img,
@@ -176,6 +145,7 @@ class World {
 
     applyGravity() {
         this.character.applyGravity(this.gravity);
+        this.enemies.forEach((enemy) => enemy.applyGravity);
     }
 
     /*###########*/

@@ -14,13 +14,19 @@ class DrawableObject {
         this.img = new Image();
         this.img.src = imgPath;
         if (!width) {
-            this.width = this.img.width;
-            this.height = this.img.height;
+            this.decodeImage().then(() => {
+                console.log('constructor: ', this.img.width, this.img.height); ///DEBUG
+                this.width = this.img.width;
+                this.height = this.img.height;
+                console.log('constructor: ', this.width, this.height); ///DEBUG
+                this.ratio = this.width / this.height;
+                console.log('constructor: ', this.ratio); ///DEBUG
+            });
         } else {
             this.width = width;
             this.height = height;
+            this.ratio = this.width / this.height;
         }
-        this.ratio = this.width / this.height;
     }
 
     draw(ctx) {
@@ -110,11 +116,15 @@ class DrawableObject {
     /*###########*/
 
     scale(factor) {
+        if (factor === undefined) 
+            throw new Error('scale(factor): factor is not defined, DrawableObject.img.path: ' + this.img.src);
         this.width *= factor;
         this.height *= factor;
     }
 
     scaleToHeight(height) {
+        if (height === undefined) 
+            throw new Error('scaleToHeight(height): height is not defined, DrawableObject.img.path: ' + this.img.src);
         this.height = height;
         this.width = this.height * this.ratio;
     }
@@ -146,5 +156,9 @@ class DrawableObject {
         ctx.strokeStyle = 'black';
         ctx.rect(this.x, this.y, this.width, this.height);
         ctx.stroke();
+    }
+
+    toString() {
+        return `DrawableObject: x=${this.x}, y=${this.y}, width=${this.width}, height=${this.height}, ratio=${this.ratio}`;
     }
 }

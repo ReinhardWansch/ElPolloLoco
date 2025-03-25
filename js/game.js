@@ -3,26 +3,11 @@
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 let world = new World(ctx);
-let levelLoaded = world.loadLevel('./game/level1.json').then(() => {
-        world.decodeBackgroundImages();
-    });
-let characterLoaded = world.loadCharacter('./game/pepe.json').then(() => {
-        world.character.loadAnimationImages('./game/pepe.json');
-    });
-let loadings = [
-    levelLoaded,
-    characterLoaded,
-]
 
-//TODO: Why is canvas black on first load in browser?
-//  - tried to load images after decode()
-//  - tried to load images after "load" event
-//  - both didn't work
-function init() {
-    Promise.all(loadings).then(() => {
-        world.draw(ctx);
-        world.applyGravity();
-    });
+
+function start() {
+    world.draw(ctx);
+    world.applyGravity();
 }
 
 
@@ -35,17 +20,18 @@ function init() {
 /*###########*/
 
 function tuEs() {
-    fetch('./game/pepe.json')
-        .then(response => response.json())
-        .then(async json => {
-            world.character.setHitbox(json);
-        });
+    world.loadLevel("game/level1.json").then(() => {
+        world.drawBackgroundObjects();
+    });
 }
 
-function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+function logLoadLevel() {
+    console.log(world.loadLevel("game/level1.json").then(()=>console.log('FERTIG')));
 }
 
-function logObject(object) {
-    console.log(object);
+function logBackgroundObjects() {
+    world.backgroundObjects.forEach((backgroundObject) => {
+        console.log(backgroundObject.mob.toString());
+    });
 }
+
