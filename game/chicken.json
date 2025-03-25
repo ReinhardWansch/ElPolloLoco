@@ -2,8 +2,8 @@
     "staticImagePath": "./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
     "height": 75,
     "hitbox": {
-        "xRelative": 5,
-        "yRelative": 5,
+        "x": 5,
+        "y": 5,
         "width": 68,
         "height": 60
     },

@@ -27,8 +27,8 @@ class World {
                 this.loadBackgrounds(json);
                 this.loadClouds(json);
                 this.loadEnemies(json);
-                this.leftBorder= json.leftBorderCameraX;
-                this.rightBorder= json.rightBorderCameraX;
+                this.leftBorder = json.leftBorderCameraX;
+                this.rightBorder = json.rightBorderCameraX;
                 this.groundY = json.groundY;
             });
     }
@@ -59,7 +59,7 @@ class World {
     async loadEnemies(json) {
         let loadingEnemiesPromises = [];
         json.enemies.forEach(async (enemy) => {
-            let newEnemyObject= await this.getEnemyObject(enemy.pathToJson, enemy.speedX);
+            let newEnemyObject = await this.getEnemyObject(enemy.pathToJson, enemy.speedX);
             newEnemyObject.x = enemy.spawnX;
             // newEnemyObject.speedX= enemy.speedX;
             // newEnemyObject.startMotionX();
@@ -80,8 +80,8 @@ class World {
                 enemyObject.loadAnimationImagesFromJson(json);
                 enemyObject.setHitbox(json);
                 enemyObject.scaleToHeight(json.height);
-                enemyObject.groundY= this.groundY;
-                enemyObject.speedX= speedX;
+                enemyObject.groundY = this.groundY;
+                enemyObject.speedX = speedX;
                 enemyObject.startMotion();
                 enemyObject.animate('walk');
                 enemyObject.applyGravity(this.gravity);
@@ -112,10 +112,10 @@ class World {
     /*##########*/
 
     draw() {
-        if (this.keyboard.ArrowRight && this.cameraX >= this.rightBorder) 
+        if (this.keyboard.ArrowRight && this.cameraX >= this.rightBorder)
             this.cameraX -= this.character.speedX;
         if (this.keyboard.ArrowLeft && this.cameraX <= this.leftBorder)
-                this.cameraX += this.character.speedX;
+            this.cameraX += this.character.speedX;
         this.clearCanvas();
         this.ctx.translate(this.cameraX, 0);
         this.drawBackgroundObjects();
@@ -123,6 +123,7 @@ class World {
         this.drawObjects(this.enemies);
         this.ctx.translate(-this.cameraX, 0);
         this.drawObject(this.character);
+        this.debugCheckCollision();
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
@@ -177,4 +178,13 @@ class World {
         this.character.applyGravity(this.gravity);
     }
 
+    /*###########*/
+    /*## DEBUG ##*/
+    /*###########*/
+
+    debugCheckCollision() {
+        if (this.character.isCollision(this.enemies[1], -this.cameraX)) {
+            console.log('hallo chicken');
+        }
+    }
 }

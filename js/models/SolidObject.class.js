@@ -1,7 +1,7 @@
 class SolidObject extends AnimatedObject {
     hitbox = {
-        xRelative: 0,
-        yRelative: 0,
+        x: 0,
+        y: 0,
         width: 10,
         height: 10
     }
@@ -9,14 +9,35 @@ class SolidObject extends AnimatedObject {
     constructor(imgPath, width, height) {
         super(imgPath, width, height);
     }
-    
+
     draw(ctx) {
         super.draw(ctx);
         this.drawHitbox(ctx);
     }
 
     setHitbox(json) {
-        this.hitbox= json.hitbox;
+        this.hitbox = json.hitbox;
+    }
+
+    /*###############*/
+    /*## COLLISION ##*/
+    /*###############*/
+
+    isCollision(otherObject, xOffset) {
+        let thisCoords = this.getHitboxCoordinates();
+        let otherCoords = otherObject.getHitboxCoordinates();
+        if (xOffset) thisCoords.x = thisCoords.x + xOffset;
+        return thisCoords.x < otherCoords.x + otherObject.hitbox.width &&
+            thisCoords.x + this.hitbox.width > otherCoords.x &&
+            thisCoords.y < otherCoords.y + otherObject.hitbox.height &&
+            thisCoords.y + this.hitbox.height > otherCoords.y;
+    }
+
+    getHitboxCoordinates() {
+        return {
+            x: this.x + this.hitbox.x,
+            y: this.y + this.hitbox.y,
+        }
     }
 
     /*###########*/
@@ -24,8 +45,8 @@ class SolidObject extends AnimatedObject {
     /*###########*/
 
     drawHitbox(ctx) {
-        let x= this.x + this.hitbox.xRelative;
-        let y = this.y + this.hitbox.yRelative;
+        let x = this.x + this.hitbox.x;
+        let y = this.y + this.hitbox.y;
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.strokeStyle = "white";
