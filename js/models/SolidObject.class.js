@@ -30,7 +30,12 @@ class SolidObject extends AnimatedObject {
     }
 
     getHitboxCoordinates() {
-        return {
+        if(this.isFlippedHorizontally) 
+            return {
+                x: this.x + this.width - this.hitbox.x - this.hitbox.width,
+                y: this.y + this.hitbox.y,
+            }
+        else return {
             x: this.x + this.hitbox.x,
             y: this.y + this.hitbox.y,
         }
@@ -41,12 +46,11 @@ class SolidObject extends AnimatedObject {
     /*###########*/
 
     drawHitbox(ctx) {
-        let x = this.x + this.hitbox.x;
-        let y = this.y + this.hitbox.y;
+        let hitBoxCoords= this.getHitboxCoordinates();
         ctx.beginPath();
         ctx.lineWidth = "1";
         ctx.strokeStyle = "white";
-        ctx.rect(x, y, this.hitbox.width, this.hitbox.height);
+        ctx.rect(hitBoxCoords.x, hitBoxCoords.y, this.hitbox.width, this.hitbox.height);
         ctx.stroke();
     }
 }
