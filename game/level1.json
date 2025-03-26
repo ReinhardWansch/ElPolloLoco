@@ -25,6 +25,7 @@
 
     "clouds": [
         {
+            "loopsX": 5,
             "speedX": -0.1,
             "imagePath": "./img/5_background/layers/4_clouds/full.png"
         }

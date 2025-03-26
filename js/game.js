@@ -22,16 +22,13 @@ function start() {
 function tuEs() {
     world.loadLevel("game/level1.json")
         .then(world.createBackgroundObjects.bind(world))
-        .then(world.drawBackgroundObjects.bind(world));
+        .then(world.createCloudObjects.bind(world))
+        .then(world.drawBackgroundObjects.bind(world))
+        .then(world.drawCloudObjects.bind(world));
 }
 
-function logLoadLevel() {
-    console.log(world.loadLevel("game/level1.json").then(()=>console.log('FERTIG')));
-}
-
-function logBackgroundObjects() {
-    world.backgroundObjects.forEach((backgroundObject) => {
-        console.log(backgroundObject.mob.toString());
-    });
+function logStuff() {
+    console.log(world.backgroundObjects);
+    console.log(world.cloudObjects);
 }
 

@@ -21,24 +21,14 @@ class World {
     /*** Load Level ***/
     /******************/
 
-    // loadLevel(pathToJson) {
-    //     return fetch(pathToJson)
-    //         .then(response => response.json())
-    //         .then(json => {
-    //             this.groundY = json.groundY;
-    //             this.leftBorder = json.leftBorderCameraX;
-    //             this.rightBorder = json.rightBorderCameraX;
-    //             return json.backgrounds;
-    //         })
-    //         .then(backgrounds => {
-    //             return this.createBackgroundObjects(backgrounds);
-    //         });
-    // }
     loadLevel(pathToJson) {
         return fetch(pathToJson)
             .then(response => response.json())
             .then(json => this.level= json);
     }
+
+    /*** Backgrounds ***/
+    /*******************/
 
     createBackgroundObjects() {
         let allImagesReady = [];
@@ -58,10 +48,23 @@ class World {
         return imageReady;
     }
 
-    /*** Load Clouds ***/
-    /*******************/
+    /*** Clouds ***/
+    /**************/
 
-
+    createCloudObjects() {
+        let allImagesReady = [];
+        this.level.clouds.forEach((cloud) => {
+            let mob= new MoveableObject(cloud.imagePath);
+            let imageReady = mob.decodeImage().then(() => {
+                mob.scaleToHeight(this.ctx.canvas.height);
+                mob.speedX = cloud.speedX;
+                this.cloudObjects.push({mob: mob, loopsX: cloud.loopsX});
+            });
+            allImagesReady.push(imageReady);
+        });
+        console.log(allImagesReady); ///DEBUG
+        return Promise.all(allImagesReady);
+    }
 
     /*** Load Character ***/
     /**********************/
@@ -104,6 +107,16 @@ class World {
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
+    drawBackgroundObjects() {
+        console.log('World.drawBackgroundObjects()'); ///DEBUG
+        this.drawRepetitiveObjects(this.backgroundObjects);
+    }
+
+    drawCloudObjects() {
+        console.log('World.drawCloudObjects()'); ///DEBUG
+        this.drawRepetitiveObjects(this.cloudObjects);
+    }
+
     drawObjects(objects) {
         objects.forEach((object) => {
             this.drawObject(object);
@@ -114,22 +127,23 @@ class World {
         object.draw(this.ctx);
     }
 
-    drawBackgroundObjects() {
-        this.backgroundObjects.forEach((backgroundObjectI) => {
+    drawRepetitiveObjects(objects) {
+        objects.forEach((objectI) => {
+            console.log(objectI.mob); ///DEBUG
             this.ctx.drawImage(
-                backgroundObjectI.mob.img,
-                -backgroundObjectI.mob.width + 1,
-                backgroundObjectI.mob.y,
-                backgroundObjectI.mob.width,
-                backgroundObjectI.mob.height
+                objectI.mob.img,
+                -objectI.mob.width + 1,
+                objectI.mob.y,
+                objectI.mob.width,
+                objectI.mob.height
             );
-            for (let i = 0; i < backgroundObjectI.loopsX; i++) {
+            for (let i = 0; i < objectI.loopsX; i++) {
                 this.ctx.drawImage(
-                    backgroundObjectI.mob.img,
-                    (backgroundObjectI.mob.x + i * backgroundObjectI.mob.width) - i * 2,
-                    backgroundObjectI.mob.y,
-                    backgroundObjectI.mob.width,
-                    backgroundObjectI.mob.height
+                    objectI.mob.img,
+                    (objectI.mob.x + i * objectI.mob.width) - i * 2,
+                    objectI.mob.y,
+                    objectI.mob.width,
+                    objectI.mob.height
                 );
             }
         });
@@ -137,14 +151,6 @@ class World {
 
     clearCanvas() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    decodeBackgroundImages() {
-        let decodePromises = [];
-        this.backgroundObjects.forEach((backgroundObject) => {
-            decodePromises.push(backgroundObject.mob.img.decode());
-        });
-        return Promise.all(decodePromises);
     }
 
     /*##########*/
