@@ -13,20 +13,21 @@ class DrawableObject {
     constructor(imgPath, width, height) {
         this.img = new Image();
         this.img.src = imgPath;
-        if (!width) {
-            this.decodeImage().then(() => {
-                console.log('constructor: ', this.img.width, this.img.height); ///DEBUG
-                this.width = this.img.width;
-                this.height = this.img.height;
-                console.log('constructor: ', this.width, this.height); ///DEBUG
-                this.ratio = this.width / this.height;
-                console.log('constructor: ', this.ratio); ///DEBUG
-            });
-        } else {
-            this.width = width;
-            this.height = height;
-            this.ratio = this.width / this.height;
-        }
+        if (!width) this.decodeImage().then(this.setSizeFromImage.bind(this));
+        else this.setSize(width, height);
+    }
+
+    setSizeFromImage() {
+        this.width = this.img.width;
+        this.height = this.img.height;
+        this.ratio = this.width / this.height;
+    }
+
+    setSize(width, height) {
+        this.width = width;
+        this.height = height;
+        this.ratio = this.width / this.height;
+
     }
 
     draw(ctx) {
@@ -116,14 +117,14 @@ class DrawableObject {
     /*###########*/
 
     scale(factor) {
-        if (factor === undefined) 
+        if (factor === undefined)
             throw new Error('scale(factor): factor is not defined, DrawableObject.img.path: ' + this.img.src);
         this.width *= factor;
         this.height *= factor;
     }
 
     scaleToHeight(height) {
-        if (height === undefined) 
+        if (height === undefined)
             throw new Error('scaleToHeight(height): height is not defined, DrawableObject.img.path: ' + this.img.src);
         this.height = height;
         this.width = this.height * this.ratio;

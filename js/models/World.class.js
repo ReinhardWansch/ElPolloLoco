@@ -1,15 +1,13 @@
 class World {
     ctx;
+    level;
     character;
-    enemies = [];
+    enemies= [];
     backgroundObjects = [];
     cloudObjects = [];
     keyboard;
     gravity = 0.5;
-    groundY;
     cameraX = 0;
-    leftBorder;
-    rightBorder;
 
     constructor(ctx) {
         this.ctx = ctx;
@@ -23,36 +21,47 @@ class World {
     /*** Load Level ***/
     /******************/
 
+    // loadLevel(pathToJson) {
+    //     return fetch(pathToJson)
+    //         .then(response => response.json())
+    //         .then(json => {
+    //             this.groundY = json.groundY;
+    //             this.leftBorder = json.leftBorderCameraX;
+    //             this.rightBorder = json.rightBorderCameraX;
+    //             return json.backgrounds;
+    //         })
+    //         .then(backgrounds => {
+    //             return this.createBackgroundObjects(backgrounds);
+    //         });
+    // }
     loadLevel(pathToJson) {
         return fetch(pathToJson)
             .then(response => response.json())
-            .then(json => {
-                this.groundY = json.groundY;
-                this.leftBorder = json.leftBorderCameraX;
-                this.rightBorder = json.rightBorderCameraX;
-                return json.backgrounds;
-            })
-            .then(backgrounds => {
-                console.log('creating background-objects'); ///DEBUG
-                return this.createBackgroundObjects(backgrounds);
-            });
+            .then(json => this.level= json);
     }
 
-    createBackgroundObjects(backgrounds) {
+    createBackgroundObjects() {
         let allImagesReady = [];
-        backgrounds.forEach((background) => {
-            let mob = new MoveableObject(background.imagePath, 0, 0);
-            console.log('creating Background, before Image ready, ', mob.toString()); ///DEBUG
-            let imageReady = mob.decodeImage()
-                .then(() => {
-                    console.log('creating Background, making Image ready, ', mob.toString()); ///DEBUG
-                    mob.scaleToHeight(this.ctx.canvas.height);
-                    this.backgroundObjects.push({ mob: mob, loopsX: background.loopsX });
-                });
+        this.level.backgrounds.forEach((background) => {
+            let imageReady = this.createBackgroundObject(background);
             allImagesReady.push(imageReady);
         });
         return Promise.all(allImagesReady);
     }
+
+    createBackgroundObject(background) {
+        let mob = new MoveableObject(background.imagePath, 0, 0);
+        let imageReady = mob.decodeImage().then(() => {
+            mob.scaleToHeight(this.ctx.canvas.height);
+            this.backgroundObjects.push({ mob: mob, loopsX: background.loopsX });
+        });
+        return imageReady;
+    }
+
+    /*** Load Clouds ***/
+    /*******************/
+
+
 
     /*** Load Character ***/
     /**********************/
@@ -67,7 +76,7 @@ class World {
                 this.character.x = json.positionX;
                 this.character.speedX = json.speedX;
                 this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
-                this.character.groundY = this.groundY;
+                this.character.groundY = this.level.groundY;
                 this.character.jumpSpeed = json.jumpSpeed;
             })
             .catch((reason) => {
@@ -80,9 +89,9 @@ class World {
     /*##########*/
 
     draw() {
-        if (this.keyboard.ArrowRight && this.cameraX >= this.rightBorder)
+        if (this.keyboard.ArrowRight && this.cameraX >= this.level.rightBorder)
             this.cameraX -= this.character.speedX;
-        if (this.keyboard.ArrowLeft && this.cameraX <= this.leftBorder)
+        if (this.keyboard.ArrowLeft && this.cameraX <= this.level.leftBorder)
             this.cameraX += this.character.speedX;
         this.clearCanvas();
         this.ctx.translate(this.cameraX, 0);
@@ -106,7 +115,6 @@ class World {
     }
 
     drawBackgroundObjects() {
-        console.log('drawBackgroundObjects()    '); ///DEBUG
         this.backgroundObjects.forEach((backgroundObjectI) => {
             this.ctx.drawImage(
                 backgroundObjectI.mob.img,

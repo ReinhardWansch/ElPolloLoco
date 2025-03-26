@@ -20,9 +20,9 @@ function start() {
 /*###########*/
 
 function tuEs() {
-    world.loadLevel("game/level1.json").then(() => {
-        world.drawBackgroundObjects();
-    });
+    world.loadLevel("game/level1.json")
+        .then(world.createBackgroundObjects.bind(world))
+        .then(world.drawBackgroundObjects.bind(world));
 }
 
 function logLoadLevel() {
