@@ -19,7 +19,11 @@ function start() {
 function tuEs() {
     world.loadLevel('./game/level1.json')
         .then(loadCharacterAndEnemies)
-        .then(world.draw.bind(world));
+        .then(()=> {
+            console.log('hä?'); ///DEBUG
+            world.draw(ctx);
+            world.applyGravity();
+        });
 }
 
 function loadCharacterAndEnemies() {

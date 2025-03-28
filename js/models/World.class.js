@@ -1,3 +1,4 @@
+//copilot:ignore-file
 class World {
     ctx;
     level;
@@ -96,13 +97,24 @@ class World {
 
     async loadEnemy(enemyDescription) {
         let enemyJson= await fetch(enemyDescription.pathToJson).then(response => response.json());
-        let enemy= new SolidObject(enemyJson.staticImagePath);
+        let enemy= new MoveableObject(enemyJson.staticImagePath);
         await enemy.setSizeFromImage();
         enemy.loadAnimationImagesFromJson(enemyJson);
         enemy.setHitbox(enemyJson);
         enemy.scaleToHeight(enemyJson.height);
         enemy.x= enemyDescription.spawnX;
+        enemy.groundY = this.level.groundY;
+        enemy.speedX = Math.random() * -3 + -1;
+        enemy.startMotion();
+        enemy.animate('walk');
         this.enemies.push(enemy);
+    }
+
+    setRandomEnemySpeeds() {
+        this.enemies.forEach((enemy) => {
+            enemy.speedX = Math.random() * 3 + 1;
+            console.log(enemy.speedX); ///DEBUG
+        });
     }
 
     /*##########*/
@@ -110,15 +122,15 @@ class World {
     /*##########*/
 
     draw() {
-        if (this.keyboard.ArrowRight && this.cameraX >= this.level.rightBorder)
+        if (this.keyboard.ArrowRight && this.cameraX >= this.level.rightBorderCameraX)
             this.cameraX -= this.character.speedX;
-        if (this.keyboard.ArrowLeft && this.cameraX <= this.level.leftBorder)
+        if (this.keyboard.ArrowLeft && this.cameraX <= this.level.leftBorderCameraX)
             this.cameraX += this.character.speedX;
         this.clearCanvas();
         this.ctx.translate(this.cameraX, 0);
         this.drawBackgroundObjects();
         this.drawCloudObjects();
-        this.drawObjects(this.enemies);
+        this.drawEnemies();
         this.ctx.translate(-this.cameraX, 0);
         this.drawObject(this.character);
         // this.debugCheckCollision();
@@ -182,7 +194,7 @@ class World {
 
     applyGravity() {
         this.character.applyGravity(this.gravity);
-        this.enemies.forEach((enemy) => enemy.applyGravity);
+        this.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
     }
 
     /*###########*/
