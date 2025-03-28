@@ -50,13 +50,28 @@ class AnimatedObject extends DrawableObject {
         return Promise.all(decodedImagePromises);
     }
 
-    animate(animationName) {
+    // animate(animationName) {
+    //     this.stopAnimation();
+    //     let imageDuration = this.animationImages[animationName].imageDuration;
+    //     this.currentImageIndex = 0;
+    //     this.img = this.animationImages[animationName].images[0];
+    //     this.currentAnimationInterval = window.setInterval(() => {
+    //         this.setNextImage(animationName);
+    //     }, imageDuration);
+    //     this.currentAnimationName = animationName;
+    // }
+
+    animate(animationName, repeatCount) {
         this.stopAnimation();
         let imageDuration = this.animationImages[animationName].imageDuration;
         this.currentImageIndex = 0;
         this.img = this.animationImages[animationName].images[0];
         this.currentAnimationInterval = window.setInterval(() => {
             this.setNextImage(animationName);
+            if (repeatCount) {
+                repeatCount--;
+                if (repeatCount <= 0) this.stopAnimation(); 
+            }
         }, imageDuration);
         this.currentAnimationName = animationName;
     }

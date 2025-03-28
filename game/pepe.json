@@ -72,7 +72,7 @@
         },
         {
             "name": "hurt",
-            "imageDuration": 200,
+            "imageDuration": 100,
             "imagePaths": [
                 "./img/2_character_pepe/4_hurt/H-41.png",
                 "./img/2_character_pepe/4_hurt/H-42.png",

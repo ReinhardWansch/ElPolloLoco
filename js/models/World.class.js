@@ -204,8 +204,8 @@ class World {
     debugCheckCharacterCollision() {
         this.enemies.forEach((enemy)=>{
             if (this.character.isCollision(enemy, -this.cameraX)) {
-                this.character.animate('hurt');
-                console.log('hallo chicken'); ///DEBUG
+                if (this.character.currentAnimationName != 'hurt')
+                    this.character.animate('hurt', 5);
             }
         });
     }
