@@ -14,6 +14,7 @@ class World {
     constructor(ctx) {
         this.ctx = ctx;
         this.keyboard = new Keyboard();
+        this.keyboard.addKeyHandlerDown(' ', this.spawnBottle.bind(this));
     }
 
     /*#############*/
@@ -239,6 +240,11 @@ class World {
         newBottle.x= -this.cameraX + this.character.x + this.bottleTemplate.characterOffsetX;
         newBottle.y= this.character.y + this.bottleTemplate.characterOffsetY;
         newBottle.speedX= this.bottleTemplate.speedX;
+        if (this.keyboard.ArrowRight || this.keyboard.ArrowLeft) {
+            console.log('gehen'); ///DEBUG
+            newBottle.speedX += this.character.speedX;            
+        }
+        if (this.character.isFlippedHorizontally) newBottle.speedX *= -1;
         newBottle.speedY= this.bottleTemplate.speedY;
         newBottle.hitbox= this.bottleTemplate.hitbox;
         newBottle.groundY= this.level.groundY;

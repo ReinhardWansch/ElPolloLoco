@@ -16,6 +16,7 @@ function start() {
 /*## DEBUG ##*/
 /*###########*/
 
+//TODO: Waiting for Background-Images to be ready for drawing does not work
 function tuEs() {
     world.loadLevel('./game/level1.json')
         .then(loadCharacterAndEnemiesAndBottleTemplate)
