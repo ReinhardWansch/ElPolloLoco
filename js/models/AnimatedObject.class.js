@@ -1,13 +1,4 @@
-//TODO decode - Funktion wenn alle Bilde decodiert sind
 class AnimatedObject extends DrawableObject {
-    // --- animationImages ---
-    // {
-    //    "name": {
-    //         "imageDuration": durationInMs
-    //         "images": ["path1", "path2", "path3", ...]
-    //     }, 
-    //     ...
-    // }
     animationImages = {};
     currentImageIndex = 0;
     currentAnimationInterval;

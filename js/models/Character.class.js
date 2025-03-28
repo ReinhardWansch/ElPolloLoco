@@ -2,7 +2,6 @@ class Character extends MoveableObject {
     keyboard;
     jumpSpeed = -5;
 
-    //TODO: width and height as parameters
     constructor(imgPath, keyboard) {
         super(imgPath);
         this.keyboard = keyboard;

@@ -18,16 +18,28 @@ function start() {
 
 function tuEs() {
     world.loadLevel('./game/level1.json')
-        .then(loadCharacterAndEnemies)
-        .then(()=> {
+        .then(loadCharacterAndEnemiesAndBottleTemplate)
+        .then((prom)=> {
             world.draw(ctx);
-            world.applyGravity();
+            world.applyGravity(world.gravity);
         });
 }
 
-function loadCharacterAndEnemies() {
-    let characterPromise = world.loadCharacter('./game/pepe.json');
-    let enemyPromise = world.loadEnemies('./game/enemies.json');
-    return Promise.all([characterPromise, enemyPromise]);
+function tuEsBottle() {
+    world.spawnBottle();
+    world.bottles[0].animate('rotate');
+    // world.bottles[0].startMotion();
+    // world.bottles[0].applyGravity();
+    console.log(world.bottles[0].y) ///DEBUG
 }
 
+function loadCharacterAndEnemiesAndBottleTemplate() {
+    let characterLoaded= world.loadCharacter('./game/pepe.json');
+    let enemiesLoaded= world.loadEnemies();
+    let bottleTemplateLoaded= world.loadBottleTemplate('./game/bottle.json');
+    return Promise.all([characterLoaded, enemiesLoaded, bottleTemplateLoaded]);
+}
+
+function loadBottleTemplate() {
+    world.loadBottleTemplate('./game/bottle.json');
+}

@@ -34,47 +34,52 @@
     "enemies": [
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 1000,
+            "spawnX": 6000,
             "speedX": -1
         },
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 1000,
+            "spawnX": 6000,
             "speedX": -1
         },
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 1000,
+            "spawnX": 6000,
             "speedX": -1
         },
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 1000,
+            "spawnX": 6000,
             "speedX": -1
         },
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 1000,
+            "spawnX": 6000,
             "speedX": -1
         },
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 1000,
+            "spawnX": 6000,
             "speedX": -1
         },
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 1000,
+            "spawnX": 6000,
             "speedX": -1
         },
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 1000,
+            "spawnX": 6000,
             "speedX": -1
         },
         {
             "pathToJson": "./game/chicken.json",
-            "spawnX": 1000,
+            "spawnX": 6000,
+            "speedX": -1
+        },
+        {
+            "pathToJson": "./game/chicken.json",
+            "spawnX": 6000,
             "speedX": -1
         }
 
