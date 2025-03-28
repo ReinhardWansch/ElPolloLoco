@@ -10,17 +10,17 @@ class DrawableObject {
     isFlippedHorizontally = false;
     rotationAngle = 0;
 
-    constructor(imgPath, width, height) {
+    constructor(imgPath) {
         this.img = new Image();
         this.img.src = imgPath;
-        if (!width) this.decodeImage().then(this.setSizeFromImage.bind(this));
-        else this.setSize(width, height);
     }
 
     setSizeFromImage() {
-        this.width = this.img.width;
-        this.height = this.img.height;
-        this.ratio = this.width / this.height;
+        return this.decodeImage().then(() => {
+            this.width = this.img.width;
+            this.height = this.img.height;
+            this.ratio = this.width / this.height;
+        });
     }
 
     setSize(width, height) {
@@ -47,13 +47,6 @@ class DrawableObject {
     decodeImage() {
         return this.img.decode();
     }
-
-    isTransformed() {
-        return this.isFlippedHorizontally || this.rotationAngle !== 0;
-    }
-    // TODD stell die Frage in einem Forum oder bei DevAk
-    // isTransformed() könnte man auch als get isTransformed() schreiben.
-    // welche Version ist besser hinsichtlich Wartbarkeit und Lesbarkeit?
 
     isRotated() {
         return this.rotationAngle !== 0;
@@ -124,8 +117,6 @@ class DrawableObject {
     }
 
     scaleToHeight(height) {
-        if (height === undefined)
-            throw new Error('scaleToHeight(height): height is not defined, DrawableObject.img.path: ' + this.img.src);
         this.height = height;
         this.width = this.height * this.ratio;
     }
@@ -146,7 +137,7 @@ class DrawableObject {
 
 
 
-
+    
     /*###########*/
     /*## DEBUG ##*/
     /*###########*/

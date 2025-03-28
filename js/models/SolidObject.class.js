@@ -6,10 +6,6 @@ class SolidObject extends AnimatedObject {
         height: 10
     }
 
-    constructor(imgPath, width, height) {
-        super(imgPath, width, height);
-    }
-
     draw(ctx) {
         super.draw(ctx);
         this.drawHitbox(ctx);

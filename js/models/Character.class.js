@@ -2,13 +2,14 @@ class Character extends MoveableObject {
     keyboard;
     jumpSpeed = -5;
 
-
+    //TODO: width and height as parameters
     constructor(imgPath, keyboard) {
         super(imgPath);
         this.keyboard = keyboard;
     }
 
     draw(ctx) {
+        console.log(this); ///DEBUG
         if (this.keyboard.ArrowRight) {
             if (this.isFlippedHorizontally) this.flipHorizontally();
             if (!this.airborne && this.currentAnimationName != 'walk') this.animate('walk');

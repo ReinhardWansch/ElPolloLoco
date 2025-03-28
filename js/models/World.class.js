@@ -2,7 +2,7 @@ class World {
     ctx;
     level;
     character;
-    enemies= [];
+    enemies = [];
     backgroundObjects = [];
     cloudObjects = [];
     keyboard;
@@ -24,67 +24,85 @@ class World {
     loadLevel(pathToJson) {
         return fetch(pathToJson)
             .then(response => response.json())
-            .then(json => this.level= json);
+            .then(json => this.level = json)
+            .then(this.createBackgroundObjects.bind(this))
+            .then(this.createCloudObjects.bind(this));
     }
 
     /*** Backgrounds ***/
     /*******************/
 
     createBackgroundObjects() {
-        let allImagesReady = [];
-        this.level.backgrounds.forEach((background) => {
-            let imageReady = this.createBackgroundObject(background);
-            allImagesReady.push(imageReady);
-        });
-        return Promise.all(allImagesReady);
-    }
-
-    createBackgroundObject(background) {
-        let mob = new MoveableObject(background.imagePath, 0, 0);
-        let imageReady = mob.decodeImage().then(() => {
-            mob.scaleToHeight(this.ctx.canvas.height);
-            this.backgroundObjects.push({ mob: mob, loopsX: background.loopsX });
-        });
-        return imageReady;
+        return this.addRepetitiveObjectsAll(this.level.backgrounds, this.backgroundObjects);
     }
 
     /*** Clouds ***/
     /**************/
 
     createCloudObjects() {
+        return this.addRepetitiveObjectsAll(this.level.clouds, this.cloudObjects);
+    }
+
+    /*** Add Objects ***/
+    /*******************/
+
+    addRepetitiveObjectsAll(objectDescriptions, objects) {
         let allImagesReady = [];
-        this.level.clouds.forEach((cloud) => {
-            let mob= new MoveableObject(cloud.imagePath);
-            let imageReady = mob.decodeImage().then(() => {
-                mob.scaleToHeight(this.ctx.canvas.height);
-                mob.speedX = cloud.speedX;
-                this.cloudObjects.push({mob: mob, loopsX: cloud.loopsX});
-            });
+        objectDescriptions.forEach((descriptionI) => {
+            let imageReady = this.addRepetitiveObject(descriptionI, objects);
             allImagesReady.push(imageReady);
         });
-        console.log(allImagesReady); ///DEBUG
         return Promise.all(allImagesReady);
+    }
+
+    addRepetitiveObject(objectDescription, objects) {
+        let mob = new MoveableObject(objectDescription.imagePath);
+        let imageReady = mob.setSizeFromImage().then(() => {
+            mob.scaleToHeight(this.ctx.canvas.height);
+            objects.push({ mob: mob, loopsX: objectDescription.loopsX });
+        });
+        return imageReady;
     }
 
     /*** Load Character ***/
     /**********************/
 
-    loadCharacter(pathToJson) {
-        return fetch(pathToJson)
-            .then(response => response.json())
-            .then(json => {
-                this.character = new Character(json.staticImagePath, this.keyboard);
-                this.character.setHitbox(json);
-                this.character.scaleToHeight(json.height);
-                this.character.x = json.positionX;
-                this.character.speedX = json.speedX;
-                this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
-                this.character.groundY = this.level.groundY;
-                this.character.jumpSpeed = json.jumpSpeed;
-            })
-            .catch((reason) => {
-                console.log('error while loading character: ' + reason);
-            });
+    async loadCharacter(pathToJson) {
+        let json = await fetch(pathToJson).then(response => response.json());
+        this.character = new Character(json.staticImagePath, this.keyboard);
+        await this.character.setSizeFromImage();
+        this.character.loadAnimationImagesFromJson(json);
+        this.character.setHitbox(json);
+        this.character.scaleToHeight(json.height);
+        this.character.x = json.positionX;
+        this.character.speedX = json.speedX;
+        this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
+        this.character.groundY = this.level.groundY;
+        this.character.jumpSpeed = json.jumpSpeed;
+        return this.character.decodeImagesAll();
+    }
+
+    /*** Load Enemies ***/
+    /********************/
+
+    loadEnemies() {
+        let enemiesReady = [];
+        this.level.enemies.forEach((enemyDescription) => {
+            let enemyReady = this.loadEnemy(enemyDescription);
+            enemiesReady.push(enemyReady);
+        });
+        return Promise.all(enemiesReady);
+    }
+
+    async loadEnemy(enemyDescription) {
+        let enemyJson= await fetch(enemyDescription.pathToJson).then(response => response.json());
+        let enemy= new SolidObject(enemyJson.staticImagePath);
+        await enemy.setSizeFromImage();
+        enemy.loadAnimationImagesFromJson(enemyJson);
+        enemy.setHitbox(enemyJson);
+        enemy.scaleToHeight(enemyJson.height);
+        enemy.x= enemyDescription.spawnX;
+        this.enemies.push(enemy);
     }
 
     /*##########*/
@@ -107,14 +125,20 @@ class World {
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
+    drawCharacter() {
+        this.drawObject(this.character);
+    }
+
     drawBackgroundObjects() {
-        console.log('World.drawBackgroundObjects()'); ///DEBUG
         this.drawRepetitiveObjects(this.backgroundObjects);
     }
 
     drawCloudObjects() {
-        console.log('World.drawCloudObjects()'); ///DEBUG
         this.drawRepetitiveObjects(this.cloudObjects);
+    }
+
+    drawEnemies() {
+        this.drawObjects(this.enemies);
     }
 
     drawObjects(objects) {
@@ -129,7 +153,6 @@ class World {
 
     drawRepetitiveObjects(objects) {
         objects.forEach((objectI) => {
-            console.log(objectI.mob); ///DEBUG
             this.ctx.drawImage(
                 objectI.mob.img,
                 -objectI.mob.width + 1,

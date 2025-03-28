@@ -13,10 +13,6 @@ class AnimatedObject extends DrawableObject {
     currentAnimationInterval;
     currentAnimationName;
 
-    constructor(imgPath, width, height) {
-        super(imgPath, width, height);
-    }
-
     async loadAnimationImages(pathToJson) {
         await fetch(pathToJson)
             .then(response => response.json())
@@ -38,11 +34,11 @@ class AnimatedObject extends DrawableObject {
     }
 
     decodeImagesAll() {
-        let decodePromises = [];
+        let decodePromisesAll = [];
         for (let animationName in this.animationImages) {
-            decodePromises.push(this.decodeImages(animationName));
+            decodePromisesAll.push(this.decodeImages(animationName));
         }
-        return Promise.all(decodePromises);
+        return Promise.all(decodePromisesAll);
     }
     
     decodeImages(animationName) {

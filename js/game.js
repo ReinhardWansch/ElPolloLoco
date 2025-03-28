@@ -1,3 +1,4 @@
+//TODO: refactor all constructors!
 //TODO: Start game with button
 
 let canvas = document.getElementById("canvasElem");
@@ -20,15 +21,19 @@ function start() {
 /*###########*/
 
 function tuEs() {
-    world.loadLevel("game/level1.json")
-        .then(world.createBackgroundObjects.bind(world))
-        .then(world.createCloudObjects.bind(world))
-        .then(world.drawBackgroundObjects.bind(world))
-        .then(world.drawCloudObjects.bind(world));
+    world.loadLevel('./game/level1.json')
+        .then(loadCharacterAndEnemies)
+        .then(() => {
+            world.drawBackgroundObjects();
+            world.drawCloudObjects();
+            world.drawCharacter();
+            world.drawEnemies();
+        });
 }
 
-function logStuff() {
-    console.log(world.backgroundObjects);
-    console.log(world.cloudObjects);
+function loadCharacterAndEnemies() {
+    let characterPromise = world.loadCharacter('./game/pepe.json');
+    let enemyPromise = world.loadEnemies('./game/enemies.json');
+    return Promise.all([characterPromise, enemyPromise]);
 }
 
