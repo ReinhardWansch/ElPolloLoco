@@ -1,4 +1,4 @@
-//copilot:ignore-file
+//@disable-copilot-suggestions
 class World {
     ctx;
     level;
@@ -133,7 +133,7 @@ class World {
         this.drawEnemies();
         this.ctx.translate(-this.cameraX, 0);
         this.drawObject(this.character);
-        // this.debugCheckCollision();
+        this.debugCheckCharacterCollision();
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
@@ -201,9 +201,12 @@ class World {
     /*## DEBUG ##*/
     /*###########*/
 
-    debugCheckCollision() {
-        if (this.character.isCollision(this.enemies[1], -this.cameraX)) {
-            console.log('hallo chicken');
-        }
+    debugCheckCharacterCollision() {
+        this.enemies.forEach((enemy)=>{
+            if (this.character.isCollision(enemy, -this.cameraX)) {
+                this.character.animate('hurt');
+                console.log('hallo chicken'); ///DEBUG
+            }
+        });
     }
 }

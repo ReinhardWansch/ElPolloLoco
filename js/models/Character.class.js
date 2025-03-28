@@ -11,15 +11,15 @@ class Character extends MoveableObject {
     draw(ctx) {
         if (this.keyboard.ArrowRight) {
             if (this.isFlippedHorizontally) this.flipHorizontally();
-            if (!this.airborne && this.currentAnimationName != 'walk') this.animate('walk');
+            if (this.getFlag_StartWalkAnimation()) this.animate('walk');
             // this.x += this.speedX;
         }
         else if (this.keyboard.ArrowLeft && this) {
             if (!this.isFlippedHorizontally) this.flipHorizontally();
-            if (!this.airborne && this.currentAnimationName != 'walk') this.animate('walk');
+            if (this.getFlag_StartWalkAnimation()) this.animate('walk');
             // this.x -= this.speedX;
         } else {
-            if (!this.airborne && this.currentAnimationName != 'idle') this.animate('idle');
+            if (this.getFlag_StartIdleAnimation()) this.animate('idle');
         }
         super.draw(ctx);
     }
@@ -31,5 +31,13 @@ class Character extends MoveableObject {
             this.airborne = true;
             this.speedY = this.jumpSpeed;
         }
+    }
+
+    getFlag_StartWalkAnimation() {
+        return !this.airborne && this.currentAnimationName != 'walk' && this.currentAnimationName != 'hurt';
+    }
+    
+    getFlag_StartIdleAnimation() {
+        return !this.airborne && this.currentAnimationName != 'idle' && this.currentAnimationName != 'hurt';
     }
 }

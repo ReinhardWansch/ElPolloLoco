@@ -20,7 +20,6 @@ function tuEs() {
     world.loadLevel('./game/level1.json')
         .then(loadCharacterAndEnemies)
         .then(()=> {
-            console.log('hä?'); ///DEBUG
             world.draw(ctx);
             world.applyGravity();
         });
