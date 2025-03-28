@@ -28,8 +28,6 @@ function tuEs() {
 function tuEsBottle() {
     world.spawnBottle();
     world.bottles[0].animate('rotate');
-    // world.bottles[0].startMotion();
-    // world.bottles[0].applyGravity();
     console.log(world.bottles[0].y) ///DEBUG
 }
 

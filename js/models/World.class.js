@@ -128,6 +128,8 @@ class World {
         await bottleTemp.loadAnimationImagesFromJson(bottleJson);
         this.bottleTemplate.img= await bottleTemp.decodeImage().then(()=>{return bottleTemp.img});
         this.bottleTemplate.height= bottleJson.height;
+        this.bottleTemplate.characterOffsetX= bottleJson.characterOffsetX;
+        this.bottleTemplate.characterOffsetY= bottleJson.characterOffsetY;
         this.bottleTemplate.speedX= bottleJson.speedX;
         this.bottleTemplate.speedY= bottleJson.speedY;
         this.bottleTemplate.hitbox= bottleJson.hitbox;
@@ -234,13 +236,13 @@ class World {
         newBottle.img= this.bottleTemplate.img;
         newBottle.ratio= this.bottleTemplate.img.width / this.bottleTemplate.img.height;
         newBottle.scaleToHeight(this.bottleTemplate.height);
-        newBottle.animationImages= this.bottleTemplate.animationImages;
-        newBottle.x= this.character.x;
-        newBottle.y= this.character.y;
+        newBottle.x= -this.cameraX + this.character.x + this.bottleTemplate.characterOffsetX;
+        newBottle.y= this.character.y + this.bottleTemplate.characterOffsetY;
         newBottle.speedX= this.bottleTemplate.speedX;
         newBottle.speedY= this.bottleTemplate.speedY;
         newBottle.hitbox= this.bottleTemplate.hitbox;
         newBottle.groundY= this.level.groundY;
+        newBottle.animationImages= this.bottleTemplate.animationImages;
         newBottle.startMotion();
         newBottle.animate('rotate');
         newBottle.applyGravity(this.gravity);

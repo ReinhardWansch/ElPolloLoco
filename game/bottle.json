@@ -1,6 +1,8 @@
 {
     "staticImagePath": "./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
     "height": 35,
+    "characterOffsetX": 100,
+    "characterOffsetY": 0,
     "speedX": 1,
     "speedY": -10,
     "hitbox": {
