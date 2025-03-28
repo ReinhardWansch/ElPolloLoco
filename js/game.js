@@ -12,10 +12,6 @@ function start() {
 }
 
 
-
-
-
-
 /*###########*/
 /*## DEBUG ##*/
 /*###########*/
@@ -23,12 +19,7 @@ function start() {
 function tuEs() {
     world.loadLevel('./game/level1.json')
         .then(loadCharacterAndEnemies)
-        .then(() => {
-            world.drawBackgroundObjects();
-            world.drawCloudObjects();
-            world.drawCharacter();
-            world.drawEnemies();
-        });
+        .then(world.draw.bind(world));
 }
 
 function loadCharacterAndEnemies() {

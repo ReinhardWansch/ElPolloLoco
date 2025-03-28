@@ -117,10 +117,10 @@ class World {
         this.clearCanvas();
         this.ctx.translate(this.cameraX, 0);
         this.drawBackgroundObjects();
-        this.drawObjects(this.cloudObjects);
+        this.drawCloudObjects();
         this.drawObjects(this.enemies);
         this.ctx.translate(-this.cameraX, 0);
-        // this.drawObject(this.character);
+        this.drawObject(this.character);
         // this.debugCheckCollision();
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
