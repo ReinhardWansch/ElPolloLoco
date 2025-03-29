@@ -164,6 +164,7 @@ class World {
         this.ctx.translate(-this.cameraX, 0); //move Camera back
         this.drawCharacter();
         this.checkCharacterCollision();
+        this.checkBottleCollision();
         this.checkBottleStatus();
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
@@ -238,6 +239,21 @@ class World {
                 if (this.character.currentAnimationName != 'hurt')
                     this.character.animate('hurt', 5);
             }
+        });
+    }
+    
+    checkBottleCollision() {
+        this.bottles.forEach((bottle) => {
+            this.enemies.forEach((enemy)=>{
+                if (bottle.isCollision(enemy)) {
+                    //bottle verschwindet
+                    this.bottles.splice(this.bottles.indexOf(bottle), 1);
+                    //enemy stirbt
+                    enemy.stopMotion();
+                    enemy.animate('die');
+                    window.setTimeout(() => {this.enemies.splice(this.enemies.indexOf(enemy),1)}, 250);
+                }
+            });
         });
     }
 
