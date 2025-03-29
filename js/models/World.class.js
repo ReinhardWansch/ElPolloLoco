@@ -6,7 +6,7 @@ class World {
     backgroundObjects = [];
     cloudObjects = [];
     bottles = [];
-    bottleTemplate= {};
+    bottleTemplate = {};
     keyboard;
     gravity = 0.5;
     cameraX = 0;
@@ -28,9 +28,16 @@ class World {
         return fetch(pathToJson)
             .then(response => response.json())
             .then(json => this.level = json)
-            .then(this.createBackgroundObjects.bind(this))
-            .then(this.createCloudObjects.bind(this));
+            .then(() => { return this.createBackgroundObjects() })
+            .then(() => { return this.createCloudObjects() });
     }
+    // loadLevel(pathToJson) {
+    //     return fetch(pathToJson)
+    //         .then(response => response.json())
+    //         .then(json => this.level = json)
+    //         .then(this.createBackgroundObjects.bind(this))
+    //         .then(this.createCloudObjects.bind(this));
+    // }
 
     /*** Backgrounds ***/
     /*******************/
@@ -55,6 +62,7 @@ class World {
             let imageReady = this.addRepetitiveObject(descriptionI, objects);
             allImagesReady.push(imageReady);
         });
+        console.log(Promise.all(allImagesReady), objects); ///DEBUG
         return Promise.all(allImagesReady);
     }
 
@@ -118,23 +126,23 @@ class World {
             console.log(enemy.speedX); ///DEBUG
         });
     }
- 
+
     /*** loadBottles ***/
     /*******************/
 
     //TODO: refactor with Object.asign(..)
-    async loadBottleTemplate(pathToJson){
-        let bottleJson= await fetch(pathToJson).then(res=>res.json());
-        let bottleTemp= new MoveableObject(bottleJson.staticImagePath);
+    async loadBottleTemplate(pathToJson) {
+        let bottleJson = await fetch(pathToJson).then(res => res.json());
+        let bottleTemp = new MoveableObject(bottleJson.staticImagePath);
         await bottleTemp.loadAnimationImagesFromJson(bottleJson);
-        this.bottleTemplate.img= await bottleTemp.decodeImage().then(()=>{return bottleTemp.img});
-        this.bottleTemplate.height= bottleJson.height;
-        this.bottleTemplate.characterOffsetX= bottleJson.characterOffsetX;
-        this.bottleTemplate.characterOffsetY= bottleJson.characterOffsetY;
-        this.bottleTemplate.speedX= bottleJson.speedX;
-        this.bottleTemplate.speedY= bottleJson.speedY;
-        this.bottleTemplate.hitbox= bottleJson.hitbox;
-        this.bottleTemplate.animationImages= bottleTemp.animationImages;
+        this.bottleTemplate.img = await bottleTemp.decodeImage().then(() => { return bottleTemp.img });
+        this.bottleTemplate.height = bottleJson.height;
+        this.bottleTemplate.characterOffsetX = bottleJson.characterOffsetX;
+        this.bottleTemplate.characterOffsetY = bottleJson.characterOffsetY;
+        this.bottleTemplate.speedX = bottleJson.speedX;
+        this.bottleTemplate.speedY = bottleJson.speedY;
+        this.bottleTemplate.hitbox = bottleJson.hitbox;
+        this.bottleTemplate.animationImages = bottleTemp.animationImages;
     }
 
     /*##########*/
@@ -233,22 +241,21 @@ class World {
 
     //TODO.refactor with Object.assign(..)
     spawnBottle() {
-        let newBottle= new MoveableObject('');
-        newBottle.img= this.bottleTemplate.img;
-        newBottle.ratio= this.bottleTemplate.img.width / this.bottleTemplate.img.height;
+        let newBottle = new MoveableObject('');
+        newBottle.img = this.bottleTemplate.img;
+        newBottle.ratio = this.bottleTemplate.img.width / this.bottleTemplate.img.height;
         newBottle.scaleToHeight(this.bottleTemplate.height);
-        newBottle.x= -this.cameraX + this.character.x + this.bottleTemplate.characterOffsetX;
-        newBottle.y= this.character.y + this.bottleTemplate.characterOffsetY;
-        newBottle.speedX= this.bottleTemplate.speedX;
+        newBottle.x = -this.cameraX + this.character.x + this.bottleTemplate.characterOffsetX;
+        newBottle.y = this.character.y + this.bottleTemplate.characterOffsetY;
+        newBottle.speedX = this.bottleTemplate.speedX;
         if (this.keyboard.ArrowRight || this.keyboard.ArrowLeft) {
-            console.log('gehen'); ///DEBUG
-            newBottle.speedX += this.character.speedX;            
+            newBottle.speedX += this.character.speedX * 0.75;
         }
         if (this.character.isFlippedHorizontally) newBottle.speedX *= -1;
-        newBottle.speedY= this.bottleTemplate.speedY;
-        newBottle.hitbox= this.bottleTemplate.hitbox;
-        newBottle.groundY= this.level.groundY;
-        newBottle.animationImages= this.bottleTemplate.animationImages;
+        newBottle.speedY = this.bottleTemplate.speedY;
+        newBottle.hitbox = this.bottleTemplate.hitbox;
+        newBottle.groundY = this.level.groundY;
+        newBottle.animationImages = this.bottleTemplate.animationImages;
         newBottle.startMotion();
         newBottle.animate('rotate');
         newBottle.applyGravity(this.gravity);

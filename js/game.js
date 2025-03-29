@@ -1,5 +1,5 @@
-//TODO: refactor all constructors!
 //TODO: Start game with button
+//TODO: Higher bottom of Pepe hitbox so he can jump over chickens
 
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
@@ -16,11 +16,10 @@ function start() {
 /*## DEBUG ##*/
 /*###########*/
 
-//TODO: Waiting for Background-Images to be ready for drawing does not work
 function tuEs() {
     world.loadLevel('./game/level1.json')
-        .then(loadCharacterAndEnemiesAndBottleTemplate)
-        .then((prom)=> {
+        .then(() => { return loadCharacterAndEnemiesAndBottleTemplate() })
+        .then(() => {
             world.draw(ctx);
             world.applyGravity(world.gravity);
         });
@@ -33,9 +32,9 @@ function tuEsBottle() {
 }
 
 function loadCharacterAndEnemiesAndBottleTemplate() {
-    let characterLoaded= world.loadCharacter('./game/pepe.json');
-    let enemiesLoaded= world.loadEnemies();
-    let bottleTemplateLoaded= world.loadBottleTemplate('./game/bottle.json');
+    let characterLoaded = world.loadCharacter('./game/pepe.json');
+    let enemiesLoaded = world.loadEnemies();
+    let bottleTemplateLoaded = world.loadBottleTemplate('./game/bottle.json');
     return Promise.all([characterLoaded, enemiesLoaded, bottleTemplateLoaded]);
 }
 
