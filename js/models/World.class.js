@@ -32,22 +32,6 @@ class World {
         await this.createCloudObjects();
     }
 
-    // loadLevel(pathToJson) {
-    //     return fetch(pathToJson)
-    //         .then(response => response.json())
-    //         .then(json => this.level = json)
-    //         .then(async () => { return await this.createBackgroundObjects() })
-    //         .then(async () => { return await this.createCloudObjects() });
-    // }
-
-    // loadLevel(pathToJson) {
-    //     return fetch(pathToJson)
-    //         .then(response => response.json())
-    //         .then(json => this.level = json)
-    //         .then(this.createBackgroundObjects.bind(this))
-    //         .then(this.createCloudObjects.bind(this));
-    // }
-
     /*** Backgrounds ***/
     /*******************/
 
@@ -246,12 +230,12 @@ class World {
         this.bottles.forEach((bottle) => {
             this.enemies.forEach((enemy)=>{
                 if (bottle.isCollision(enemy)) {
-                    //bottle verschwindet
                     this.bottles.splice(this.bottles.indexOf(bottle), 1);
-                    //enemy stirbt
-                    enemy.stopMotion();
-                    enemy.animate('die');
-                    window.setTimeout(() => {this.enemies.splice(this.enemies.indexOf(enemy),1)}, 250);
+                    if (bottle.isCausingDemage) {
+                        enemy.stopMotion();
+                        enemy.animate('die');
+                        window.setTimeout(() => {this.enemies.splice(this.enemies.indexOf(enemy),1)}, 250);
+                    }
                 }
             });
         });
