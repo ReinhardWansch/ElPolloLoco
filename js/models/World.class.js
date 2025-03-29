@@ -3,6 +3,7 @@ class World {
     level;
     character;
     enemies = [];
+    endboss;
     backgroundObjects = [];
     cloudObjects = [];
     bottles = [];
@@ -61,15 +62,24 @@ class World {
         return Promise.all(allImagesReady);
     }
 
-    addRepetitiveObject(objectDescription, objects) {
+    async addRepetitiveObject(objectDescription, objects) {
         let mob = new MoveableObject(objectDescription.imagePath);
-        let imageReady = mob.setSizeFromImage().then(() => {
+        await mob.setSizeFromImage().then(() => {
             mob.scaleToHeight(this.ctx.canvas.height);
             if (objectDescription.speedX) mob.speedX = objectDescription.speedX;
             objects.push({ mob: mob, loopsX: objectDescription.loopsX });
         });
-        return imageReady;
     }
+    
+    // addRepetitiveObject(objectDescription, objects) {
+    //     let mob = new MoveableObject(objectDescription.imagePath);
+    //     let imageReady = mob.setSizeFromImage().then(() => {
+    //         mob.scaleToHeight(this.ctx.canvas.height);
+    //         if (objectDescription.speedX) mob.speedX = objectDescription.speedX;
+    //         objects.push({ mob: mob, loopsX: objectDescription.loopsX });
+    //     });
+    //     return imageReady;
+    // }
 
     /*** Load Character ***/
     /**********************/
@@ -78,7 +88,7 @@ class World {
         let json = await fetch(pathToJson).then(response => response.json());
         this.character = new Character(json.staticImagePath, this.keyboard);
         await this.character.setSizeFromImage();
-        this.character.loadAnimationImagesFromJson(json);
+        await this.character.loadAnimationImagesFromJson(json);
         this.character.setHitbox(json);
         this.character.scaleToHeight(json.height);
         this.character.x = json.positionX;
@@ -116,6 +126,23 @@ class World {
         this.enemies.push(enemy);
     }
 
+    /*** Load Endboss ***/
+    /********************/
+
+    async loadEndboss(pathToJson) {
+        let json = await fetch(pathToJson).then(response => response.json());
+        this.endboss = new Endboss(json.staticImagePath);
+        await this.endboss.setSizeFromImage();
+        await this.endboss.loadAnimationImagesFromJson(json);
+        this.endboss.setHitbox(json);
+        this.endboss.scaleToHeight(json.height);
+        this.endboss.x = json.positionX;
+        this.endboss.speedX = json.speedX;
+        this.endboss.groundY = json.groundY;
+        this.endboss.applyGravity(this.gravity);
+        return this.endboss.decodeImagesAll();
+    }
+
     /*** loadBottles ***/
     /*******************/
 
@@ -147,8 +174,9 @@ class World {
         this.ctx.translate(this.cameraX, 0); //move Camera
         this.drawBackgroundObjects();
         this.drawCloudObjects();
-        this.drawEnemies();
         this.drawBottles();
+        this.drawEnemies();
+        this.drawEndboss();
         this.ctx.translate(-this.cameraX, 0); //move Camera back
         this.drawCharacter();
         this.checkCharacterCollision();
@@ -171,6 +199,10 @@ class World {
 
     drawEnemies() {
         this.drawObjects(this.enemies);
+    }
+
+    drawEndboss() {
+        this.drawObject(this.endboss);
     }
 
     drawBottles() {

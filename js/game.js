@@ -19,15 +19,22 @@ function start() {
 //TODO: sometimes still the backgrounds are not shown on canvas
 async function tuEs() {
     await world.loadLevel('./game/level1.json');
-    await loadCharacterAndEnemiesAndBottleTemplate();
+    await loadStuff();
     world.draw(ctx);
     world.applyGravity(world.gravity);
 }
 
-function loadCharacterAndEnemiesAndBottleTemplate() {
-    let characterLoaded = world.loadCharacter('./game/pepe.json');
-    let enemiesLoaded = world.loadEnemies();
-    let bottleTemplateLoaded = world.loadBottleTemplate('./game/bottle.json');
-    return Promise.all([characterLoaded, enemiesLoaded, bottleTemplateLoaded]);
+async function loadStuff() {
+    await world.loadCharacter('./game/pepe.json');
+    await world.loadEnemies();
+    await world.loadBottleTemplate('./game/bottle.json');
+    await world.loadEndboss('./game/polloLoco.json');
 }
+// function loadStuff() {
+//     let characterLoaded = world.loadCharacter('./game/pepe.json');
+//     let enemiesLoaded = world.loadEnemies();
+//     let bottleTemplateLoaded = world.loadBottleTemplate('./game/bottle.json');
+//     let endbossLoaded = world.loadEndboss('./game/polloLoco.json');
+//     return Promise.all([characterLoaded, enemiesLoaded, bottleTemplateLoaded, endbossLoaded]);
+// }
 

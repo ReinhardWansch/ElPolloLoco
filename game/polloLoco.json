@@ -1,13 +1,14 @@
 {
     "staticImagePath": "./img/4_enemie_boss_chicken/1_walk/G1.png",
     "positionX": 350,
-    "height": 600,
+    "height": 300,
     "speedX": 1,
+    "groundY": 454,
     "hitbox": {
-        "x": 30,
-        "y": 147,
-        "width": 76,
-        "height": 140
+        "x": 48,
+        "y": 114,
+        "width": 169,
+        "height": 113
     },
     "animations": [
         {
@@ -61,9 +62,9 @@
             "name": "die",
             "imageDuration": 200,
             "imagePaths": [
-                "img/img/4_enemie_boss_chicken/5_dead/G24.png",
-                "img/img/4_enemie_boss_chicken/5_dead/G25.png",
-                "img/img/4_enemie_boss_chicken/5_dead/G26.png"
+                "img/4_enemie_boss_chicken/5_dead/G24.png",
+                "img/4_enemie_boss_chicken/5_dead/G25.png",
+                "img/4_enemie_boss_chicken/5_dead/G26.png"
             ] 
         }
     ]
