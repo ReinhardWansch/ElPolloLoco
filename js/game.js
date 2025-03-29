@@ -16,14 +16,20 @@ function start() {
 /*## DEBUG ##*/
 /*###########*/
 
-function tuEs() {
-    world.loadLevel('./game/level1.json')
-        .then(() => { return loadCharacterAndEnemiesAndBottleTemplate() })
-        .then(() => {
-            world.draw(ctx);
-            world.applyGravity(world.gravity);
-        });
+async function tuEs() {
+    await world.loadLevel('./game/level1.json');
+    await loadCharacterAndEnemiesAndBottleTemplate();
+    world.draw(ctx);
+    world.applyGravity(world.gravity);
 }
+// function tuEs() {
+//     world.loadLevel('./game/level1.json')
+//         .then(async () => { return await loadCharacterAndEnemiesAndBottleTemplate() })
+//         .then(() => {
+//             world.draw(ctx);
+//             world.applyGravity(world.gravity);
+//         });
+// }
 
 function tuEsBottle() {
     world.spawnBottle();

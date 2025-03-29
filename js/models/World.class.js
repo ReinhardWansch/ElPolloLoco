@@ -24,13 +24,22 @@ class World {
     /*** Load Level ***/
     /******************/
 
-    loadLevel(pathToJson) {
-        return fetch(pathToJson)
-            .then(response => response.json())
-            .then(json => this.level = json)
-            .then(() => { return this.createBackgroundObjects() })
-            .then(() => { return this.createCloudObjects() });
+    async loadLevel(pathToJson) {
+        let res= await fetch(pathToJson);
+        let json = await res.json();
+        this.level = json;
+        await this.createBackgroundObjects();
+        await this.createCloudObjects();
     }
+
+    // loadLevel(pathToJson) {
+    //     return fetch(pathToJson)
+    //         .then(response => response.json())
+    //         .then(json => this.level = json)
+    //         .then(async () => { return await this.createBackgroundObjects() })
+    //         .then(async () => { return await this.createCloudObjects() });
+    // }
+
     // loadLevel(pathToJson) {
     //     return fetch(pathToJson)
     //         .then(response => response.json())
@@ -241,7 +250,7 @@ class World {
 
     //TODO.refactor with Object.assign(..)
     spawnBottle() {
-        let newBottle = new MoveableObject('');
+        let newBottle = new Bottle('');
         newBottle.img = this.bottleTemplate.img;
         newBottle.ratio = this.bottleTemplate.img.width / this.bottleTemplate.img.height;
         newBottle.scaleToHeight(this.bottleTemplate.height);
@@ -257,7 +266,7 @@ class World {
         newBottle.groundY = this.level.groundY;
         newBottle.animationImages = this.bottleTemplate.animationImages;
         newBottle.startMotion();
-        newBottle.animate('rotate');
+        // newBottle.animate('rotate');
         newBottle.applyGravity(this.gravity);
         this.bottles.push(newBottle);
     }
