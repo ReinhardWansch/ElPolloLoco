@@ -71,7 +71,6 @@ class World {
             let imageReady = this.addRepetitiveObject(descriptionI, objects);
             allImagesReady.push(imageReady);
         });
-        console.log(Promise.all(allImagesReady), objects); ///DEBUG
         return Promise.all(allImagesReady);
     }
 
@@ -129,13 +128,6 @@ class World {
         this.enemies.push(enemy);
     }
 
-    setRandomEnemySpeeds() {
-        this.enemies.forEach((enemy) => {
-            enemy.speedX = Math.random() * 3 + 1;
-            console.log(enemy.speedX); ///DEBUG
-        });
-    }
-
     /*** loadBottles ***/
     /*******************/
 
@@ -172,6 +164,7 @@ class World {
         this.ctx.translate(-this.cameraX, 0); //move Camera back
         this.drawCharacter();
         this.checkCharacterCollision();
+        this.checkBottleStatus();
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
@@ -250,7 +243,9 @@ class World {
 
     //TODO.refactor with Object.assign(..)
     spawnBottle() {
+        console.log('spawnBottle'); ///DEBUG
         let newBottle = new Bottle('');
+        newBottle.airborne = true;
         newBottle.img = this.bottleTemplate.img;
         newBottle.ratio = this.bottleTemplate.img.width / this.bottleTemplate.img.height;
         newBottle.scaleToHeight(this.bottleTemplate.height);
@@ -269,5 +264,13 @@ class World {
         // newBottle.animate('rotate');
         newBottle.applyGravity(this.gravity);
         this.bottles.push(newBottle);
+    }
+
+    checkBottleStatus() {
+        this.bottles.forEach((bottle) => {
+            if (bottle.isDestroyed) {
+                this.bottles.splice(this.bottles.indexOf(bottle), 1);
+            }
+        });
     }
 }

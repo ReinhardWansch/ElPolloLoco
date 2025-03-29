@@ -16,25 +16,12 @@ function start() {
 /*## DEBUG ##*/
 /*###########*/
 
+//TODO: sometimes still the backgrounds are not shown on canvas
 async function tuEs() {
     await world.loadLevel('./game/level1.json');
     await loadCharacterAndEnemiesAndBottleTemplate();
     world.draw(ctx);
     world.applyGravity(world.gravity);
-}
-// function tuEs() {
-//     world.loadLevel('./game/level1.json')
-//         .then(async () => { return await loadCharacterAndEnemiesAndBottleTemplate() })
-//         .then(() => {
-//             world.draw(ctx);
-//             world.applyGravity(world.gravity);
-//         });
-// }
-
-function tuEsBottle() {
-    world.spawnBottle();
-    world.bottles[0].animate('rotate');
-    console.log(world.bottles[0].y) ///DEBUG
 }
 
 function loadCharacterAndEnemiesAndBottleTemplate() {
@@ -44,6 +31,3 @@ function loadCharacterAndEnemiesAndBottleTemplate() {
     return Promise.all([characterLoaded, enemiesLoaded, bottleTemplateLoaded]);
 }
 
-function loadBottleTemplate() {
-    world.loadBottleTemplate('./game/bottle.json');
-}

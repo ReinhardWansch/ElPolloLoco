@@ -79,4 +79,7 @@ class MoveableObject extends SolidObject {
         this.accelerationY = a;
     }
 
+    /*##########*/
+    /*## MISC ##*/
+    /*##########*/
 }

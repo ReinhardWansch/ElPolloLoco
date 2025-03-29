@@ -1,14 +1,16 @@
 class Bottle extends MoveableObject {
+    isDestroyed = false;
 
     constructor (imgPath) {
         super(imgPath);
-        this.decodeImagesAll().then(()=>this.animate('rotate'));
+        // this.decodeImagesAll().then(()=>this.animate('rotate'));
     }
 
     draw(ctx) {
-        console.log('Bottle.draw()'); ///DEBUG
         if (!this.airborne) {
-            console.log('diiisch'); ///DEBUG
+            if (this.currentAnimationName != 'splash') this.animate('splash');
+            this.stopMotion();
+            window.setTimeout(() => { this.isDestroyed = true; }, 675);
         }
         super.draw(ctx);
     }
