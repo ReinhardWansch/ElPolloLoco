@@ -42,8 +42,11 @@ class World {
     /*** Clouds ***/
     /**************/
 
-    createCloudObjects() {
-        return this.addRepetitiveObjectsAll(this.level.clouds, this.cloudObjects);
+    async createCloudObjects() {
+        await this.addRepetitiveObjectsAll(this.level.clouds, this.cloudObjects);
+        this.cloudObjects.forEach((cloud) => {
+            cloud.mob.startMotion();
+        });
     }
 
     /*** Add Objects ***/
@@ -62,6 +65,7 @@ class World {
         let mob = new MoveableObject(objectDescription.imagePath);
         let imageReady = mob.setSizeFromImage().then(() => {
             mob.scaleToHeight(this.ctx.canvas.height);
+            if (objectDescription.speedX) mob.speedX = objectDescription.speedX;
             objects.push({ mob: mob, loopsX: objectDescription.loopsX });
         });
         return imageReady;
