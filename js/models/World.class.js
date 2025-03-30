@@ -119,8 +119,10 @@ class World {
         enemy.setHitbox(enemyJson);
         enemy.scaleToHeight(enemyJson.height);
         enemy.x = enemyDescription.spawnX;
+        enemy.y = enemyDescription.spawnY;
         enemy.groundY = this.level.groundY;
-        enemy.speedX = Math.random() * -3 + -1;
+        // enemy.speedX = Math.random() * -3 + -1;
+        enemy.speedX = enemyDescription.speedX;
         enemy.startMotion();
         enemy.animate('walk');
         this.enemies.push(enemy);
