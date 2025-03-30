@@ -53,13 +53,10 @@ class World {
     /*** Add Objects ***/
     /*******************/
 
-    addRepetitiveObjectsAll(objectDescriptions, objects) {
-        let allImagesReady = [];
-        objectDescriptions.forEach((descriptionI) => {
-            let imageReady = this.addRepetitiveObject(descriptionI, objects);
-            allImagesReady.push(imageReady);
+    async addRepetitiveObjectsAll(objectDescriptions, objects) {
+        objectDescriptions.forEach(async (descriptionI) => {
+            await this.addRepetitiveObject(descriptionI, objects);
         });
-        return Promise.all(allImagesReady);
     }
 
     async addRepetitiveObject(objectDescription, objects) {
@@ -70,16 +67,6 @@ class World {
             objects.push({ mob: mob, loopsX: objectDescription.loopsX });
         });
     }
-    
-    // addRepetitiveObject(objectDescription, objects) {
-    //     let mob = new MoveableObject(objectDescription.imagePath);
-    //     let imageReady = mob.setSizeFromImage().then(() => {
-    //         mob.scaleToHeight(this.ctx.canvas.height);
-    //         if (objectDescription.speedX) mob.speedX = objectDescription.speedX;
-    //         objects.push({ mob: mob, loopsX: objectDescription.loopsX });
-    //     });
-    //     return imageReady;
-    // }
 
     /*** Load Character ***/
     /**********************/

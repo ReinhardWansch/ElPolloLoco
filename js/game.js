@@ -1,5 +1,5 @@
-//TODO: Start game with button
-//TODO: Higher bottom of Pepe hitbox so he can jump over chickens
+//TODO: Design Page
+//TODO: Dead Chickens can hurt Pepe
 
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
@@ -16,7 +16,6 @@ function start() {
 /*## DEBUG ##*/
 /*###########*/
 
-//TODO: sometimes still the backgrounds are not shown on canvas
 async function tuEs() {
     await world.loadLevel('./game/level1.json');
     await loadStuff();
