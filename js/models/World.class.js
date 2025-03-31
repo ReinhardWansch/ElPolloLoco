@@ -29,8 +29,8 @@ class World {
         let res= await fetch(pathToJson);
         let json = await res.json();
         this.level = json;
-        await this.createBackgroundObjects();
-        await this.createCloudObjects();
+        // await this.createBackgroundObjects();
+        // await this.createCloudObjects();
         this.setObjectManager(this.level.groundY);
     }
 
@@ -41,9 +41,9 @@ class World {
     /*** Backgrounds ***/
     /*******************/
 
-    createBackgroundObjects() {
-        return this.addRepetitiveObjectsAll(this.level.backgrounds, this.backgroundObjects);
-    }
+    // createBackgroundObjects() {
+    //     return this.addRepetitiveObjectsAll(this.level.backgrounds, this.backgroundObjects);
+    // }
 
     /*** Clouds ***/
     /**************/
@@ -58,20 +58,20 @@ class World {
     /*** Add Objects ***/
     /*******************/
 
-    async addRepetitiveObjectsAll(objectDescriptions, objects) {
-        objectDescriptions.forEach(async (descriptionI) => {
-            await this.addRepetitiveObject(descriptionI, objects);
-        });
-    }
+    // async addRepetitiveObjectsAll(objectDescriptions, objects) {
+    //     objectDescriptions.forEach(async (descriptionI) => {
+    //         await this.addRepetitiveObject(descriptionI, objects);
+    //     });
+    // }
 
-    async addRepetitiveObject(objectDescription, objects) {
-        let mob = new MoveableObject(objectDescription.imagePath);
-        await mob.setSizeFromImage().then(() => {
-            mob.scaleToHeight(this.ctx.canvas.height);
-            if (objectDescription.speedX) mob.speedX = objectDescription.speedX;
-            objects.push({ mob: mob, loopsX: objectDescription.loopsX });
-        });
-    }
+    // async addRepetitiveObject(objectDescription, objects) {
+    //     let mob = new MoveableObject(objectDescription.imagePath);
+    //     await mob.setSizeFromImage().then(() => {
+    //         mob.scaleToHeight(this.ctx.canvas.height);
+    //         if (objectDescription.speedX) mob.speedX = objectDescription.speedX;
+    //         objects.push({ mob: mob, loopsX: objectDescription.loopsX });
+    //     });
+    // }
 
     /*** Load Character ***/
     /**********************/

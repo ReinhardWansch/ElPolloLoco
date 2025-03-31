@@ -41,8 +41,13 @@ function logObjectTemplateChicken() {
     console.log(world.objectManager.objectTemplates['chicken']); ///DEBUG
 }
 
-function drawChicken() {
-    let chickenImage= world.objectManager.objectTemplates['chicken'].img;
-    ctx.drawImage(chickenImage, 0, 0, chickenImage.width, chickenImage.height);
+function drawChickenFromEnemies() {
+    let chicken= world.objectManager.enemies[0];
+    ctx.drawImage(chicken.img, 0, 0, chicken.width, chicken.height);
+}
+
+function drawChickenFromTemplate() {
+    let chickenTemplate= world.objectManager.objectTemplates['chicken'];
+    ctx.drawImage(chickenTemplate.img, 0, 0, 100, chickenTemplate.height);
 }
 
