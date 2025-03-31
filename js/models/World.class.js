@@ -2,6 +2,7 @@ class World {
     ctx;
     level;
     character;
+    objectManager= new ObjectManager();
     enemies = [];
     endboss;
     backgroundObjects = [];
@@ -89,13 +90,10 @@ class World {
     /*** Load Enemies ***/
     /********************/
 
-    loadEnemies() {
-        let enemiesReady = [];
-        this.level.enemies.forEach((enemyDescription) => {
-            let enemyReady = this.loadEnemy(enemyDescription);
-            enemiesReady.push(enemyReady);
-        });
-        return Promise.all(enemiesReady);
+    async loadEnemies() {
+        for (let json of this.level.enemies) {
+            await this.objectManager.addEnemy(json);
+        }
     }
 
     async loadEnemy(enemyDescription) {
