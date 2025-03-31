@@ -22,39 +22,28 @@ class ObjectManager {
         this.groundY = groundY;
     }
 
-    async addEnemy(json) {
-        let newEnemy= new MoveableObject('');
+    async addObject(json, objects) {
+        let newObject = new MoveableObject('');
         if (this.objectTemplates[json.type]) {
-            this.setEneyPropertiesFromTemplate(newEnemy, json.type);
+            this.setObjectPropertiesFromTemplate(newObject, json.type);
         } else {
-            let enemyJson= await fetch(json.pathToJson).then(response => response.json());
-            //load images
-            newEnemy.img = new Image();
-            newEnemy.img.src = enemyJson.staticImagePath;
-            await newEnemy.img.decode();
-            newEnemy.setSizeFromImage();
-            newEnemy.scaleToHeight(enemyJson.height);
-            newEnemy.loadAnimationImages(json.pathToJson);
-            await newEnemy.decodeImagesAll();
-            // add ObjectTemplate
-            this.objectTemplates[json.type]= {
-                img: newEnemy.img,
-                height: enemyJson.height,
-                hitbox: enemyJson.hitbox,
-                animationImages: newEnemy.animationImages,
-            }
+            let enemyJson = await fetch(json.pathToJson).then(response => response.json());
+            await this.loadObjectImage(newObject, enemyJson);
+            newObject.loadAnimationImages(json.pathToJson);
+            await newObject.decodeImagesAll();
+            this.addObjectTemplate(enemyJson, newObject);
         }
-        // set properties from json
-        this.setEnemyPropertiesFromJson(newEnemy, json);
-        this.enemies.push(newEnemy);
+        this.setEnemyPropertiesFromJson(newObject, json);
+        objects.push(newObject);
     }
 
-    setEneyPropertiesFromTemplate(enemy, type) {
-        enemy.img = this.objectTemplates[type].img;
-        enemy.setSizeFromImage();
-        enemy.scaleToHeight(this.objectTemplates[type].height);
-        enemy.hitbox = this.objectTemplates[type].hitbox;
-        enemy.animationImages = this.objectTemplates[type].animationImages;
+    setObjectPropertiesFromTemplate(object, type) {
+        object.img = this.objectTemplates[type].img;
+        object.setSizeFromImage();
+        object.scaleToHeight(this.objectTemplates[type].height);
+        let hitbox = this.objectTemplates[type].hitbox;
+        if (hitbox) object.hitbox = hitbox;
+        object.animationImages = this.objectTemplates[type].animationImages;
     }
 
     setEnemyPropertiesFromJson(enemy, json) {
@@ -64,5 +53,21 @@ class ObjectManager {
         enemy.groundY = this.groundY;
     }
 
-    
+    async loadObjectImage(object, json) {
+        object.img = new Image();
+        object.img.src = json.staticImagePath;
+        await object.img.decode();
+        object.setSizeFromImage();
+        object.scaleToHeight(json.height);
+    }
+
+    addObjectTemplate(json, object) {  
+        this.objectTemplates[json.type] = {
+            img: object.img,
+            height: json.height,
+            hitbox: json.hitbox,
+            animationImages: object.animationImages,
+        }
+    }
+
 }

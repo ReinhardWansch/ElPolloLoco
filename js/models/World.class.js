@@ -33,6 +33,7 @@ class World {
         await this.createBackgroundObjects();
         await this.createCloudObjects();
         this.setObjectManager(this.level.groundY);
+        console.log('loading Level complete'); ///DEBUG
     }
 
     setObjectManager(groundY) {
@@ -97,7 +98,7 @@ class World {
 
     async loadEnemies() {
         for (let json of this.level.enemies) {
-            await this.objectManager.addEnemy(json);
+            await this.objectManager.addObject(json, this.objectManager.enemies);
         }
     }
 
@@ -271,7 +272,6 @@ class World {
 
     //TODO.refactor with Object.assign(..)
     spawnBottle() {
-        console.log('spawnBottle'); ///DEBUG
         let newBottle = new Bottle('');
         newBottle.airborne = true;
         newBottle.img = this.bottleTemplate.img;
