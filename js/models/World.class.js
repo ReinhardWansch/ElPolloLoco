@@ -2,7 +2,7 @@ class World {
     ctx;
     level;
     character;
-    objectManager= new ObjectManager();
+    objectManager;
     enemies = [];
     endboss;
     backgroundObjects = [];
@@ -32,6 +32,11 @@ class World {
         this.level = json;
         await this.createBackgroundObjects();
         await this.createCloudObjects();
+        this.setObjectManager(this.level.groundY);
+    }
+
+    setObjectManager(groundY) {
+        this.objectManager = new ObjectManager(groundY);
     }
 
     /*** Backgrounds ***/

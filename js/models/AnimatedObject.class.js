@@ -1,3 +1,12 @@
+/*
+animationImages= {
+    name: {
+        imageDuration: number
+        images: [Image, Image, ...],
+    }
+}
+*/
+
 class AnimatedObject extends DrawableObject {
     animationImages = {};
     currentImageIndex = 0;
