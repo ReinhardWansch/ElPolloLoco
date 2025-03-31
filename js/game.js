@@ -19,15 +19,15 @@ function start() {
 async function tuEs() {
     await world.loadLevel('./game/level1.json');
     await loadStuff();
-    world.draw(ctx);
-    world.applyGravity(world.gravity);
+    // world.draw(ctx);
+    // world.applyGravity(world.gravity);
 }
 
 async function loadStuff() {
-    await world.loadCharacter('./game/pepe.json');
+    // await world.loadCharacter('./game/pepe.json');
     await world.loadEnemies();
-    await world.loadBottleTemplate('./game/bottle.json');
-    await world.loadEndboss('./game/polloLoco.json');
+    // await world.loadBottleTemplate('./game/bottle.json');
+    // await world.loadEndboss('./game/polloLoco.json');
 }
 // function loadStuff() {
 //     let characterLoaded = world.loadCharacter('./game/pepe.json');
@@ -36,4 +36,13 @@ async function loadStuff() {
 //     let endbossLoaded = world.loadEndboss('./game/polloLoco.json');
 //     return Promise.all([characterLoaded, enemiesLoaded, bottleTemplateLoaded, endbossLoaded]);
 // }
+
+function logObjectTemplateChicken() {
+    console.log(world.objectManager.objectTemplates['chicken']); ///DEBUG
+}
+
+function drawChicken() {
+    let chickenImage= world.objectManager.objectTemplates['chicken'].img;
+    ctx.drawImage(chickenImage, 0, 0, chickenImage.width, chickenImage.height);
+}
 

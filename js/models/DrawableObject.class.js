@@ -15,13 +15,18 @@ class DrawableObject {
         this.img.src = imgPath;
     }
 
-    setSizeFromImage() {
+    async setSizeFromImage() {
         return this.decodeImage().then(() => {
             this.width = this.img.width;
             this.height = this.img.height;
             this.ratio = this.width / this.height;
         });
     }
+    // setSizeFromImage() {
+    //     this.width = this.img.width;
+    //     this.height = this.img.height;
+    //     this.ratio = this.width / this.height;
+    // }
 
     setSize(width, height) {
         this.width = width;
@@ -137,7 +142,7 @@ class DrawableObject {
 
 
 
-    
+
     /*###########*/
     /*## DEBUG ##*/
     /*###########*/

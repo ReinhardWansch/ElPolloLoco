@@ -3,7 +3,6 @@ class World {
     level;
     character;
     objectManager;
-    enemies = [];
     endboss;
     backgroundObjects = [];
     cloudObjects = [];
@@ -33,7 +32,6 @@ class World {
         await this.createBackgroundObjects();
         await this.createCloudObjects();
         this.setObjectManager(this.level.groundY);
-        console.log('loading Level complete'); ///DEBUG
     }
 
     setObjectManager(groundY) {
@@ -100,23 +98,6 @@ class World {
         for (let json of this.level.enemies) {
             await this.objectManager.addObject(json, this.objectManager.enemies);
         }
-    }
-
-    async loadEnemy(enemyDescription) {
-        let enemyJson = await fetch(enemyDescription.pathToJson).then(response => response.json());
-        let enemy = new MoveableObject(enemyJson.staticImagePath);
-        await enemy.setSizeFromImage();
-        enemy.loadAnimationImagesFromJson(enemyJson);
-        enemy.setHitbox(enemyJson);
-        enemy.scaleToHeight(enemyJson.height);
-        enemy.x = enemyDescription.spawnX;
-        enemy.y = enemyDescription.spawnY;
-        enemy.groundY = this.level.groundY;
-        // enemy.speedX = Math.random() * -3 + -1;
-        enemy.speedX = enemyDescription.speedX;
-        enemy.startMotion();
-        enemy.animate('walk');
-        this.enemies.push(enemy);
     }
 
     /*** Load Endboss ***/
@@ -191,7 +172,7 @@ class World {
     }
 
     drawEnemies() {
-        this.drawObjects(this.enemies);
+        this.drawObjects(this.objectManager.enemies);
     }
 
     drawEndboss() {
@@ -243,11 +224,11 @@ class World {
 
     applyGravity() {
         this.character.applyGravity(this.gravity);
-        this.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
+        this.objectManager.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
     }
 
     checkCharacterCollision() {
-        this.enemies.forEach((enemy) => {
+        this.objectManager.enemies.forEach((enemy) => {
             if (this.character.isCollision(enemy, -this.cameraX)) {
                 if (this.character.currentAnimationName != 'hurt')
                     this.character.animate('hurt', 5);
@@ -257,13 +238,13 @@ class World {
     
     checkBottleCollision() {
         this.bottles.forEach((bottle) => {
-            this.enemies.forEach((enemy)=>{
+            this.objectManager.enemies.forEach((enemy)=>{
                 if (bottle.isCollision(enemy)) {
                     this.bottles.splice(this.bottles.indexOf(bottle), 1);
                     if (bottle.isCausingDemage) {
                         enemy.stopMotion();
                         enemy.animate('die');
-                        window.setTimeout(() => {this.enemies.splice(this.enemies.indexOf(enemy),1)}, 250);
+                        window.setTimeout(() => {this.objectManager.enemies.splice(this.objectManager.enemies.indexOf(enemy),1)}, 250);
                     }
                 }
             });

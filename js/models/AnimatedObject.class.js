@@ -17,6 +17,7 @@ class AnimatedObject extends DrawableObject {
         await fetch(pathToJson)
             .then(response => response.json())
             .then(json => this.loadAnimationImagesFromJson(json));
+        console.log(this.animationImages); ///DEBUG
         return this.decodeImagesAll();
     }
 
@@ -86,5 +87,14 @@ class AnimatedObject extends DrawableObject {
     stopAnimation() {
         clearInterval(this.currentAnimationInterval);
         this.currentAnimationName = null;
+    }
+
+
+    /*###########*/
+    /*## DEBUG ##*/
+    /*###########*/
+
+    logHeight() {
+        console.log(this.height); ///DEBUG
     }
 }
