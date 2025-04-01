@@ -1,14 +1,13 @@
 class World {
     ctx;
+    keyboard;
     level;
-    character;
-    // objectManager;
-    endboss;
     backgrounds = [];
-    cloudObjects = [];
+    character;
+    enemies = [];
     bottles = [];
     bottleTemplate = {};
-    keyboard;
+    endboss;
     gravity = 0.5;
     cameraX = 0;
 
@@ -29,60 +28,23 @@ class World {
         let res= await fetch(pathToJson);
         let json = await res.json();
         this.level = json;
-        // this.setObjectManager(this.level.groundY);
-        // await this.createBackgroundObjects();
         await this.loadBackgrounds();
-        // await this.createCloudObjects();
     }
 
-    setObjectManager(groundY) {
-        this.objectManager = new ObjectManager(groundY);
-    }
-
-    /*** Backgrounds ***/
+    /*** Load Backgrounds ***/
     /*******************/
 
+    //TODO: start movement of backgrounds objects at onother place
     async loadBackgrounds() {
         for (let json of this.level.backgrounds) {
             let newBackgroundObject = new BackgroundObject(json.imagePath, json.loopsX);
             await newBackgroundObject.decodeImage();
             newBackgroundObject.setSizeFromImage();
             newBackgroundObject.scaleToHeight(this.ctx.canvas.height);
+            if (json.speedX) newBackgroundObject.speedX = json.speedX;
             this.backgrounds.push(newBackgroundObject);
         }
     }
-
-    // createBackgroundObjects() {
-    //     return this.addRepetitiveObjectsAll(this.level.backgrounds, this.backgroundObjects);
-    // }
-
-    /*** Clouds ***/
-    /**************/
-
-    async createCloudObjects() {
-        await this.addRepetitiveObjectsAll(this.level.clouds, this.cloudObjects);
-        this.cloudObjects.forEach((cloud) => {
-            cloud.mob.startMotion();
-        });
-    }
-
-    /*** Add Objects ***/
-    /*******************/
-
-    // async addRepetitiveObjectsAll(objectDescriptions, objects) {
-    //     objectDescriptions.forEach(async (descriptionI) => {
-    //         await this.addRepetitiveObject(descriptionI, objects);
-    //     });
-    // }
-
-    // async addRepetitiveObject(objectDescription, objects) {
-    //     let mob = new MoveableObject(objectDescription.imagePath);
-    //     await mob.setSizeFromImage().then(() => {
-    //         mob.scaleToHeight(this.ctx.canvas.height);
-    //         if (objectDescription.speedX) mob.speedX = objectDescription.speedX;
-    //         objects.push({ mob: mob, loopsX: objectDescription.loopsX });
-    //     });
-    // }
 
     /*** Load Character ***/
     /**********************/
@@ -157,16 +119,15 @@ class World {
             this.cameraX += this.character.speedX;
         this.clearCanvas();
         this.ctx.translate(this.cameraX, 0); //move Camera
-        this.drawBackgroundObjects();
-        this.drawCloudObjects();
-        this.drawBottles();
-        this.drawEnemies();
-        this.drawEndboss();
+        this.drawBackgrounds();
+        // this.drawBottles();
+        // this.drawEnemies();
+        // this.drawEndboss();
         this.ctx.translate(-this.cameraX, 0); //move Camera back
         this.drawCharacter();
-        this.checkCharacterCollision();
-        this.checkBottleCollision();
-        this.checkBottleStatus();
+        // this.checkCharacterCollision();
+        // this.checkBottleCollision();
+        // this.checkBottleStatus();
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
@@ -178,13 +139,8 @@ class World {
         this.drawObjects(this.backgrounds);
     }
 
-
-    drawCloudObjects() {
-        this.drawRepetitiveObjects(this.cloudObjects);
-    }
-
     drawEnemies() {
-        this.drawObjects(this.objectManager.enemies);
+        this.drawObjects(this.enemies);
     }
 
     drawEndboss() {
@@ -203,27 +159,6 @@ class World {
 
     drawObject(object) {
         object.draw(this.ctx);
-    }
-
-    drawRepetitiveObjects(objects) {
-        objects.forEach((objectI) => {
-            this.ctx.drawImage(
-                objectI.mob.img,
-                -objectI.mob.width + 1,
-                objectI.mob.y,
-                objectI.mob.width,
-                objectI.mob.height
-            );
-            for (let i = 0; i < objectI.loopsX; i++) {
-                this.ctx.drawImage(
-                    objectI.mob.img,
-                    (objectI.mob.x + i * objectI.mob.width) - i * 2,
-                    objectI.mob.y,
-                    objectI.mob.width,
-                    objectI.mob.height
-                );
-            }
-        });
     }
 
     clearCanvas() {

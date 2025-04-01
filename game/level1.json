@@ -20,10 +20,7 @@
         {
             "loopsX": 8,
             "imagePath": "./img/5_background/layers/1_first_layer/full.png"
-        }
-    ],
-
-    "clouds": [
+        },
         {
             "loopsX": 30,
             "speedX": -0.1,
