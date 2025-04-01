@@ -48,6 +48,7 @@ class AnimatedObject extends DrawableObject {
         images.forEach((img) => {
             decodedImagePromises.push(img.decode());
         });
+        Promise.all(decodedImagePromises)
         return Promise.all(decodedImagePromises);
     }
 

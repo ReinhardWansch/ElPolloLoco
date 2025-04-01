@@ -25,7 +25,7 @@ class SolidObject extends AnimatedObject {
             thisCoords.y + this.hitbox.height > otherCoords.y;
     }
 
-    getHitboxCoordinates() {
+    getHitboxCoordinates() {    
         if(this.isFlippedHorizontally) 
             return {
                 x: this.x + this.width - this.hitbox.x - this.hitbox.width,

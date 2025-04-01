@@ -156,6 +156,6 @@ class DrawableObject {
     }
 
     toString() {
-        return `DrawableObject: x=${this.x}, y=${this.y}, width=${this.width}, height=${this.height}, ratio=${this.ratio}`;
+        return `DrawableObject: x=${this.x}, y=${this.y}, width=${this.width}, height=${this.height}, ratio=${this.ratio}, hitbox=${this.hitbox}`;
     }
 }

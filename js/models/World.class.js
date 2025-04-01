@@ -2,6 +2,7 @@ class World {
     ctx;
     keyboard;
     level;
+    objectTemplates = [];
     backgrounds = [];
     character;
     enemies = [];
@@ -29,6 +30,7 @@ class World {
         let json = await res.json();
         this.level = json;
         await this.loadBackgrounds();
+        console.log('loading Level complete'); ///DEBUG
     }
 
     /*** Load Backgrounds ***/
@@ -44,6 +46,7 @@ class World {
             if (json.speedX) newBackgroundObject.speedX = json.speedX;
             this.backgrounds.push(newBackgroundObject);
         }
+        console.log('loading backgrounds complete'); ///DEBUG
     }
 
     /*** Load Character ***/
@@ -52,8 +55,10 @@ class World {
     async loadCharacter(pathToJson) {
         let json = await fetch(pathToJson).then(response => response.json());
         this.character = new Character(json.staticImagePath, this.keyboard);
+        await this.character.decodeImage();
         await this.character.setSizeFromImage();
         await this.character.loadAnimationImagesFromJson(json);
+        await this.character.decodeImagesAll();
         this.character.setHitbox(json);
         this.character.scaleToHeight(json.height);
         this.character.x = json.positionX;
@@ -61,7 +66,6 @@ class World {
         this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
         this.character.groundY = this.level.groundY;
         this.character.jumpSpeed = json.jumpSpeed;
-        return this.character.decodeImagesAll();
     }
 
     /*** Load Enemies ***/
@@ -69,9 +73,55 @@ class World {
 
     async loadEnemies() {
         for (let json of this.level.enemies) {
-            await this.objectManager.addObject(json, this.objectManager.enemies);
+            let newEnemy = new MoveableObject(json.pathToJson);
+            let enemyJson= await fetch(json.pathToJson).then(response => response.json());
+            let img = new Image();
+            img.src = enemyJson.staticImagePath;
+            newEnemy.img = img;
+            await newEnemy.decodeImage();
+            newEnemy.setSizeFromImage();
+            newEnemy.scaleToHeight(enemyJson.height);
+            await newEnemy.loadAnimationImagesFromJson(enemyJson);
+            newEnemy.setHitbox(enemyJson);
+            newEnemy.x = json.spawnX;
+            newEnemy.y = json.spawnY;
+            newEnemy.speedX = json.speedX;
+            newEnemy.groundY = this.level.groundY;
+            this.enemies.push(newEnemy);
         }
+        console.log('loadEnemies complete'); ///DEBUG
     }
+    // async loadEnemies() {
+    //     for (let json of this.level.enemies) {
+    //         let newEnemy = new MoveableObject(json.pathToJson);
+    //         newEnemy.x = json.spawnX;
+    //         newEnemy.y = json.spawnY;
+    //         newEnemy.speedX = json.speedX;
+    //         newEnemy.groundY = this.level.groundY;
+    //         if (this.objectTemplates[json.type] == undefined) {
+    //             let enemyJson= await fetch(json.pathToJson).then(response => response.json());
+    //             let img = new Image();
+    //             img.src = enemyJson.staticImagePath;
+    //             newEnemy.img = img;
+    //             await newEnemy.decodeImage();
+    //             newEnemy.setSizeFromImage();
+    //             newEnemy.scaleToHeight(enemyJson.height);
+    //             await newEnemy.loadAnimationImagesFromJson(enemyJson);
+    //             newEnemy.setHitbox(enemyJson);
+    //             this.objectTemplates[json.type] = newEnemy;
+    //         }
+    //         else {
+    //             let templateObject= this.objectTemplates[json.type];
+    //             newEnemy.img = templateObject.img;
+    //             newEnemy.animationImages = templateObject.animationImages;
+    //             newEnemy.scaleToHeight(templateObject.height);
+    //             // newEnemy.setHitbox(templateObject.hitbox);
+    //             newEnemy.hitbox = templateObject.hitbox;
+    //         }
+    //         this.enemies.push(newEnemy);
+    //     }
+    //     console.log('loadEnemies complete'); ///DEBUG
+    // }
 
     /*** Load Endboss ***/
     /********************/
@@ -113,6 +163,7 @@ class World {
     /*##########*/
 
     draw() {
+        console.log('draw()'); ///DEBUG
         if (this.keyboard.ArrowRight && this.cameraX >= this.level.rightBorderCameraX)
             this.cameraX -= this.character.speedX;
         if (this.keyboard.ArrowLeft && this.cameraX <= this.level.leftBorderCameraX)

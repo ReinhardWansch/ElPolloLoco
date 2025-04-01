@@ -18,14 +18,15 @@ function start() {
 
 async function tuEs() {
     await world.loadLevel('./game/level1.json');
-    await loadStuff();
+    // await loadStuff();
+    await world.loadCharacter('./game/pepe.json');
     // world.draw(ctx);
     // world.applyGravity(world.gravity);
 }
 
 async function loadStuff() {
     await world.loadCharacter('./game/pepe.json');
-    // await world.loadEnemies();
+    await world.loadEnemies();
     // await world.loadBottleTemplate('./game/bottle.json');
     // await world.loadEndboss('./game/polloLoco.json');
 }
