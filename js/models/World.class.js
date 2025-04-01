@@ -30,13 +30,12 @@ class World {
         let json = await res.json();
         this.level = json;
         await this.loadBackgrounds();
-        console.log('loading Level complete'); ///DEBUG
     }
 
     /*** Load Backgrounds ***/
     /*******************/
 
-    //TODO: start movement of backgrounds objects at onother place
+    //TODO: start movement of background objects at another place
     async loadBackgrounds() {
         for (let json of this.level.backgrounds) {
             let newBackgroundObject = new BackgroundObject(json.imagePath, json.loopsX);
@@ -46,7 +45,6 @@ class World {
             if (json.speedX) newBackgroundObject.speedX = json.speedX;
             this.backgrounds.push(newBackgroundObject);
         }
-        console.log('loading backgrounds complete'); ///DEBUG
     }
 
     /*** Load Character ***/
@@ -87,41 +85,10 @@ class World {
             newEnemy.y = json.spawnY;
             newEnemy.speedX = json.speedX;
             newEnemy.groundY = this.level.groundY;
+            newEnemy.startMotionX();
             this.enemies.push(newEnemy);
         }
-        console.log('loadEnemies complete'); ///DEBUG
     }
-    // async loadEnemies() {
-    //     for (let json of this.level.enemies) {
-    //         let newEnemy = new MoveableObject(json.pathToJson);
-    //         newEnemy.x = json.spawnX;
-    //         newEnemy.y = json.spawnY;
-    //         newEnemy.speedX = json.speedX;
-    //         newEnemy.groundY = this.level.groundY;
-    //         if (this.objectTemplates[json.type] == undefined) {
-    //             let enemyJson= await fetch(json.pathToJson).then(response => response.json());
-    //             let img = new Image();
-    //             img.src = enemyJson.staticImagePath;
-    //             newEnemy.img = img;
-    //             await newEnemy.decodeImage();
-    //             newEnemy.setSizeFromImage();
-    //             newEnemy.scaleToHeight(enemyJson.height);
-    //             await newEnemy.loadAnimationImagesFromJson(enemyJson);
-    //             newEnemy.setHitbox(enemyJson);
-    //             this.objectTemplates[json.type] = newEnemy;
-    //         }
-    //         else {
-    //             let templateObject= this.objectTemplates[json.type];
-    //             newEnemy.img = templateObject.img;
-    //             newEnemy.animationImages = templateObject.animationImages;
-    //             newEnemy.scaleToHeight(templateObject.height);
-    //             // newEnemy.setHitbox(templateObject.hitbox);
-    //             newEnemy.hitbox = templateObject.hitbox;
-    //         }
-    //         this.enemies.push(newEnemy);
-    //     }
-    //     console.log('loadEnemies complete'); ///DEBUG
-    // }
 
     /*** Load Endboss ***/
     /********************/
@@ -163,7 +130,6 @@ class World {
     /*##########*/
 
     draw() {
-        console.log('draw()'); ///DEBUG
         if (this.keyboard.ArrowRight && this.cameraX >= this.level.rightBorderCameraX)
             this.cameraX -= this.character.speedX;
         if (this.keyboard.ArrowLeft && this.cameraX <= this.level.leftBorderCameraX)
@@ -172,7 +138,7 @@ class World {
         this.ctx.translate(this.cameraX, 0); //move Camera
         this.drawBackgrounds();
         // this.drawBottles();
-        // this.drawEnemies();
+        this.drawEnemies();
         // this.drawEndboss();
         this.ctx.translate(-this.cameraX, 0); //move Camera back
         this.drawCharacter();
@@ -222,7 +188,7 @@ class World {
 
     applyGravity() {
         this.character.applyGravity(this.gravity);
-        this.objectManager.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
+        this.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
     }
 
     checkCharacterCollision() {

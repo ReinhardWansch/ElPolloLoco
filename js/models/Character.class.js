@@ -7,21 +7,21 @@ class Character extends MoveableObject {
         this.keyboard = keyboard;
     }
 
-    // draw(ctx) {
-    //     if (this.keyboard.ArrowRight) {
-    //         if (this.isFlippedHorizontally) this.flipHorizontally();
-    //         if (this.getFlag_StartWalkAnimation()) this.animate('walk');
-    //         // this.x += this.speedX;
-    //     }
-    //     else if (this.keyboard.ArrowLeft && this) {
-    //         if (!this.isFlippedHorizontally) this.flipHorizontally();
-    //         if (this.getFlag_StartWalkAnimation()) this.animate('walk');
-    //         // this.x -= this.speedX;
-    //     } else {
-    //         if (this.getFlag_StartIdleAnimation()) this.animate('idle');
-    //     }
-    //     super.draw(ctx);
-    // }
+    draw(ctx) {
+        if (this.keyboard.ArrowRight) {
+            if (this.isFlippedHorizontally) this.flipHorizontally();
+            if (this.getFlag_StartWalkAnimation()) this.animate('walk');
+            // this.x += this.speedX;
+        }
+        else if (this.keyboard.ArrowLeft && this) {
+            if (!this.isFlippedHorizontally) this.flipHorizontally();
+            if (this.getFlag_StartWalkAnimation()) this.animate('walk');
+            // this.x -= this.speedX;
+        } else {
+            if (this.getFlag_StartIdleAnimation()) this.animate('idle');
+        }
+        super.draw(ctx);
+    }
 
     jump() {
         if (!this.airborne) {
