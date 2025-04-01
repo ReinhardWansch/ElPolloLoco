@@ -1,14 +1,13 @@
 class World {
     ctx;
+    keyboard;
     level;
+    backgrounds = [];
     character;
     enemies = [];
-    endboss;
-    backgroundObjects = [];
-    cloudObjects = [];
     bottles = [];
     bottleTemplate = {};
-    keyboard;
+    endboss;
     gravity = 0.5;
     cameraX = 0;
 
@@ -29,43 +28,22 @@ class World {
         let res= await fetch(pathToJson);
         let json = await res.json();
         this.level = json;
-        await this.createBackgroundObjects();
-        await this.createCloudObjects();
+        await this.loadBackgrounds();
     }
 
-    /*** Backgrounds ***/
+    /*** Load Backgrounds ***/
     /*******************/
 
-    createBackgroundObjects() {
-        return this.addRepetitiveObjectsAll(this.level.backgrounds, this.backgroundObjects);
-    }
-
-    /*** Clouds ***/
-    /**************/
-
-    async createCloudObjects() {
-        await this.addRepetitiveObjectsAll(this.level.clouds, this.cloudObjects);
-        this.cloudObjects.forEach((cloud) => {
-            cloud.mob.startMotion();
-        });
-    }
-
-    /*** Add Objects ***/
-    /*******************/
-
-    async addRepetitiveObjectsAll(objectDescriptions, objects) {
-        objectDescriptions.forEach(async (descriptionI) => {
-            await this.addRepetitiveObject(descriptionI, objects);
-        });
-    }
-
-    async addRepetitiveObject(objectDescription, objects) {
-        let mob = new MoveableObject(objectDescription.imagePath);
-        await mob.setSizeFromImage().then(() => {
-            mob.scaleToHeight(this.ctx.canvas.height);
-            if (objectDescription.speedX) mob.speedX = objectDescription.speedX;
-            objects.push({ mob: mob, loopsX: objectDescription.loopsX });
-        });
+    //TODO: start movement of backgrounds objects at onother place
+    async loadBackgrounds() {
+        for (let json of this.level.backgrounds) {
+            let newBackgroundObject = new BackgroundObject(json.imagePath, json.loopsX);
+            await newBackgroundObject.decodeImage();
+            newBackgroundObject.setSizeFromImage();
+            newBackgroundObject.scaleToHeight(this.ctx.canvas.height);
+            if (json.speedX) newBackgroundObject.speedX = json.speedX;
+            this.backgrounds.push(newBackgroundObject);
+        }
     }
 
     /*** Load Character ***/
@@ -89,30 +67,10 @@ class World {
     /*** Load Enemies ***/
     /********************/
 
-    loadEnemies() {
-        let enemiesReady = [];
-        this.level.enemies.forEach((enemyDescription) => {
-            let enemyReady = this.loadEnemy(enemyDescription);
-            enemiesReady.push(enemyReady);
-        });
-        return Promise.all(enemiesReady);
-    }
-
-    async loadEnemy(enemyDescription) {
-        let enemyJson = await fetch(enemyDescription.pathToJson).then(response => response.json());
-        let enemy = new MoveableObject(enemyJson.staticImagePath);
-        await enemy.setSizeFromImage();
-        enemy.loadAnimationImagesFromJson(enemyJson);
-        enemy.setHitbox(enemyJson);
-        enemy.scaleToHeight(enemyJson.height);
-        enemy.x = enemyDescription.spawnX;
-        enemy.y = enemyDescription.spawnY;
-        enemy.groundY = this.level.groundY;
-        // enemy.speedX = Math.random() * -3 + -1;
-        enemy.speedX = enemyDescription.speedX;
-        enemy.startMotion();
-        enemy.animate('walk');
-        this.enemies.push(enemy);
+    async loadEnemies() {
+        for (let json of this.level.enemies) {
+            await this.objectManager.addObject(json, this.objectManager.enemies);
+        }
     }
 
     /*** Load Endboss ***/
@@ -161,16 +119,15 @@ class World {
             this.cameraX += this.character.speedX;
         this.clearCanvas();
         this.ctx.translate(this.cameraX, 0); //move Camera
-        this.drawBackgroundObjects();
-        this.drawCloudObjects();
-        this.drawBottles();
-        this.drawEnemies();
-        this.drawEndboss();
+        this.drawBackgrounds();
+        // this.drawBottles();
+        // this.drawEnemies();
+        // this.drawEndboss();
         this.ctx.translate(-this.cameraX, 0); //move Camera back
         this.drawCharacter();
-        this.checkCharacterCollision();
-        this.checkBottleCollision();
-        this.checkBottleStatus();
+        // this.checkCharacterCollision();
+        // this.checkBottleCollision();
+        // this.checkBottleStatus();
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
@@ -178,12 +135,8 @@ class World {
         this.drawObject(this.character);
     }
 
-    drawBackgroundObjects() {
-        this.drawRepetitiveObjects(this.backgroundObjects);
-    }
-
-    drawCloudObjects() {
-        this.drawRepetitiveObjects(this.cloudObjects);
+    drawBackgrounds() {
+        this.drawObjects(this.backgrounds);
     }
 
     drawEnemies() {
@@ -208,27 +161,6 @@ class World {
         object.draw(this.ctx);
     }
 
-    drawRepetitiveObjects(objects) {
-        objects.forEach((objectI) => {
-            this.ctx.drawImage(
-                objectI.mob.img,
-                -objectI.mob.width + 1,
-                objectI.mob.y,
-                objectI.mob.width,
-                objectI.mob.height
-            );
-            for (let i = 0; i < objectI.loopsX; i++) {
-                this.ctx.drawImage(
-                    objectI.mob.img,
-                    (objectI.mob.x + i * objectI.mob.width) - i * 2,
-                    objectI.mob.y,
-                    objectI.mob.width,
-                    objectI.mob.height
-                );
-            }
-        });
-    }
-
     clearCanvas() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
@@ -239,11 +171,11 @@ class World {
 
     applyGravity() {
         this.character.applyGravity(this.gravity);
-        this.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
+        this.objectManager.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
     }
 
     checkCharacterCollision() {
-        this.enemies.forEach((enemy) => {
+        this.objectManager.enemies.forEach((enemy) => {
             if (this.character.isCollision(enemy, -this.cameraX)) {
                 if (this.character.currentAnimationName != 'hurt')
                     this.character.animate('hurt', 5);
@@ -253,13 +185,13 @@ class World {
     
     checkBottleCollision() {
         this.bottles.forEach((bottle) => {
-            this.enemies.forEach((enemy)=>{
+            this.objectManager.enemies.forEach((enemy)=>{
                 if (bottle.isCollision(enemy)) {
                     this.bottles.splice(this.bottles.indexOf(bottle), 1);
                     if (bottle.isCausingDemage) {
                         enemy.stopMotion();
                         enemy.animate('die');
-                        window.setTimeout(() => {this.enemies.splice(this.enemies.indexOf(enemy),1)}, 250);
+                        window.setTimeout(() => {this.objectManager.enemies.splice(this.objectManager.enemies.indexOf(enemy),1)}, 250);
                     }
                 }
             });
@@ -268,7 +200,6 @@ class World {
 
     //TODO.refactor with Object.assign(..)
     spawnBottle() {
-        console.log('spawnBottle'); ///DEBUG
         let newBottle = new Bottle('');
         newBottle.airborne = true;
         newBottle.img = this.bottleTemplate.img;

@@ -20,10 +20,7 @@
         {
             "loopsX": 8,
             "imagePath": "./img/5_background/layers/1_first_layer/full.png"
-        }
-    ],
-
-    "clouds": [
+        },
         {
             "loopsX": 30,
             "speedX": -0.1,
@@ -33,76 +30,88 @@
 
     "enemies": [
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 900,
-            "speedX": -1,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 1800,
-            "speedX": -1.1,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 2600,
-            "speedX": -1.3,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 3500,
-            "speedX": -1.1,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 4500,
-            "speedX": -1,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 4800,
-            "speedX": -1,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 6000,
-            "speedX": -1.5,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 6100,
-            "speedX": -1.5,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 7100,
-            "speedX": -1,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 9000,
-            "speedX": -1,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 9100,
-            "speedX": -1,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         },
         {
+            "type": "chicken",
             "pathToJson": "./game/chicken.json",
             "spawnX": 9200,
-            "speedX": -1,
-            "spawnY": 300
+            "spawnY": 300,
+            "speedX": -1
         }
 
     ]
