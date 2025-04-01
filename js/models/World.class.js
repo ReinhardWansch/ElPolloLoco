@@ -142,7 +142,7 @@ class World {
         // this.drawEndboss();
         this.ctx.translate(-this.cameraX, 0); //move Camera back
         this.drawCharacter();
-        // this.checkCharacterCollision();
+        this.checkCharacterCollision();
         // this.checkBottleCollision();
         // this.checkBottleStatus();
         window.requestAnimationFrame(() => this.draw(this.ctx));
@@ -192,7 +192,7 @@ class World {
     }
 
     checkCharacterCollision() {
-        this.objectManager.enemies.forEach((enemy) => {
+        this.enemies.forEach((enemy) => {
             if (this.character.isCollision(enemy, -this.cameraX)) {
                 if (this.character.currentAnimationName != 'hurt')
                     this.character.animate('hurt', 5);
