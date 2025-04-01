@@ -2,9 +2,9 @@ class World {
     ctx;
     level;
     character;
-    objectManager;
+    // objectManager;
     endboss;
-    backgroundObjects = [];
+    backgrounds = [];
     cloudObjects = [];
     bottles = [];
     bottleTemplate = {};
@@ -29,9 +29,10 @@ class World {
         let res= await fetch(pathToJson);
         let json = await res.json();
         this.level = json;
+        // this.setObjectManager(this.level.groundY);
         // await this.createBackgroundObjects();
+        await this.loadBackgrounds();
         // await this.createCloudObjects();
-        this.setObjectManager(this.level.groundY);
     }
 
     setObjectManager(groundY) {
@@ -40,6 +41,16 @@ class World {
 
     /*** Backgrounds ***/
     /*******************/
+
+    async loadBackgrounds() {
+        for (let json of this.level.backgrounds) {
+            let newBackgroundObject = new BackgroundObject(json.imagePath, json.loopsX);
+            await newBackgroundObject.decodeImage();
+            newBackgroundObject.setSizeFromImage();
+            newBackgroundObject.scaleToHeight(this.ctx.canvas.height);
+            this.backgrounds.push(newBackgroundObject);
+        }
+    }
 
     // createBackgroundObjects() {
     //     return this.addRepetitiveObjectsAll(this.level.backgrounds, this.backgroundObjects);
@@ -163,9 +174,10 @@ class World {
         this.drawObject(this.character);
     }
 
-    drawBackgroundObjects() {
-        this.drawRepetitiveObjects(this.backgroundObjects);
+    drawBackgrounds() {
+        this.drawObjects(this.backgrounds);
     }
+
 
     drawCloudObjects() {
         this.drawRepetitiveObjects(this.cloudObjects);
