@@ -72,28 +72,23 @@ class World {
     /********************/
 
     async loadEnemies() {
-        let newEnemy = new MoveableObject('');
         for (let json of this.level.enemies) {
-            if (this.objectTemplates[json.type]) {
-                let template = this.objectTemplates[json.type];
-                newEnemy= Object.create(template);
-            } else {
+            if (!this.objectTemplates[json.type]) {
                 let enemyJson = await fetch(json.pathToJson).then(response => response.json());
-                let img = new Image();
-                img.src = enemyJson.staticImagePath;
-                newEnemy.img = img;
-                await newEnemy.decodeImage();
-                newEnemy.setSizeFromImage();
-                newEnemy.scaleToHeight(enemyJson.height);
-                newEnemy.loadAnimationImagesFromJson(enemyJson);
-                await newEnemy.decodeImagesAll();
-                newEnemy.setHitbox(enemyJson);
-                this.objectTemplates[json.type] = newEnemy;            
+                let templateObject = new MoveableObject(enemyJson.staticImagePath);
+                await templateObject.decodeImage();
+                templateObject.setSizeFromImage();
+                templateObject.scaleToHeight(enemyJson.height);
+                templateObject.loadAnimationImagesFromJson(enemyJson);
+                await templateObject.decodeImagesAll();
+                templateObject.setHitbox(enemyJson);
+                this.objectTemplates[json.type] = templateObject;
             }
+            let newEnemy= Object.create(this.objectTemplates[json.type]);
             newEnemy.x = json.spawnX;
             newEnemy.y = json.spawnY;
-            newEnemy.groundY = this.level.groundY;
             newEnemy.speedX = json.speedX;
+            newEnemy.groundY = this.level.groundY;
             this.enemies.push(newEnemy);
         }
     }
