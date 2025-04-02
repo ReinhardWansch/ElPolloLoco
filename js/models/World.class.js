@@ -7,7 +7,6 @@ class World {
     character;
     enemies = [];
     bottles = [];
-    // bottleTemplate = {};
     endboss;
     gravity = 0.5;
     cameraX = 0;

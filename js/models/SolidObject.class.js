@@ -8,7 +8,7 @@ class SolidObject extends AnimatedObject {
 
     draw(ctx) {
         super.draw(ctx);
-        this.drawHitbox(ctx);
+        this.drawHitbox(ctx); ///DEBUG
     }
 
     setHitbox(json) {

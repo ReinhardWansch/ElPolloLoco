@@ -8,7 +8,6 @@ class Bottle extends MoveableObject {
     }
 
     draw(ctx) {
-        console.log('bottle.draw(ctx)'); ///DEBUG
         if (!this.airborne) {
             this.isCausingDemage = false;
             if (this.currentAnimationName != 'splash') this.animate('splash');
