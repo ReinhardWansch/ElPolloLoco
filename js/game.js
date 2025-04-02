@@ -27,7 +27,7 @@ async function tuEs() {
 async function loadStuff() {
     await world.loadCharacter('./game/pepe.json');
     await world.loadEnemies();
-    // await world.loadBottleTemplate('./game/bottle.json');
+    await world.loadBottleTemplate('./game/bottle.json');
     // await world.loadEndboss('./game/polloLoco.json');
 }
 

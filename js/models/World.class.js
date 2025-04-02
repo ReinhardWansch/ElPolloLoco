@@ -123,7 +123,7 @@ class World {
 
     async loadBottleTemplate(pathToJson) {
         let bottleJson = await fetch(pathToJson).then(res => res.json());
-        let bottleTemplate = new MoveableObject(bottleJson.staticImagePath);
+        let bottleTemplate = new Bottle(bottleJson.staticImagePath);
         await bottleTemplate.loadAnimationImagesFromJson(bottleJson);
         await bottleTemplate.decodeImagesAll();
         await bottleTemplate.decodeImage();
@@ -140,7 +140,6 @@ class World {
     }
 
     spawnBottle() {
-        console.log('spawnBottle()'); ///DEBUG
         let newBottle = Object.create(this.objectTemplates['bottle']);
         let template= this.objectTemplates['bottle'];
         newBottle.x = -this.cameraX + this.character.x + template.characterOffsetX;
@@ -150,7 +149,7 @@ class World {
         }
         if (this.character.isFlippedHorizontally) newBottle.speedX *= -1;
         newBottle.startMotion();
-        // newBottle.animate('rotate');
+        newBottle.animate('rotate');
         newBottle.applyGravity(this.gravity);
         this.bottles.push(newBottle);
     }
@@ -173,8 +172,8 @@ class World {
         this.ctx.translate(-this.cameraX, 0); //move Camera back
         this.drawCharacter();
         this.checkCharacterCollision();
-        // this.checkBottleCollision();
-        // this.checkBottleStatus();
+        this.checkBottleCollision();
+        this.checkBottleStatus();
         window.requestAnimationFrame(() => this.draw(this.ctx));
     }
 
@@ -232,13 +231,14 @@ class World {
 
     checkBottleCollision() {
         this.bottles.forEach((bottle) => {
-            this.objectManager.enemies.forEach((enemy) => {
+            this.enemies.forEach((enemy) => {
                 if (bottle.isCollision(enemy)) {
                     this.bottles.splice(this.bottles.indexOf(bottle), 1);
                     if (bottle.isCausingDemage) {
+                        //TODO: die function at movableObject or LivingObject class (to be created)
                         enemy.stopMotion();
                         enemy.animate('die');
-                        window.setTimeout(() => { this.objectManager.enemies.splice(this.objectManager.enemies.indexOf(enemy), 1) }, 250);
+                        window.setTimeout(() => { this.enemies.splice(this.enemies.indexOf(enemy), 1) }, 250);
                     }
                 }
             });
