@@ -20,7 +20,7 @@ async function tuEs() {
     await world.loadLevel('./game/level1.json');
     await loadStuff();
     world.draw(ctx);
-    // world.applyGravity(world.gravity);
+    world.applyGravity(world.gravity);
     startEnemyMovement();
 }
 
