@@ -26,7 +26,7 @@ class World {
     /******************/
 
     async loadLevel(pathToJson) {
-        let res= await fetch(pathToJson);
+        let res = await fetch(pathToJson);
         let json = await res.json();
         this.level = json;
         await this.loadBackgrounds();
@@ -66,28 +66,67 @@ class World {
         this.character.jumpSpeed = json.jumpSpeed;
     }
 
+
+
     /*** Load Enemies ***/
     /********************/
 
     async loadEnemies() {
+        let newEnemy = new MoveableObject('');
         for (let json of this.level.enemies) {
-            let newEnemy = new MoveableObject(json.pathToJson);
-            let enemyJson= await fetch(json.pathToJson).then(response => response.json());
-            let img = new Image();
-            img.src = enemyJson.staticImagePath;
-            newEnemy.img = img;
-            await newEnemy.decodeImage();
-            newEnemy.setSizeFromImage();
-            newEnemy.scaleToHeight(enemyJson.height);
-            await newEnemy.loadAnimationImagesFromJson(enemyJson);
-            newEnemy.setHitbox(enemyJson);
+            if (this.objectTemplates[json.type]) {
+                let template = this.objectTemplates[json.type];
+                // Object.assign(newEnemy, {
+                //     img: template.img,
+                //     animationImages: template.animationImages,
+                //     width: template.width,
+                //     height: template.height,
+                //     ratio: template.ratio,
+                // });
+                newEnemy= Object.create(template);
+            } else {
+                let enemyJson = await fetch(json.pathToJson).then(response => response.json());
+                let img = new Image();
+                img.src = enemyJson.staticImagePath;
+                newEnemy.img = img;
+                await newEnemy.decodeImage();
+                newEnemy.setSizeFromImage();
+                newEnemy.scaleToHeight(enemyJson.height);
+                newEnemy.loadAnimationImagesFromJson(enemyJson);
+                await newEnemy.decodeImagesAll();
+                newEnemy.setHitbox(enemyJson);
+                // this.objectTemplates[json.type] = Object.create(newEnemy);
+                this.objectTemplates[json.type] = newEnemy;                
+                console.log('neues Template: ', json.type, this.objectTemplates[json.type].toString()); ///DEBUG
+            }
             newEnemy.x = json.spawnX;
             newEnemy.y = json.spawnY;
-            newEnemy.speedX = json.speedX;
             newEnemy.groundY = this.level.groundY;
+            newEnemy.speedX = json.speedX;
+            console.log(this.objectTemplates[json.type].toString()); ///DEBUG
             this.enemies.push(newEnemy);
         }
     }
+
+    // async loadEnemies() {
+    //     for (let json of this.level.enemies) {
+    //         let newEnemy = new MoveableObject(json.pathToJson);
+    //         let enemyJson= await fetch(json.pathToJson).then(response => response.json());
+    //         let img = new Image();
+    //         img.src = enemyJson.staticImagePath;
+    //         newEnemy.img = img;
+    //         await newEnemy.decodeImage();
+    //         newEnemy.setSizeFromImage();
+    //         newEnemy.scaleToHeight(enemyJson.height);
+    //         await newEnemy.loadAnimationImagesFromJson(enemyJson);
+    //         newEnemy.setHitbox(enemyJson);
+    //         newEnemy.x = json.spawnX;
+    //         newEnemy.y = json.spawnY;
+    //         newEnemy.speedX = json.speedX;
+    //         newEnemy.groundY = this.level.groundY;
+    //         this.enemies.push(newEnemy);
+    //     }
+    // }
 
     /*** Load Endboss ***/
     /********************/
@@ -198,16 +237,16 @@ class World {
             }
         });
     }
-    
+
     checkBottleCollision() {
         this.bottles.forEach((bottle) => {
-            this.objectManager.enemies.forEach((enemy)=>{
+            this.objectManager.enemies.forEach((enemy) => {
                 if (bottle.isCollision(enemy)) {
                     this.bottles.splice(this.bottles.indexOf(bottle), 1);
                     if (bottle.isCausingDemage) {
                         enemy.stopMotion();
                         enemy.animate('die');
-                        window.setTimeout(() => {this.objectManager.enemies.splice(this.objectManager.enemies.indexOf(enemy),1)}, 250);
+                        window.setTimeout(() => { this.objectManager.enemies.splice(this.objectManager.enemies.indexOf(enemy), 1) }, 250);
                     }
                 }
             });
