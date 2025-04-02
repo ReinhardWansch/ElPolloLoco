@@ -74,44 +74,32 @@ class World {
     async loadEnemies() {
         for (let json of this.level.enemies) {
             if (!this.objectTemplates[json.type]) {
-                let enemyJson = await fetch(json.pathToJson).then(response => response.json());
-                let templateObject = new MoveableObject(enemyJson.staticImagePath);
-                await templateObject.decodeImage();
-                templateObject.setSizeFromImage();
-                templateObject.scaleToHeight(enemyJson.height);
-                templateObject.loadAnimationImagesFromJson(enemyJson);
-                await templateObject.decodeImagesAll();
-                templateObject.setHitbox(enemyJson);
-                this.objectTemplates[json.type] = templateObject;
+                await this.createTemplateObject(json);
             }
-            let newEnemy= Object.create(this.objectTemplates[json.type]);
-            newEnemy.x = json.spawnX;
-            newEnemy.y = json.spawnY;
-            newEnemy.speedX = json.speedX;
-            newEnemy.groundY = this.level.groundY;
-            this.enemies.push(newEnemy);
+            this.spawnEnemy(json);
         }
     }
-
-    // async loadEnemies() {
-    //     for (let json of this.level.enemies) {
-    //         let newEnemy = new MoveableObject(json.pathToJson);
-    //         let enemyJson= await fetch(json.pathToJson).then(response => response.json());
-    //         let img = new Image();
-    //         img.src = enemyJson.staticImagePath;
-    //         newEnemy.img = img;
-    //         await newEnemy.decodeImage();
-    //         newEnemy.setSizeFromImage();
-    //         newEnemy.scaleToHeight(enemyJson.height);
-    //         await newEnemy.loadAnimationImagesFromJson(enemyJson);
-    //         newEnemy.setHitbox(enemyJson);
-    //         newEnemy.x = json.spawnX;
-    //         newEnemy.y = json.spawnY;
-    //         newEnemy.speedX = json.speedX;
-    //         newEnemy.groundY = this.level.groundY;
-    //         this.enemies.push(newEnemy);
-    //     }
-    // }
+    
+    async createTemplateObject(json) {
+        let enemyJson = await fetch(json.pathToJson).then(response => response.json());
+        let templateObject = new MoveableObject(enemyJson.staticImagePath);
+        await templateObject.decodeImage();
+        templateObject.setSizeFromImage();
+        templateObject.scaleToHeight(enemyJson.height);
+        templateObject.loadAnimationImagesFromJson(enemyJson);
+        await templateObject.decodeImagesAll();
+        templateObject.setHitbox(enemyJson);
+        this.objectTemplates[json.type] = templateObject;
+    }
+    
+    spawnEnemy(json) {
+        let newEnemy= Object.create(this.objectTemplates[json.type]);
+        newEnemy.x = json.spawnX;
+        newEnemy.y = json.spawnY;
+        newEnemy.speedX = json.speedX;
+        newEnemy.groundY = this.level.groundY;
+        this.enemies.push(newEnemy);
+    }
 
     /*** Load Endboss ***/
     /********************/
