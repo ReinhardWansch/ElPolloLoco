@@ -21,7 +21,7 @@ async function tuEs() {
     await loadStuff();
     world.draw(ctx);
     // world.applyGravity(world.gravity);
-    // startEnemyMovement();
+    startEnemyMovement();
 }
 
 async function loadStuff() {
@@ -35,5 +35,6 @@ function startEnemyMovement() {
     world.enemies.forEach(enemy => {
         enemy.startMotionX();
         enemy.animate('walk');
+
     });
 }

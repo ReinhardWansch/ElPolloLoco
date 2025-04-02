@@ -76,13 +76,6 @@ class World {
         for (let json of this.level.enemies) {
             if (this.objectTemplates[json.type]) {
                 let template = this.objectTemplates[json.type];
-                // Object.assign(newEnemy, {
-                //     img: template.img,
-                //     animationImages: template.animationImages,
-                //     width: template.width,
-                //     height: template.height,
-                //     ratio: template.ratio,
-                // });
                 newEnemy= Object.create(template);
             } else {
                 let enemyJson = await fetch(json.pathToJson).then(response => response.json());
@@ -95,15 +88,12 @@ class World {
                 newEnemy.loadAnimationImagesFromJson(enemyJson);
                 await newEnemy.decodeImagesAll();
                 newEnemy.setHitbox(enemyJson);
-                // this.objectTemplates[json.type] = Object.create(newEnemy);
-                this.objectTemplates[json.type] = newEnemy;                
-                console.log('neues Template: ', json.type, this.objectTemplates[json.type].toString()); ///DEBUG
+                this.objectTemplates[json.type] = newEnemy;            
             }
             newEnemy.x = json.spawnX;
             newEnemy.y = json.spawnY;
             newEnemy.groundY = this.level.groundY;
             newEnemy.speedX = json.speedX;
-            console.log(this.objectTemplates[json.type].toString()); ///DEBUG
             this.enemies.push(newEnemy);
         }
     }

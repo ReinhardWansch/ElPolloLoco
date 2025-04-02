@@ -41,7 +41,7 @@ class MoveableObject extends SolidObject {
 
     stopMotionX() {
         clearInterval(this.currentMotionIntervalX);
-        this.currentAnimationIntervalX = null;
+        this.currentMotionIntervalX = null;
     }
 
     stopMotionY() {
@@ -55,6 +55,7 @@ class MoveableObject extends SolidObject {
 
     //TODO refactor applyGravity
     applyGravity(g) {
+        console.log('applyGravity()'); ///DEBUG
         this.stopMotionY();
         this.currentMotionIntervalY = window.setInterval(() => {
             if (this.y + this.height < this.groundY) {
