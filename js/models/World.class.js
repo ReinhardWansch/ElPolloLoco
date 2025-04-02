@@ -85,7 +85,6 @@ class World {
             newEnemy.y = json.spawnY;
             newEnemy.speedX = json.speedX;
             newEnemy.groundY = this.level.groundY;
-            newEnemy.startMotionX();
             this.enemies.push(newEnemy);
         }
     }
