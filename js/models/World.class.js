@@ -106,13 +106,15 @@ class World {
     async loadEndboss(pathToJson) {
         let json = await fetch(pathToJson).then(response => response.json());
         this.endboss = new Endboss(json.staticImagePath);
-        await this.endboss.setSizeFromImage();
-        await this.endboss.loadAnimationImagesFromJson(json);
-        this.endboss.setHitbox(json);
+        this.endboss.setSizeFromImage();
+        this.endboss.loadAnimationImagesFromJson(json);
+        await this.endboss.decodeImage();
+        await this.endboss.decodeImagesAll();
         this.endboss.scaleToHeight(json.height);
         this.endboss.x = json.positionX;
         this.endboss.speedX = json.speedX;
         this.endboss.groundY = json.groundY;
+        this.endboss.setHitbox(json);
         this.endboss.applyGravity(this.gravity);
         return this.endboss.decodeImagesAll();
     }
@@ -167,7 +169,7 @@ class World {
         this.drawBackgrounds();
         this.drawBottles();
         this.drawEnemies();
-        // this.drawEndboss();
+        this.drawEndboss();
         this.ctx.translate(-this.cameraX, 0); //move Camera back
         this.drawCharacter();
         this.checkCharacterCollision();
