@@ -110,6 +110,7 @@ class World {
         this.endboss.loadAnimationImagesFromJson(json);
         await this.endboss.decodeImage();
         await this.endboss.decodeImagesAll();
+        this.endboss.setSizeFromImage();
         this.endboss.scaleToHeight(json.height);
         this.endboss.x = json.positionX;
         this.endboss.speedX = json.speedX;
