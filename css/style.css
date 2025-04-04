@@ -20,17 +20,20 @@
 
 .canvasCtn {
     position: relative;
+    width: 100%;
+    min-width: 300px;
+    max-width: 850px;
     background-color: lightcoral;
 }
+/* @media screen and (width < 768px) {
+    .canvasCtn {
+        width: 100%;
+    }
+} */
 
 canvas {
     background-color: black;
-}
-@media screen and (width < 768px) {
-    canvas {
-        width: 100%;
-        height: auto;
-    }
+    width: 100%;
 }
 
 #hudCtn {
@@ -44,6 +47,13 @@ canvas {
 
 .hudArea {
     background-color: lightgreen;
+}
+
+.statusbar {
+    /* height: 60px; */
+    height: clamp(1.25rem, -0.114rem + 7.273vw, 3.75rem);
+    display: flex;
+    flex-direction: column;
 }
 
 
