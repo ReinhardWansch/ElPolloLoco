@@ -1,5 +1,6 @@
 //TODO: Design Page
-//TODO: Dead Chickens can hurt Pepe
+//TODO: Move Clouds
+//TODO: Frage: Warum ist das Container-Div-Element höher als das Canvas-Element?
 
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");

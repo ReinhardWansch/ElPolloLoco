@@ -1,8 +1,68 @@
+/*###########*/
+/*## RESET ##*/
+/*###########*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*###########*/
+/*## STYLE ##*/
+/*###########*/
+
+.centerCtn {
+    display: flex;
+    justify-content: center;
+    background-color: darkgray;
+}
+
+.canvasCtn {
+    position: relative;
+    background-color: lightcoral;
+}
 
 canvas {
     background-color: black;
 }
+@media screen and (width < 768px) {
+    canvas {
+        width: 100%;
+        height: auto;
+    }
+}
 
 #hudCtn {
-    width: 100%;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    min-width: 100%;
+    border: 1px solid red;
+}
+
+.hudArea {
+    background-color: lightgreen;
+}
+
+
+
+/*###########*/
+/*## DEBUG ##*/
+/*###########*/
+
+.containerTesten {
+    height: 300px;
+}
+
+.centering {
+    width: 100vw;
+    background-color: darkgray;
+    display: flex;
+    justify-content: center;
+}
+
+.limitig {
+    position: relative;
 }

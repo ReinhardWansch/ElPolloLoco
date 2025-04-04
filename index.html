@@ -4,13 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/style.css">
     <title>El pollo loco</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-        crossorigin="anonymous"></script>
     <script src="./js/models/Keyboard.class.js"></script>
     <script src="./js/models/DrawableObject.class.js"></script>
     <script src="./js/models/AnimatedObject.class.js"></script>
@@ -25,20 +20,22 @@
 </head>
 <!-- <body onload="window.setTimeout(init, 1500)"> -->
 <!-- <body onload="init()"> -->
-
 <body onload="tuEs()">
 
     <body>
         <h1>El pollo loco</h1>
-        <div id="canvasCtn" class="container position-relative">
-            <canvas id="canvasElem" width="720" height="480"></canvas>
 
-            <div id="hudCtn" class="position-absolute top-0 p-0 d-flex justify-content-between">
-                    <div id="hudTopLeftCtn" class="text-bg-info p-3 border border-danger">top left</div>
-                    <div id="hudTopRightCtn" class="text-bg-info p-3 border border-danger">top right</div>
+        <div class="centerCtn">
+            <div class="canvasCtn">
+                <canvas id="canvasElem" class="" width="720" height="480"></canvas>
+                
+                <div id="hudCtn">
+                    <div class="hudArea">eins</div>
+                    <div class="hudArea">zwo</div>
+                </div>
             </div>
         </div>
-
+        
     </body>
 
 </html>
