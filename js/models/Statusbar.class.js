@@ -16,13 +16,25 @@ class Statusbar {
     }
 
     increase() {
-        let htmlElement= document.getElementById(this.htmlElementId);
-        htmlElement.src= this.imagePaths[++this.currentImageIndex];
+        if (!this.isFull()){
+            let htmlElement= document.getElementById(this.htmlElementId);
+            htmlElement.src= this.imagePaths[++this.currentImageIndex];
+        }
     }
     
     decrease() {
-        let htmlElement= document.getElementById(this.htmlElementId);
-        htmlElement.src= this.imagePaths[--this.currentImageIndex];
+        if (!this.isEmpty()){
+            let htmlElement= document.getElementById(this.htmlElementId);
+            htmlElement.src= this.imagePaths[--this.currentImageIndex];
+        }
+    }
+
+    isEmpty() {
+        return this.currentImageIndex <= 0;
+    }
+
+    isFull() {
+        return this.currentImageIndex >= this.imagePaths.length - 1;
     }
 
 
