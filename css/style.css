@@ -15,7 +15,6 @@
 .centerCtn {
     display: flex;
     justify-content: center;
-    background-color: darkgray;
 }
 
 .canvasCtn {
@@ -23,7 +22,6 @@
     width: 100%;
     min-width: 300px;
     max-width: 850px;
-    background-color: lightcoral;
 }
 /* @media screen and (width < 768px) {
     .canvasCtn {
@@ -39,14 +37,13 @@ canvas {
 #hudCtn {
     position: absolute;
     top: 0;
+    padding-inline: 1%;
     display: flex;
     justify-content: space-between;
     min-width: 100%;
-    border: 1px solid red;
 }
 
 .hudArea {
-    background-color: lightgreen;
 }
 
 .statusbar {
@@ -68,7 +65,6 @@ canvas {
 
 .centering {
     width: 100vw;
-    background-color: darkgray;
     display: flex;
     justify-content: center;
 }
