@@ -1,4 +1,4 @@
-class SolidObject extends AnimatedObject {
+class HitableObject extends AnimatedObject {
     hitbox = {
         x: 0,
         y: 0,

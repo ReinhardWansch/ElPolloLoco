@@ -7,7 +7,7 @@ class Statusbar {
         this.htmlElementId = htmlElementId;
     }
 
-    async loadValueImages(pathToJson) {
+    async loadImagePaths(pathToJson) {
         let json= await fetch(pathToJson).then(response => response.json());
         json.valueImagePaths.forEach((valueImagePathObject) => {
             this.imagePaths.push(valueImagePathObject.imagePath);

@@ -1,4 +1,4 @@
-class MoveableObject extends SolidObject {
+class MoveableObject extends HitableObject {
     speedX = 0;
     speedY = 0;
     currentMotionIntervalX;

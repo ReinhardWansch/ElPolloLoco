@@ -42,5 +42,5 @@ function startEnemyMovement() {
 
 let x= new Statusbar('healthbar');
 async function tuEs2() {
-    await x.loadValueImages('./game/healthbar.json');
+    await x.loadImagePaths('./game/healthbar.json');
 }
