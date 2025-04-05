@@ -40,7 +40,7 @@ function startEnemyMovement() {
     });
 }
 
-let x= new Statusbar('healthbar');
+// let x= new Statusbar('healthbar');
 async function tuEs2() {
     await x.loadImagePaths('./game/healthbar.json');
 }

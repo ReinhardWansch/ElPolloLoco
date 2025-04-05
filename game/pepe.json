@@ -10,6 +10,7 @@
         "width": 76,
         "height": 116
     },
+    "healthbarId": "healthbar",
     "animations": [
         {
             "name": "idle",

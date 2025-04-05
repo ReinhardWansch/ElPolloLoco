@@ -1,6 +1,8 @@
 class Character extends MoveableObject {
     keyboard;
     jumpSpeed = -5;
+    healthbar;
+    dieInterval;
 
     constructor(imgPath, keyboard) {
         super(imgPath);
@@ -32,11 +34,44 @@ class Character extends MoveableObject {
         }
     }
 
+    hurt() {
+        if (this.healthbar.isEmpty()) {
+            console.log('Ich bin tot'); ///DEBUG 
+            this.die();     
+        } else if (this.currentAnimationName != 'hurt') {
+            this.animate('hurt', 5);
+            console.log('Heeeee!'); ///DEBUG
+            this.healthbar.decrease();
+        }
+    }
+
+    die() {
+        if (this.currentAnimationName != 'die') {
+            this.animate('die');
+            this.stopMotion();
+            let count= 0;
+            this.dieInterval= window.setInterval(() => {
+                if (count++ >= this.animationImages.die.images.length) {
+                    clearInterval(this.dieInterval);
+                    this.dieInterval= null;
+                    this.stopAnimation();
+                    // TODO show endscreen
+                } else {
+                    this.y -= 10;            
+                }
+            }, this.animationImages.die.imageDuration);
+        }
+    }
+
     getFlag_StartWalkAnimation() {
-        return !this.airborne && this.currentAnimationName != 'walk' && this.currentAnimationName != 'hurt';
+        return !this.airborne && this.currentAnimationName != 'walk' 
+            && this.currentAnimationName != 'hurt' 
+            && this.currentAnimationName != 'die';
     }
     
     getFlag_StartIdleAnimation() {
-        return !this.airborne && this.currentAnimationName != 'idle' && this.currentAnimationName != 'hurt';
+        return !this.airborne && this.currentAnimationName != 'idle' 
+            && this.currentAnimationName != 'hurt'
+            && this.currentAnimationName != 'die';
     }
 }

@@ -56,13 +56,14 @@ class World {
         await this.character.setSizeFromImage();
         await this.character.loadAnimationImagesFromJson(json);
         await this.character.decodeImagesAll();
-        this.character.setHitbox(json);
         this.character.scaleToHeight(json.height);
         this.character.x = json.positionX;
+        this.character.setHitbox(json);
         this.character.speedX = json.speedX;
+        this.character.jumpSpeed = json.jumpSpeed;
         this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
         this.character.groundY = this.level.groundY;
-        this.character.jumpSpeed = json.jumpSpeed;
+        this.character.healthbar = new Statusbar(json.healthbarId, './game/healthbar.json');
     }
 
 
@@ -78,7 +79,7 @@ class World {
             this.spawnEnemy(json);
         }
     }
-    
+
     async createTemplateObject(json) {
         let enemyJson = await fetch(json.pathToJson).then(response => response.json());
         let templateObject = new MoveableObject(enemyJson.staticImagePath);
@@ -90,9 +91,9 @@ class World {
         templateObject.setHitbox(enemyJson);
         this.objectTemplates[json.type] = templateObject;
     }
-    
+
     spawnEnemy(json) {
-        let newEnemy= Object.create(this.objectTemplates[json.type]);
+        let newEnemy = Object.create(this.objectTemplates[json.type]);
         newEnemy.x = json.spawnX;
         newEnemy.y = json.spawnY;
         newEnemy.speedX = json.speedX;
@@ -120,8 +121,8 @@ class World {
         return this.endboss.decodeImagesAll();
     }
 
-    /*** loadBottles ***/
-    /*******************/
+    /*** Load Bottles ***/
+    /********************/
 
     async loadBottleTemplate(pathToJson) {
         let bottleJson = await fetch(pathToJson).then(res => res.json());
@@ -136,14 +137,14 @@ class World {
         bottleTemplate.speedX = bottleJson.speedX;
         bottleTemplate.speedY = bottleJson.speedY;
         bottleTemplate.hitbox = bottleJson.hitbox;
-        bottleTemplate.airborne=true;
+        bottleTemplate.airborne = true;
         bottleTemplate.groundY = this.level.groundY;
         this.objectTemplates['bottle'] = bottleTemplate;
     }
 
     spawnBottle() {
         let newBottle = Object.create(this.objectTemplates['bottle']);
-        let template= this.objectTemplates['bottle'];
+        let template = this.objectTemplates['bottle'];
         newBottle.x = -this.cameraX + this.character.x + template.characterOffsetX;
         newBottle.y = this.character.y + template.characterOffsetY;
         if (this.keyboard.ArrowRight || this.keyboard.ArrowLeft) {
@@ -225,8 +226,7 @@ class World {
     checkCharacterCollision() {
         this.enemies.forEach((enemy) => {
             if (this.character.isCollision(enemy, -this.cameraX)) {
-                if (this.character.currentAnimationName != 'hurt')
-                    this.character.animate('hurt', 5);
+                this.character.hurt();
             }
         });
     }

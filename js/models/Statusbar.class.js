@@ -3,8 +3,9 @@ class Statusbar {
     currentImageIndex;
     imagePaths = [];
 
-    constructor(htmlElementId) {
+    constructor(htmlElementId, pathToJson) {
         this.htmlElementId = htmlElementId;
+        this.loadImagePaths(pathToJson);
     }
 
     async loadImagePaths(pathToJson) {
