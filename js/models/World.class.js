@@ -178,7 +178,9 @@ class World {
         this.checkCharacterCollision();
         this.checkBottleCollision();
         this.checkBottleStatus();
-        window.requestAnimationFrame(() => this.draw(this.ctx));
+        window.requestAnimationFrame(() => {
+            if (isGameRunning) this.draw(this.ctx)
+        });
     }
 
     drawCharacter() {

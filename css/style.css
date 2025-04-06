@@ -50,7 +50,8 @@ canvas {
     flex-direction: column;
 }
 
-#startScreenCtn {
+#startScreenCtn,
+#endScreenCtn {
     position: absolute;
     top: 0;
     min-width: 100%;
@@ -80,6 +81,7 @@ canvas {
         transform: rotate(360deg);
     }
 }
+
 
 /*#############*/
 /*## UTILITY ##*/

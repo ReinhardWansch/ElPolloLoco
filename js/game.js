@@ -6,6 +6,7 @@
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 let world = new World(ctx);
+let isGameRunning = false;
 
 async function init() {
     await world.loadLevel('./game/level1.json');
@@ -22,6 +23,7 @@ function startGame() {
     world.draw(ctx);
     world.applyGravity(world.gravity);
     startEnemyMovement();
+    isGameRunning = true;
 }
 
 function startEnemyMovement() {
@@ -31,8 +33,21 @@ function startEnemyMovement() {
     });
 }
 
+function endGame() {
+    isGameRunning = false;
+    showElement('endScreenCtn');
+}
+
+/*#############*/
+/*## UTILITY ##*/
+/*#############*/
+
 function hideElement(elementId) {
     document.getElementById(elementId).classList.add('d-none');
+}
+
+function showElement(elementId) {
+    document.getElementById(elementId).classList.remove('d-none');
 }
 
 
