@@ -98,6 +98,7 @@ class World {
         newEnemy.y = json.spawnY;
         newEnemy.speedX = json.speedX;
         newEnemy.groundY = this.level.groundY;
+        newEnemy.isCausingDemage = true;
         this.enemies.push(newEnemy);
     }
 
@@ -113,7 +114,7 @@ class World {
         await this.endboss.decodeImagesAll();
         this.endboss.setSizeFromImage();
         this.endboss.scaleToHeight(json.height);
-        this.endboss.x = this.level.endboss.positionX;
+        this.endboss.x = this.level.endboss.spawnX;
         this.endboss.speedX = json.speedX;
         this.endboss.groundY = this.level.groundY + json.groundYoffset;
         this.endboss.setHitbox(json);
@@ -229,7 +230,8 @@ class World {
     checkCharacterCollision() {
         this.enemies.forEach((enemy) => {
             if (this.character.isCollision(enemy, -this.cameraX)) {
-                this.character.hurt();
+                if (enemy.isCausingDemage)
+                    this.character.hurt();
             }
         });
     }
@@ -243,6 +245,7 @@ class World {
                 if (bottle.isCollision(enemy)) {
                     this.bottles.splice(this.bottles.indexOf(bottle), 1);
                     if (bottle.isCausingDemage) {
+                        enemy.isCausingDemage = false;
                         enemy.stopMotion();
                         enemy.animate('die');
                         window.setTimeout(() => { this.enemies.splice(this.enemies.indexOf(enemy), 1) }, 250);

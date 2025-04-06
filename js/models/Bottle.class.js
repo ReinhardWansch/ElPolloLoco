@@ -1,9 +1,9 @@
 class Bottle extends MoveableObject {
     isDestroyed = false;
-    isCausingDemage = true;
 
     constructor (imgPath) {
         super(imgPath);
+        this.isCausingDemage= true;
         // this.decodeImagesAll().then(()=>this.animate('rotate'));
     }
 

@@ -5,6 +5,7 @@ class HitableObject extends AnimatedObject {
         width: 10,
         height: 10
     }
+    isCausingDemage = false;
 
     draw(ctx) {
         super.draw(ctx);
