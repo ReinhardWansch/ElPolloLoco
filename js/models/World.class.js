@@ -232,7 +232,8 @@ class World {
         });
     }
 
-    // TODO: refactor: extract killEnemy function 
+    // TODO: refactor: extract killEnemy function
+    // TODO: end game if endboss is dead
     checkBottleCollision() {
         this.bottles.forEach((bottle) => {
             this.enemies.forEach((enemy) => {
