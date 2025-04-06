@@ -247,7 +247,8 @@ class World {
                 }
                 //endboss collision
                 if (bottle.isCollision(this.endboss)) {
-
+                    this.bottles.splice(this.bottles.indexOf(bottle), 1);
+                    this.endboss.hurt();
                 }
             });
         });

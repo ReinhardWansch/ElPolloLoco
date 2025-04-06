@@ -1,6 +1,6 @@
 {
     "staticImagePath": "./img/4_enemie_boss_chicken/1_walk/G1.png",
-    "positionX": 10400,
+    "positionX": 500,
     "height": 300,
     "speedX": 1,
     "groundY": 454,
