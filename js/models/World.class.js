@@ -106,7 +106,7 @@ class World {
 
     async loadEndboss(pathToJson) {
         let json = await fetch(pathToJson).then(response => response.json());
-        this.endboss = new Endboss(json.staticImagePath);
+        this.endboss = new LivingObject(json.staticImagePath);
         this.endboss.setSizeFromImage();
         this.endboss.loadAnimationImagesFromJson(json);
         await this.endboss.decodeImage();

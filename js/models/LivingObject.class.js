@@ -1,6 +1,6 @@
-class Endboss extends MoveableObject {
+class LivingObject extends MoveableObject {
     healthbar;
-
+    dieInterval;
 
     hurt() {
         if (this.healthbar.isEmpty()) {
