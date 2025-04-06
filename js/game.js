@@ -22,8 +22,15 @@ function startGame() {
     hideElement('startScreenCtn');
     world.draw(ctx);
     world.applyGravity(world.gravity);
+    startBackgroundMovement();
     startEnemyMovement();
     isGameRunning = true;
+}
+
+function startBackgroundMovement() {
+    world.backgrounds.forEach(backgroundI => {
+        backgroundI.startMotion();
+    });
 }
 
 function startEnemyMovement() {

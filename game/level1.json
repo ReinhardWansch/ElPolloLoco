@@ -113,6 +113,10 @@
             "spawnY": 300,
             "speedX": -1
         }
-
-    ]
+    ],
+    "endboss": {
+        "type": "polloLoco",
+        "spawnX": 600,
+        "pathToJson": "./game/polloLoco.json"
+    }
 }

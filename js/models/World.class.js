@@ -104,8 +104,8 @@ class World {
     /*** Load Endboss ***/
     /********************/
 
-    async loadEndboss(pathToJson) {
-        let json = await fetch(pathToJson).then(response => response.json());
+    async loadEndboss() {
+        let json = await fetch(this.level.endboss.pathToJson).then(response => response.json());
         this.endboss = new LivingObject(json.staticImagePath);
         this.endboss.setSizeFromImage();
         this.endboss.loadAnimationImagesFromJson(json);
@@ -113,9 +113,9 @@ class World {
         await this.endboss.decodeImagesAll();
         this.endboss.setSizeFromImage();
         this.endboss.scaleToHeight(json.height);
-        this.endboss.x = json.positionX;
+        this.endboss.x = this.level.endboss.positionX;
         this.endboss.speedX = json.speedX;
-        this.endboss.groundY = json.groundY;
+        this.endboss.groundY = this.level.groundY + json.groundYoffset;
         this.endboss.setHitbox(json);
         this.endboss.healthbar = new Statusbar(json.healthbarId, './game/bossHealthbar.json');
         this.endboss.applyGravity(this.gravity);

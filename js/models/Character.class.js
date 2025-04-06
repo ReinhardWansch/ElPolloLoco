@@ -11,12 +11,10 @@ class Character extends LivingObject {
         if (this.keyboard.ArrowRight) {
             if (this.isFlippedHorizontally) this.flipHorizontally();
             if (this.getFlag_StartWalkAnimation()) this.animate('walk');
-            // this.x += this.speedX;
         }
         else if (this.keyboard.ArrowLeft && this) {
             if (!this.isFlippedHorizontally) this.flipHorizontally();
             if (this.getFlag_StartWalkAnimation()) this.animate('walk');
-            // this.x -= this.speedX;
         } else {
             if (this.getFlag_StartIdleAnimation()) this.animate('idle');
         }
