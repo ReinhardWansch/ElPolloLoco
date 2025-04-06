@@ -43,9 +43,6 @@ canvas {
     min-width: 100%;
 }
 
-.hudArea {
-}
-
 .statusbar {
     /* height: 60px; */
     height: clamp(1.25rem, -0.114rem + 7.273vw, 3.75rem);
@@ -53,6 +50,44 @@ canvas {
     flex-direction: column;
 }
 
+#startScreenCtn {
+    position: absolute;
+    top: 0;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: lightcoral;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#loadingCtn {
+    display: flex;
+    align-items: center;
+}
+
+#loadingIcon {
+    height: 2em;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/*#############*/
+/*## UTILITY ##*/
+/*#############*/
+
+.d-none {
+    display: none !important;
+}
 
 
 /*###########*/

@@ -20,8 +20,8 @@
     <script src="./js/game.js" defer></script>
 </head>
 <!-- <body onload="window.setTimeout(init, 1500)"> -->
-<!-- <body onload="init()"> -->
-<body onload="tuEs()">
+<body onload="init()">
+<!-- <body onload="tuEs()"> -->
 
     <body>
         <h1>El pollo loco</h1>
@@ -37,6 +37,16 @@
                     </div>
                     <div class="hudArea">
                         <img id="bossHealthbar" class="statusbar" src="./img/7_statusbars/2_statusbar_endboss/blue.png" alt="statusbar-endboss">
+                    </div>
+                </div>
+
+                <div id="startScreenCtn">
+                    <h2>Startscreen</h2>
+                    <button id="buttonStartGame" onclick="startGame()" disabled>start game</button>
+                    <!-- <p id="disch"><span id="loadingIcon">&#x1F424;</span> loading...</p> -->
+                    <div id="loadingCtn">
+                        <img id="loadingIcon" src="./img/3_enemies_chicken/chicken_small/1_walk/1_w.png" alt="spinning chick">
+                        <p>loading...</p>
                     </div>
                 </div>
             </div>
