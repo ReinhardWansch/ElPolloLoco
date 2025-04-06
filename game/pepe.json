@@ -4,13 +4,13 @@
     "height": 300,
     "speedX": 10,
     "jumpSpeed": -10,
+    "healthbarId": "healthbar",
     "hitbox": {
         "x": 30,
         "y": 147,
         "width": 76,
         "height": 116
     },
-    "healthbarId": "healthbar",
     "animations": [
         {
             "name": "idle",

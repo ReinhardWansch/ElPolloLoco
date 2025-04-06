@@ -10,8 +10,9 @@ class Statusbar {
 
     async loadImagePaths(pathToJson) {
         let json= await fetch(pathToJson).then(response => response.json());
-        json.valueImagePaths.forEach((valueImagePathObject) => {
-            this.imagePaths.push(valueImagePathObject.imagePath);
+        json.valueImagePaths.forEach((valueImagePathI) => {
+            console.log(valueImagePathI); ///DEBUG
+            this.imagePaths.push(valueImagePathI);
         });
         this.currentImageIndex= json.valueImagePaths.length-1;
     }

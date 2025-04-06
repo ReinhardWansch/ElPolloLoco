@@ -1,6 +1,7 @@
 //TODO: Design Page
 //TODO: Move Clouds
 //TODO: Frage: Warum ist das Container-Div-Element höher als das Canvas-Element?
+//TODO: Favicon
 
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");

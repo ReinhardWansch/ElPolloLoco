@@ -117,6 +117,7 @@ class World {
         this.endboss.speedX = json.speedX;
         this.endboss.groundY = json.groundY;
         this.endboss.setHitbox(json);
+        this.endboss.healthbar = new Statusbar(json.healthbarId, './game/bossHealthbar.json');
         this.endboss.applyGravity(this.gravity);
         return this.endboss.decodeImagesAll();
     }
@@ -231,17 +232,22 @@ class World {
         });
     }
 
+    // TODO: refactor: extract killEnemy function 
     checkBottleCollision() {
         this.bottles.forEach((bottle) => {
             this.enemies.forEach((enemy) => {
+                //enemy collision
                 if (bottle.isCollision(enemy)) {
                     this.bottles.splice(this.bottles.indexOf(bottle), 1);
                     if (bottle.isCausingDemage) {
-                        //TODO: die function at movableObject or LivingObject class (to be created)
                         enemy.stopMotion();
                         enemy.animate('die');
                         window.setTimeout(() => { this.enemies.splice(this.enemies.indexOf(enemy), 1) }, 250);
                     }
+                }
+                //endboss collision
+                if (bottle.isCollision(this.endboss)) {
+
                 }
             });
         });

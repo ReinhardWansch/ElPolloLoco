@@ -4,6 +4,7 @@
     "height": 300,
     "speedX": 1,
     "groundY": 454,
+    "healthbarId": "bossHealthbar",
     "hitbox": {
         "x": 48,
         "y": 114,

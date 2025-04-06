@@ -36,11 +36,9 @@ class Character extends MoveableObject {
 
     hurt() {
         if (this.healthbar.isEmpty()) {
-            console.log('Ich bin tot'); ///DEBUG 
             this.die();     
         } else if (this.currentAnimationName != 'hurt') {
             this.animate('hurt', 5);
-            console.log('Heeeee!'); ///DEBUG
             this.healthbar.decrease();
         }
     }
@@ -56,6 +54,7 @@ class Character extends MoveableObject {
                     this.dieInterval= null;
                     this.stopAnimation();
                     // TODO show endscreen
+                    // TODO endscreen delay in level-json instead of using imageDuration
                 } else {
                     this.y -= 10;            
                 }
