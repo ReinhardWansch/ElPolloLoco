@@ -102,7 +102,7 @@ class World {
 
     async loadEndboss() {
         let json = await fetch(this.level.endboss.pathToJson).then(response => response.json());
-        this.endboss = new LivingObject(json.staticImagePath);
+        this.endboss = new Endboss(json.staticImagePath);
         await this.loadObjectImages(json, this.endboss);
         this.endboss.setDimensions(json);
         this.endboss.x = this.level.endboss.spawnX;

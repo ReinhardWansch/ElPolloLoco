@@ -16,6 +16,7 @@ class AnimatedObject extends DrawableObject {
             this.animationImages[animationI.name] = {};
             this.animationImages[animationI.name].images = [];
             this.animationImages[animationI.name].imageDuration = animationI.imageDuration;
+            this.animationImages[animationI.name].animationLoops = animationI.animationLoops;
             animationI.imagePaths.forEach((path) => {
                 let img = new Image();
                 img.src = path;
@@ -23,8 +24,6 @@ class AnimatedObject extends DrawableObject {
             });
         });
     }
-
-
 
     decodeImagesAll() {
         let decodePromisesAll = [];
@@ -44,11 +43,13 @@ class AnimatedObject extends DrawableObject {
         return Promise.all(decodedImagePromises);
     }
 
-    animate(animationName, repeatCount) {
+    animate(animationName) {
+        let repeatCount= this.animationImages[animationName].animationLoops;
         this.stopAnimation();
         let imageDuration = this.animationImages[animationName].imageDuration;
         this.currentImageIndex = 0;
         this.img = this.animationImages[animationName].images[0];
+        repeatCount *= this.animationImages[animationName].images.length;
         this.currentAnimationInterval = window.setInterval(() => {
             this.setNextImage(animationName);
             if (repeatCount) {

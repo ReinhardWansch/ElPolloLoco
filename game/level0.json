@@ -1,0 +1,40 @@
+{
+    "groundY": 430,
+
+    "leftBorderCameraX": 0,
+    "rightBorderCameraX": -1810,
+
+    "backgrounds": [
+        {
+            "loopsX": 3,
+            "imagePath": "./img/5_background/layers/air.png"
+        },
+        {
+            "loopsX": 2,
+            "imagePath": "./img/5_background/layers/3_third_layer/full.png"
+        },
+        {
+            "loopsX": 2,
+            "imagePath": "./img/5_background/layers/2_second_layer/full.png"
+        },
+        {
+            "loopsX": 2,
+            "imagePath": "./img/5_background/layers/1_first_layer/full.png"
+        },
+        {
+            "loopsX": 1,
+            "speedX": -0.1,
+            "imagePath": "./img/5_background/layers/4_clouds/full.png"
+        }
+    ],
+
+    "enemies": [
+
+    ],
+    "endboss": {
+        "type": "polloLoco",
+        "spawnX": 400,
+        "encounterCameraX": -1670,
+        "pathToJson": "./game/polloLoco.json"
+    }
+}

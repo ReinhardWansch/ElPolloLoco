@@ -1,7 +1,7 @@
 {
     "staticImagePath": "./img/4_enemie_boss_chicken/1_walk/G1.png",
     "height": 300,
-    "speedX": 1,
+    "speedX": -1,
     "groundYoffset": 24,
     "healthbarId": "bossHealthbar",
     "hitbox": {
@@ -23,7 +23,8 @@
         },
         {
             "name": "alert",
-            "imageDuration": 75,
+            "imageDuration": 250,
+            "animationLoops": 1,
             "imagePaths": [
                 "./img/4_enemie_boss_chicken/2_alert/G5.png",
                 "./img/4_enemie_boss_chicken/2_alert/G6.png",
@@ -37,7 +38,8 @@
         },
         {
             "name": "attack",
-            "imageDuration": 100,
+            "imageDuration": 250,
+            "animationLoops": 1,
             "imagePaths": [
                 "./img/4_enemie_boss_chicken/3_attack/G13.png",
                 "./img/4_enemie_boss_chicken/3_attack/G14.png",
@@ -52,6 +54,7 @@
         {
             "name": "hurt",
             "imageDuration": 200,
+            "animationLoops": 1,
             "imagePaths": [
                 "./img/4_enemie_boss_chicken/4_hurt/G21.png",
                 "./img/4_enemie_boss_chicken/4_hurt/G22.png",
@@ -61,6 +64,7 @@
         {
             "name": "die",
             "imageDuration": 200,
+            "animationLoops": 1,
             "imagePaths": [
                 "img/4_enemie_boss_chicken/5_dead/G24.png",
                 "img/4_enemie_boss_chicken/5_dead/G25.png",

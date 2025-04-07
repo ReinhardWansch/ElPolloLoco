@@ -33,14 +33,12 @@ class Character extends LivingObject {
     getFlag_StartWalkAnimation() {
         return !this.airborne && this.currentAnimationName != 'walk' 
             && this.currentAnimationName != 'hurt' 
-            && this.currentAnimationName != 'die'
-            && !this.isDead;
+            && this.currentAnimationName != 'die';
     }
     
     getFlag_StartIdleAnimation() {
         return !this.airborne && this.currentAnimationName != 'idle' 
             && this.currentAnimationName != 'hurt'
-            && this.currentAnimationName != 'die'
-            && !this.isDead;
+            && this.currentAnimationName != 'die';
     }
 }

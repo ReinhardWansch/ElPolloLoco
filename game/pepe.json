@@ -59,6 +59,7 @@
         {
             "name": "jump",
             "imageDuration": 75,
+            "animationLoops": 1,
             "imagePaths": [
                 "./img/2_character_pepe/3_jump/J-31.png",
                 "./img/2_character_pepe/3_jump/J-32.png",
@@ -74,6 +75,7 @@
         {
             "name": "hurt",
             "imageDuration": 100,
+            "animationLoops": 5,
             "imagePaths": [
                 "./img/2_character_pepe/4_hurt/H-41.png",
                 "./img/2_character_pepe/4_hurt/H-42.png",
@@ -83,6 +85,7 @@
         {
             "name": "die",
             "imageDuration": 200,
+            "animationLoops": 1,
             "imagePaths": [
                 "./img/2_character_pepe/5_dead/D-51.png",
                 "./img/2_character_pepe/5_dead/D-52.png",
