@@ -21,13 +21,6 @@ class DrawableObject {
         this.ratio = this.width / this.height;
     }
 
-    setSize(width, height) {
-        this.width = width;
-        this.height = height;
-        this.ratio = this.width / this.height;
-
-    }
-
     draw(ctx) {
         this.storePosition();
         ctx.save();

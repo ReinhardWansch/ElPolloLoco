@@ -53,24 +53,14 @@ class World {
         let json = await fetch(pathToJson).then(response => response.json());
         this.character = new Character(json.staticImagePath, this.keyboard);
         await this.loadObjectImages(json, this.character);
-        await this.character.setSizeFromImage();
-        this.character.scaleToHeight(json.height);
+        this.character.setDimensions(json);
         this.character.x = json.positionX;
-        this.character.setHitbox(json);
         this.character.speedX = json.speedX;
         this.character.jumpSpeed = json.jumpSpeed;
         this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
         this.character.groundY = this.level.groundY;
         this.character.healthbar = new Statusbar(json.healthbarId, './game/healthbar.json');
     }
-
-    async loadObjectImages(json, object) {
-        object.loadAnimationImagesFromJson(json);
-        let imageDecoded= object.decodeImage();
-        let imagesAllDecoded= object.decodeImagesAll();
-        return Promise.all([imageDecoded, imagesAllDecoded]);
-    }
-
 
 
     /*** Load Enemies ***/
@@ -89,9 +79,7 @@ class World {
         let enemyJson = await fetch(json.pathToJson).then(response => response.json());
         let templateObject = new MoveableObject(enemyJson.staticImagePath);
         await this.loadObjectImages(enemyJson, templateObject);
-        templateObject.setSizeFromImage();
-        templateObject.scaleToHeight(enemyJson.height);
-        templateObject.setHitbox(enemyJson);
+        templateObject.setDimensions(enemyJson);
         this.objectTemplates[json.type] = templateObject;
     }
 
@@ -112,12 +100,10 @@ class World {
         let json = await fetch(this.level.endboss.pathToJson).then(response => response.json());
         this.endboss = new LivingObject(json.staticImagePath);
         await this.loadObjectImages(json, this.endboss);
-        this.endboss.setSizeFromImage();
-        this.endboss.scaleToHeight(json.height);
+        this.endboss.setDimensions(json);
         this.endboss.x = this.level.endboss.spawnX;
         this.endboss.speedX = json.speedX;
         this.endboss.groundY = this.level.groundY + json.groundYoffset;
-        this.endboss.setHitbox(json);
         this.endboss.healthbar = new Statusbar(json.healthbarId, './game/bossHealthbar.json');
         this.endboss.applyGravity(this.gravity);
         return this.endboss.decodeImagesAll();
@@ -130,13 +116,11 @@ class World {
         let bottleJson = await fetch(pathToJson).then(res => res.json());
         let bottleTemplate = new Bottle(bottleJson.staticImagePath);
         await this.loadObjectImages(bottleJson, bottleTemplate);
-        bottleTemplate.setSizeFromImage();
-        bottleTemplate.scaleToHeight(bottleJson.height);
+        bottleTemplate.setDimensions(bottleJson);
         bottleTemplate.characterOffsetX = bottleJson.characterOffsetX;
         bottleTemplate.characterOffsetY = bottleJson.characterOffsetY;
         bottleTemplate.speedX = bottleJson.speedX;
         bottleTemplate.speedY = bottleJson.speedY;
-        bottleTemplate.hitbox = bottleJson.hitbox;
         bottleTemplate.airborne = true;
         bottleTemplate.groundY = this.level.groundY;
         this.objectTemplates['bottle'] = bottleTemplate;
@@ -155,6 +139,16 @@ class World {
         newBottle.animate('rotate');
         newBottle.applyGravity(this.gravity);
         this.bottles.push(newBottle);
+    }
+
+    /*** Helper ***/
+    /**************/
+
+    async loadObjectImages(json, object) {
+        object.loadAnimationImagesFromJson(json);
+        let imageDecoded= object.decodeImage();
+        let imagesAllDecoded= object.decodeImagesAll();
+        return Promise.all([imageDecoded, imagesAllDecoded]);
     }
 
     /*##########*/
@@ -216,14 +210,9 @@ class World {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    /*##########*/
-    /*## MISC ##*/
-    /*##########*/
-
-    applyGravity() {
-        this.character.applyGravity(this.gravity);
-        this.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
-    }
+    /*################*/
+    /*## COLLISIONS ##*/
+    /*################*/
 
     checkCharacterCollision() {
         this.enemies.forEach((enemy) => {
@@ -258,11 +247,26 @@ class World {
         });
     }
 
+    /*###################*/
+    /*## OBJECT STATUS ##*/
+    /*###################*/
+
     checkBottleStatus() {
         this.bottles.forEach((bottle) => {
             if (bottle.isDestroyed) {
                 this.bottles.splice(this.bottles.indexOf(bottle), 1);
             }
         });
+    }
+
+
+
+    /*##########*/
+    /*## MISC ##*/
+    /*##########*/
+
+    applyGravity() {
+        this.character.applyGravity(this.gravity);
+        this.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
     }
 }

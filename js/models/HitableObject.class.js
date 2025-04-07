@@ -12,8 +12,10 @@ class HitableObject extends AnimatedObject {
         this.drawHitbox(ctx); ///DEBUG
     }
 
-    setHitbox(json) {
-        this.hitbox = json.hitbox;
+    setDimensions(json) {
+        this.setSizeFromImage();
+        this.scaleToHeight(json.height);
+        this.setHitbox(json);
     }
 
     isCollision(otherObject, xOffset) {
@@ -24,6 +26,10 @@ class HitableObject extends AnimatedObject {
             thisCoords.x + this.hitbox.width > otherCoords.x &&
             thisCoords.y < otherCoords.y + otherObject.hitbox.height &&
             thisCoords.y + this.hitbox.height > otherCoords.y;
+    }
+
+    setHitbox(json) {
+        this.hitbox = json.hitbox;
     }
 
     getHitboxCoordinates() {    
@@ -37,6 +43,8 @@ class HitableObject extends AnimatedObject {
             y: this.y + this.hitbox.y,
         }
     }
+
+    
 
     /*###########*/
     /*## DEBUG ##*/
