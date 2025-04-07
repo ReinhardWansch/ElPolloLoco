@@ -52,10 +52,8 @@ class World {
     async loadCharacter(pathToJson) {
         let json = await fetch(pathToJson).then(response => response.json());
         this.character = new Character(json.staticImagePath, this.keyboard);
-        await this.character.decodeImage();
+        await this.loadObjectImages(json, this.character);
         await this.character.setSizeFromImage();
-        await this.character.loadAnimationImagesFromJson(json);
-        await this.character.decodeImagesAll();
         this.character.scaleToHeight(json.height);
         this.character.x = json.positionX;
         this.character.setHitbox(json);
@@ -64,6 +62,13 @@ class World {
         this.character.keyboard.addKeyHandlerDown('ArrowUp', () => this.character.jump());
         this.character.groundY = this.level.groundY;
         this.character.healthbar = new Statusbar(json.healthbarId, './game/healthbar.json');
+    }
+
+    async loadObjectImages(json, object) {
+        object.loadAnimationImagesFromJson(json);
+        let imageDecoded= object.decodeImage();
+        let imagesAllDecoded= object.decodeImagesAll();
+        return Promise.all([imageDecoded, imagesAllDecoded]);
     }
 
 
@@ -83,11 +88,9 @@ class World {
     async createTemplateObject(json) {
         let enemyJson = await fetch(json.pathToJson).then(response => response.json());
         let templateObject = new MoveableObject(enemyJson.staticImagePath);
-        await templateObject.decodeImage();
+        await this.loadObjectImages(enemyJson, templateObject);
         templateObject.setSizeFromImage();
         templateObject.scaleToHeight(enemyJson.height);
-        templateObject.loadAnimationImagesFromJson(enemyJson);
-        await templateObject.decodeImagesAll();
         templateObject.setHitbox(enemyJson);
         this.objectTemplates[json.type] = templateObject;
     }
@@ -108,10 +111,7 @@ class World {
     async loadEndboss() {
         let json = await fetch(this.level.endboss.pathToJson).then(response => response.json());
         this.endboss = new LivingObject(json.staticImagePath);
-        this.endboss.setSizeFromImage();
-        this.endboss.loadAnimationImagesFromJson(json);
-        await this.endboss.decodeImage();
-        await this.endboss.decodeImagesAll();
+        await this.loadObjectImages(json, this.endboss);
         this.endboss.setSizeFromImage();
         this.endboss.scaleToHeight(json.height);
         this.endboss.x = this.level.endboss.spawnX;
@@ -129,9 +129,7 @@ class World {
     async loadBottleTemplate(pathToJson) {
         let bottleJson = await fetch(pathToJson).then(res => res.json());
         let bottleTemplate = new Bottle(bottleJson.staticImagePath);
-        await bottleTemplate.loadAnimationImagesFromJson(bottleJson);
-        await bottleTemplate.decodeImagesAll();
-        await bottleTemplate.decodeImage();
+        await this.loadObjectImages(bottleJson, bottleTemplate);
         bottleTemplate.setSizeFromImage();
         bottleTemplate.scaleToHeight(bottleJson.height);
         bottleTemplate.characterOffsetX = bottleJson.characterOffsetX;
