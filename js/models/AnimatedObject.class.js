@@ -1,12 +1,3 @@
-/*
-animationImages= {
-    name: {
-        imageDuration: number
-        images: [Image, Image, ...],
-    }
-}
-*/
-
 class AnimatedObject extends DrawableObject {
     animationImages = {};
     currentImageIndex = 0;
@@ -34,6 +25,8 @@ class AnimatedObject extends DrawableObject {
         });
     }
 
+
+
     decodeImagesAll() {
         let decodePromisesAll = [];
         for (let animationName in this.animationImages) {
@@ -52,18 +45,8 @@ class AnimatedObject extends DrawableObject {
         return Promise.all(decodedImagePromises);
     }
 
-    // animate(animationName) {
-    //     this.stopAnimation();
-    //     let imageDuration = this.animationImages[animationName].imageDuration;
-    //     this.currentImageIndex = 0;
-    //     this.img = this.animationImages[animationName].images[0];
-    //     this.currentAnimationInterval = window.setInterval(() => {
-    //         this.setNextImage(animationName);
-    //     }, imageDuration);
-    //     this.currentAnimationName = animationName;
-    // }
-
     animate(animationName, repeatCount) {
+        console.log(`animate(${animationName}, ${repeatCount})`); ///DEBUG
         this.stopAnimation();
         let imageDuration = this.animationImages[animationName].imageDuration;
         this.currentImageIndex = 0;
@@ -71,6 +54,7 @@ class AnimatedObject extends DrawableObject {
         this.currentAnimationInterval = window.setInterval(() => {
             this.setNextImage(animationName);
             if (repeatCount) {
+                console.log(`if(${repeatCount})`); ///DEBUG
                 repeatCount--;
                 if (repeatCount <= 0) this.stopAnimation(); 
             }
@@ -89,6 +73,8 @@ class AnimatedObject extends DrawableObject {
         clearInterval(this.currentAnimationInterval);
         this.currentAnimationName = null;
     }
+
+
 
 
     /*###########*/

@@ -15,12 +15,7 @@ class DrawableObject {
         this.img.src = imgPath;
     }
 
-    setSizeFromImage() {
-        this.width = this.img.width;
-        this.height = this.img.height;
-        this.ratio = this.width / this.height;
-    }
-
+    
     draw(ctx) {
         this.storePosition();
         ctx.save();
@@ -35,39 +30,43 @@ class DrawableObject {
         this.restorePosition();
     }
 
+    setSizeFromImage() {
+        this.width = this.img.width;
+        this.height = this.img.height;
+        this.ratio = this.width / this.height;
+    }
+
     decodeImage() {
         return this.img.decode();
     }
 
-    isRotated() {
-        return this.rotationAngle !== 0;
-    }
-    // TDOD stell die Frage in einem Forum oder bei DevAk
-    // isRotated() könnte man auch als get isRotated() schreiben.
-    // welche Version ist besser hinsichtlich Wartbarkeit und Lesbarkeit?
-
+    
     /*##############*/
     /*## POSITION ##*/
     /*##############*/
-
+    
     setPosition(x, y) {
         this.x = x;
         this.y = y;
     }
-
+    
     storePosition() {
         this.storedX = this.x;
         this.storedY = this.y;
     }
-
+    
     restorePosition() {
         this.x = this.storedX;
         this.y = this.storedY;
     }
-
+    
     centerAtCartesianOrigin() {
         this.x = -this.width / 2;
         this.y = -this.height / 2;
+    }
+
+    isRotated() {
+        return this.rotationAngle !== 0;
     }
 
     /*##########*/

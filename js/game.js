@@ -62,22 +62,13 @@ function showElement(elementId) {
 /*## DEBUG ##*/
 /*###########*/
 
-async function tuEs() {
-    await world.loadLevel('./game/level1.json');
-    await loadStuff();
-    world.draw(ctx);
-    world.applyGravity(world.gravity);
-    startEnemyMovement();
+function tuEs() {
+    stopEnemyMovement();
 }
 
-async function loadStuff() {
-    await world.loadCharacter('./game/pepe.json');
-    await world.loadEnemies();
-    await world.loadBottleTemplate('./game/bottle.json');
-    await world.loadEndboss('./game/polloLoco.json');
-}
-
-// let x= new Statusbar('healthbar');
-async function tuEs2() {
-    await x.loadImagePaths('./game/healthbar.json');
+function stopEnemyMovement() {
+    world.enemies.forEach(enemy => {
+        enemy.stopMotion();
+        enemy.stopAnimation();
+    });
 }

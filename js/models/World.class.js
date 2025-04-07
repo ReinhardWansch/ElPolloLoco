@@ -156,24 +156,31 @@ class World {
     /*##########*/
 
     draw() {
+        this.moveCharacter();
+        this.clearCanvas();
+        this.drawNonPlayerObjects();
+        this.drawCharacter();
+        this.checkCollisions();
+        this.checkStatus();
+        window.requestAnimationFrame(() => {
+            if (isGameRunning) this.draw(this.ctx)
+        });
+    }
+
+    moveCharacter() {
         if (this.keyboard.ArrowRight && this.cameraX >= this.level.rightBorderCameraX)
             this.cameraX -= this.character.speedX;
         if (this.keyboard.ArrowLeft && this.cameraX <= this.level.leftBorderCameraX)
             this.cameraX += this.character.speedX;
-        this.clearCanvas();
+    }
+
+    drawNonPlayerObjects() {
         this.ctx.translate(this.cameraX, 0); //move Camera
         this.drawBackgrounds();
         this.drawBottles();
         this.drawEnemies();
         this.drawEndboss();
         this.ctx.translate(-this.cameraX, 0); //move Camera back
-        this.drawCharacter();
-        this.checkCharacterCollision();
-        this.checkBottleCollision();
-        this.checkBottleStatus();
-        window.requestAnimationFrame(() => {
-            if (isGameRunning) this.draw(this.ctx)
-        });
     }
 
     drawCharacter() {
@@ -214,6 +221,11 @@ class World {
     /*## COLLISIONS ##*/
     /*################*/
 
+    checkCollisions() {
+        this.checkCharacterCollision();
+        this.checkBottleCollision();
+    }
+
     checkCharacterCollision() {
         this.enemies.forEach((enemy) => {
             if (this.character.isCollision(enemy, -this.cameraX)) {
@@ -250,6 +262,10 @@ class World {
     /*###################*/
     /*## OBJECT STATUS ##*/
     /*###################*/
+
+    checkStatus() {
+        this.checkBottleStatus();
+    }
 
     checkBottleStatus() {
         this.bottles.forEach((bottle) => {
