@@ -51,7 +51,8 @@ canvas {
 }
 
 #startScreenCtn,
-#endScreenCtn {
+#looseScreenCtn,
+#winScreenCtn {
     position: absolute;
     top: 0;
     min-width: 100%;

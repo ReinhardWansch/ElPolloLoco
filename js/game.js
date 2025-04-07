@@ -9,6 +9,8 @@ let world = new World(ctx);
 let isGameRunning = false;
 
 async function init() {
+    world.looseFunction = looseGame;
+    world.winFunction = winGame;
     await world.loadLevel('./game/level1.json');
     await world.loadCharacter('./game/pepe.json');
     await world.loadEnemies();
@@ -20,6 +22,7 @@ async function init() {
 
 function startGame() {
     hideElement('startScreenCtn');
+    world.isGameRunning = true;
     world.draw(ctx);
     world.applyGravity(world.gravity);
     startBackgroundMovement();
@@ -40,9 +43,14 @@ function startEnemyMovement() {
     });
 }
 
-function endGame() {
-    isGameRunning = false;
-    showElement('endScreenCtn');
+function looseGame() {
+    world.isGameRunning = false;
+    showElement('looseScreenCtn');
+}
+
+function winGame() {
+    world.isGameRunning = false;
+    showElement('winScreenCtn');
 }
 
 /*#############*/

@@ -1,6 +1,12 @@
 class World {
     ctx;
     keyboard;
+    gravity = 0.5;
+    cameraX = 0;
+    isGameRunning = false;
+    looseFunction;
+    winFunction;
+    gameOverDelay= 1000;
     level;
     objectTemplates = [];
     backgrounds = [];
@@ -8,8 +14,6 @@ class World {
     enemies = [];
     bottles = [];
     endboss;
-    gravity = 0.5;
-    cameraX = 0;
 
     constructor(ctx) {
         this.ctx = ctx;
@@ -163,7 +167,7 @@ class World {
         this.checkCollisions();
         this.checkStatus();
         window.requestAnimationFrame(() => {
-            if (isGameRunning) this.draw(this.ctx)
+            if (this.isGameRunning) this.draw(this.ctx)
         });
     }
 
@@ -265,6 +269,8 @@ class World {
 
     checkStatus() {
         this.checkBottleStatus();
+        this.checkCharacterStatus();
+        this.checkEndbossStatus();
     }
 
     checkBottleStatus() {
@@ -275,6 +281,19 @@ class World {
         });
     }
 
+    checkCharacterStatus() {
+        if (this.character.isDead) {
+            this.character.scaleToHeight(0);
+            window.setTimeout(() => this.looseFunction(), this.gameOverDelay);
+        }
+    }
+
+    checkEndbossStatus() {
+        if (this.endboss.isDead) {
+            this.endboss.scaleToHeight(0);
+            window.setTimeout(() => this.winFunction(), this.gameOverDelay);
+        }
+    }
 
 
     /*##########*/

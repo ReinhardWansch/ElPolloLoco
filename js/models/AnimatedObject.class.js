@@ -8,7 +8,6 @@ class AnimatedObject extends DrawableObject {
         await fetch(pathToJson)
             .then(response => response.json())
             .then(json => this.loadAnimationImagesFromJson(json));
-        console.log(this.animationImages); ///DEBUG
         return this.decodeImagesAll();
     }
 
@@ -46,7 +45,6 @@ class AnimatedObject extends DrawableObject {
     }
 
     animate(animationName, repeatCount) {
-        console.log(`animate(${animationName}, ${repeatCount})`); ///DEBUG
         this.stopAnimation();
         let imageDuration = this.animationImages[animationName].imageDuration;
         this.currentImageIndex = 0;
@@ -54,7 +52,6 @@ class AnimatedObject extends DrawableObject {
         this.currentAnimationInterval = window.setInterval(() => {
             this.setNextImage(animationName);
             if (repeatCount) {
-                console.log(`if(${repeatCount})`); ///DEBUG
                 repeatCount--;
                 if (repeatCount <= 0) this.stopAnimation(); 
             }
@@ -82,6 +79,5 @@ class AnimatedObject extends DrawableObject {
     /*###########*/
 
     logHeight() {
-        console.log(this.height); ///DEBUG
     }
 }

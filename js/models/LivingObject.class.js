@@ -1,6 +1,8 @@
 class LivingObject extends MoveableObject {
     healthbar;
     dieInterval;
+    isDead = false;
+
 
     hurt() {
         if (this.healthbar.isEmpty()) {
@@ -21,8 +23,7 @@ class LivingObject extends MoveableObject {
                     clearInterval(this.dieInterval);
                     this.dieInterval= null;
                     this.stopAnimation();
-                    // TODO show endscreen
-                    // TODO endscreen delay in level-json instead of using imageDuration
+                    this.isDead= true;
                 } else {
                     this.y -= 10;            
                 }
