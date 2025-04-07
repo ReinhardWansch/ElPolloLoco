@@ -254,12 +254,13 @@ class World {
                         window.setTimeout(() => { this.enemies.splice(this.enemies.indexOf(enemy), 1) }, 250);
                     }
                 }
-                //endboss collision
-                if (bottle.isCollision(this.endboss)) {
-                    this.bottles.splice(this.bottles.indexOf(bottle), 1);
-                    this.endboss.hurt();
-                }
             });
+            //endboss collision
+            if (bottle.isCollision(this.endboss)) {
+                console.log('bottle endboss collision'); ///DEBUG
+                this.bottles.splice(this.bottles.indexOf(bottle), 1);
+                this.endboss.hurt();
+            }
         });
     }
 
