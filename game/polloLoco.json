@@ -1,7 +1,7 @@
 {
     "staticImagePath": "./img/4_enemie_boss_chicken/1_walk/G1.png",
     "height": 300,
-    "speedX": -1,
+    "speedX": -0.5,
     "groundYoffset": 24,
     "healthbarId": "bossHealthbar",
     "hitbox": {
