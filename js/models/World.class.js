@@ -294,6 +294,9 @@ class World {
             this.endboss.scaleToHeight(0);
             window.setTimeout(() => this.winFunction(), this.gameOverDelay);
         }
+        if (world.cameraX < this.level.endboss.encounterCameraX) {
+            if (!this.endboss.isActive) this.endboss.activate();
+        }
     }
 
 

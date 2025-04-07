@@ -28,9 +28,8 @@
         }
     ],
 
-    "enemies": [
+    "enemies": [],
 
-    ],
     "endboss": {
         "type": "polloLoco",
         "spawnX": 1200,
