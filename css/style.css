@@ -19,20 +19,16 @@
 
 .canvasCtn {
     position: relative;
-    width: 100%;
-    min-width: 300px;
-    max-width: 850px;
+    width: clamp(300px, 100%, 850px);
 }
-/* @media screen and (width < 768px) {
-    .canvasCtn {
-        width: 100%;
-    }
-} */
 
 canvas {
     background-color: black;
     width: 100%;
 }
+
+/*** hud ***/
+/***********/
 
 #hudCtn {
     position: absolute;
@@ -43,12 +39,23 @@ canvas {
     min-width: 100%;
 }
 
-.statusbar {
-    /* height: 60px; */
-    height: clamp(1.25rem, -0.114rem + 7.273vw, 3.75rem);
+.hudArea {
     display: flex;
     flex-direction: column;
 }
+
+
+.statusbar {
+    height: clamp(1.25rem, -0.114rem + 7.273vw, 3.75rem);
+}
+
+.statusValueCtn {
+    display: flex;
+    align-items: center;
+}
+
+/*** screens ***/
+/****************/
 
 #startScreenCtn,
 #looseScreenCtn,

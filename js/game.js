@@ -73,12 +73,6 @@ function showElement(elementId) {
 /*###########*/
 
 function tuEs() {
-    stopEnemyMovement();
-}
-
-function stopEnemyMovement() {
-    world.enemies.forEach(enemy => {
-        enemy.stopMotion();
-        enemy.stopAnimation();
-    });
+    let x= new Statusvalue('bottleValue');
+    x.decrease();
 }

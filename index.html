@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <title>El pollo loco</title>
     <script src="./js/models/Statusbar.class.js"></script>
+    <script src="./js/models/Statusvalue.class.js"></script>
     <script src="./js/models/Keyboard.class.js"></script>
     <script src="./js/models/DrawableObject.class.js"></script>
     <script src="./js/models/AnimatedObject.class.js"></script>
@@ -32,10 +33,17 @@
                 <canvas id="canvasElem" class="" width="720" height="480"></canvas>
                 
                 <div id="hudCtn">
+                    <!-- hud top left -->
                     <div class="hudArea">
                         <img id="healthbar" class="statusbar" src="./img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png" alt="statusbar-health">
-                        <img class="statusbar" src="./img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png" alt="statusbar-bottle">
+                        <!-- <img class="statusbar" src="./img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png" alt="statusbar-bottle"> -->
+                        <div class="statusValueCtn">
+                            <img class="statusbar" src="./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png" alt="">
+                            <span id="bottleValue">100</span>
+                        </div>
+
                     </div>
+                    <!-- hud top right -->
                     <div class="hudArea">
                         <img id="bossHealthbar" class="statusbar" src="./img/7_statusbars/2_statusbar_endboss/blue.png" alt="statusbar-endboss">
                     </div>
@@ -44,7 +52,6 @@
                 <div id="startScreenCtn">
                     <h2>Startscreen</h2>
                     <button id="buttonStartGame" onclick="startGame()" disabled>start game</button>
-                    <!-- <p id="disch"><span id="loadingIcon">&#x1F424;</span> loading...</p> -->
                     <div id="loadingCtn">
                         <img id="loadingIcon" src="./img/3_enemies_chicken/chicken_small/1_walk/1_w.png" alt="spinning chick">
                         <p>loading...</p>
