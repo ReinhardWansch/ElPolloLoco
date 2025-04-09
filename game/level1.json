@@ -126,6 +126,7 @@
     "endboss": {
         "type": "polloLoco",
         "spawnX": 600,
+        "encounterCameraX": 0,
         "pathToJson": "./game/polloLoco.json"
     }
 }

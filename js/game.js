@@ -1,4 +1,3 @@
-//TODO: Chicks hurt Character
 //TODO: Design Page
 //TODO: Sounds
 //TODO: Frage: Warum ist das Container-Div-Element höher als das Canvas-Element?
@@ -12,8 +11,8 @@ let isGameRunning = false;
 async function init() {
     world.looseFunction = looseGame;
     world.winFunction = winGame;
-    // await world.loadLevel('./game/level1.json');
-    await world.loadLevel('./game/level0.json');
+    await world.loadLevel('./game/level1.json');
+    // await world.loadLevel('./game/level0.json');
     await world.loadCharacter('./game/pepe.json');
     await world.loadEnemies();
     await world.loadBottleTemplate('./game/bottle.json');
