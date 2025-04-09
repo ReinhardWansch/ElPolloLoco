@@ -253,6 +253,7 @@ class World {
         this.checkEnemyCollision();
         this.checkBottleCollision();
         this.checkCollectibleCollisions();
+        this.checkBossCollision();
     }
 
     checkEnemyCollision() {
@@ -295,6 +296,11 @@ class World {
                 this.character.bottleValue.increase();
             }
         });
+    }
+
+    checkBossCollision() {
+        if (this.character.isCollision(this.endboss, -this.cameraX))
+            this.character.hurt();
     }
 
     /*###################*/
