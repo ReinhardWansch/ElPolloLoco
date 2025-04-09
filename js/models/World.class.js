@@ -187,16 +187,16 @@ class World {
         this.checkStatus();
         window.requestAnimationFrame(() => {
             if (this.isGameRunning) this.draw(this.ctx)
-            });
+        });
     }
-    
+
     moveCharacter() {
         if (this.keyboard.ArrowRight && this.cameraX >= this.level.rightBorderCameraX)
             this.cameraX -= this.character.speedX;
         if (this.keyboard.ArrowLeft && this.cameraX <= this.level.leftBorderCameraX)
             this.cameraX += this.character.speedX;
     }
-    
+
     drawNonPlayerObjects() {
         this.ctx.translate(this.cameraX, 0); //move Camera
         this.drawBackgrounds();
@@ -252,6 +252,7 @@ class World {
     checkCollisions() {
         this.checkCharacterCollision();
         this.checkBottleCollision();
+        this.checkCollectibleCollisions();
     }
 
     checkCharacterCollision() {
@@ -283,6 +284,15 @@ class World {
             if (bottle.isCollision(this.endboss)) {
                 this.bottles.splice(this.bottles.indexOf(bottle), 1);
                 this.endboss.hurt();
+            }
+        });
+    }
+
+    checkCollectibleCollisions() {
+        this.collectibles.forEach((collectibleI) => {
+            if (this.character.isCollision(collectibleI, -this.cameraX)) {
+                this.collectibles.splice(this.collectibles.indexOf(collectibleI), 1);
+                this.character.bottleValue.increase();
             }
         });
     }
