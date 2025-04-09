@@ -1,4 +1,15 @@
 {
+    "staticImagePath": "./img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
+    "height": 25,
+    "bossOffsetX": 40,
+    "bossOffsetY": 200,
+    "speedX": -8,
+    "hitbox": {
+        "x": 10,
+        "y": 12,
+        "width": 4,
+        "height": 4
+    },
     "animations": [
         {
             "name": "walk",

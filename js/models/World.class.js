@@ -103,7 +103,7 @@ class World {
 
     async loadEndboss() {
         let json = await fetch(this.level.endboss.pathToJson).then(response => response.json());
-        this.endboss = new Endboss(json.staticImagePath);
+        this.endboss = new Endboss(json.staticImagePath, this);
         await this.loadObjectImages(json, this.endboss);
         this.endboss.setDimensions(json);
         this.endboss.x = this.level.endboss.spawnX;
@@ -114,9 +114,22 @@ class World {
         return this.endboss.decodeImagesAll();
     }
 
+    //TODO: refactor, axtract loadObjectTemplate function, in json-file: bossOffset -> offset 
+    async loadChickTemplate(pathToJson) {
+        let chickJson = await fetch(pathToJson).then(res => res.json());
+        let chickTemplate = new MoveableObject(chickJson.staticImagePath);
+        await this.loadObjectImages(chickJson, chickTemplate);
+        chickTemplate.setDimensions(chickJson);
+        chickTemplate.bossOffsetX = chickJson.bossOffsetX;
+        chickTemplate.bossOffsetY = chickJson.bossOffsetY;
+        chickTemplate.speedX = chickJson.speedX;
+        this.objectTemplates['chick'] = chickTemplate;
+    }
+
     /*** Load Bottles ***/
     /********************/
 
+    //TODO: refactor, axtract loadObjectTemplate function, in json-file: characterOffset -> offset
     async loadBottleTemplate(pathToJson) {
         let bottleJson = await fetch(pathToJson).then(res => res.json());
         let bottleTemplate = new Bottle(bottleJson.staticImagePath);
@@ -346,5 +359,21 @@ class World {
     applyGravity() {
         this.character.applyGravity(this.gravity);
         this.enemies.forEach((enemy) => enemy.applyGravity(this.gravity));
+    }
+
+
+
+    /*###########*/
+    /*## DEBUG ##*/
+    /*###########*/
+
+    spawnChick(){
+        let newChick = Object.create(this.objectTemplates['chick']);
+        newChick.x = this.endboss.x + this.objectTemplates['chick'].bossOffsetX;    
+        newChick.y = this.endboss.y + this.objectTemplates['chick'].bossOffsetY;
+        newChick.rotate(-90);
+        newChick.startMotionX();
+        newChick.animate('walk');
+        this.enemies.push(newChick);
     }
 }

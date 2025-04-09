@@ -12,11 +12,12 @@ let isGameRunning = false;
 async function init() {
     world.looseFunction = looseGame;
     world.winFunction = winGame;
-    await world.loadLevel('./game/level1.json');
-    // await world.loadLevel('./game/level0.json');
+    // await world.loadLevel('./game/level1.json');
+    await world.loadLevel('./game/level0.json');
     await world.loadCharacter('./game/pepe.json');
     await world.loadEnemies();
     await world.loadBottleTemplate('./game/bottle.json');
+    await world.loadChickTemplate('./game/chick.json');
     world.loadCollectibles();
     await world.loadEndboss('./game/polloLoco.json');
     hideElement('loadingCtn');
@@ -73,7 +74,14 @@ function showElement(elementId) {
 /*## DEBUG ##*/
 /*###########*/
 
-function tuEs() {
-    let x= new Statusvalue('bottleValue');
-    x.decrease();
+// let testCanvas = document.getElementById("testCanvasElem");
+// let testCtx = testCanvas.getContext("2d");
+async function tuEs() {
+    let x= new MoveableObject('./img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
+    let isImagesLoaded= x.loadAnimationImages('./game/chick.json');
+    await Promise.all([x.decodeImage(), isImagesLoaded]);
+    x.setSizeFromImage();
+    x.scaleToHeight(25);
+    console.log(x); ///DEBUG
+    testCtx.drawImage(x.img, x.x, x.y, x.width, x.height);
 }
