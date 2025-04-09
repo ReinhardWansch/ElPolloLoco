@@ -27,7 +27,6 @@ canvas {
 }
 
 #canvasElem {
-    background-color: black;
     width: 100%;
 }
 
@@ -56,6 +55,17 @@ canvas {
 .statusValueCtn {
     display: flex;
     align-items: center;
+}
+
+/*** controls ***/
+/****************/
+
+#mobileControlsCtn {
+    position: absolute;
+    bottom: 0;
+    display: none;
+    justify-content: space-between;
+    width: 100%;
 }
 
 /*** screens ***/
@@ -89,6 +99,7 @@ canvas {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -108,16 +119,29 @@ canvas {
 /*## DEBUG ##*/
 /*###########*/
 
-.containerTesten {
-    height: 300px;
-}
+@media screen and (width < 768px) and (orientation: landscape) {
+    h1 {
+        display: none;
+    }
 
-.centering {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-}
+    .centerCtn {
+        height: 100vh;
+        background-color: darkgray;
+    }
 
-.limitig {
-    position: relative;
+    .canvasCtn {
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    #startScreenCtn,
+    #looseScreenCtn,
+    #winScreenCtn {
+        height: 100%;
+    }
+
+    #mobileControlsCtn {
+        display: flex;
+    }
 }
