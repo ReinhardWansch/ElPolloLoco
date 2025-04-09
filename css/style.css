@@ -105,19 +105,9 @@ canvas {
     }
 }
 
-
-/*#############*/
-/*## UTILITY ##*/
-/*#############*/
-
-.d-none {
-    display: none !important;
-}
-
-
-/*###########*/
-/*## DEBUG ##*/
-/*###########*/
+/*############*/
+/*## MOBILE ##*/
+/*############*/
 
 @media screen and (width < 768px) and (orientation: landscape) {
     h1 {
@@ -144,4 +134,12 @@ canvas {
     #mobileControlsCtn {
         display: flex;
     }
+}
+
+/*#############*/
+/*## UTILITY ##*/
+/*#############*/
+
+.d-none {
+    display: none !important;
 }
