@@ -1,6 +1,6 @@
-//TODO: Endboss hurts Character
-//TODO: Collect bottles
+//TODO: Chicks hurt Character
 //TODO: Design Page
+//TODO: Sounds
 //TODO: Frage: Warum ist das Container-Div-Element höher als das Canvas-Element?
 //TODO: Favicon
 

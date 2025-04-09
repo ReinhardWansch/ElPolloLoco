@@ -267,6 +267,7 @@ class World {
         this.checkBottleCollision();
         this.checkCollectibleCollisions();
         this.checkBossCollision();
+        //chick collision
     }
 
     checkEnemyCollision() {
@@ -314,6 +315,15 @@ class World {
     checkBossCollision() {
         if (this.character.isCollision(this.endboss, -this.cameraX))
             this.character.hurt();
+    }
+
+    checkChickCollision() {
+        this.enemies.forEach((enemy) => {
+            if (this.character.isCollision(enemy, -this.cameraX)) {
+                if (enemy.isCausingDemage)
+                    this.character.hurt();
+            }
+        });
     }
 
     /*###################*/
@@ -371,6 +381,7 @@ class World {
         let newChick = Object.create(this.objectTemplates['chick']);
         newChick.x = this.endboss.x + this.objectTemplates['chick'].bossOffsetX;    
         newChick.y = this.endboss.y + this.objectTemplates['chick'].bossOffsetY;
+        newChick.isCausingDemage = true;
         newChick.rotate(-90);
         newChick.startMotionX();
         newChick.animate('walk');
