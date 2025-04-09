@@ -1,8 +1,8 @@
+//TODO: Endboss hurts Character
+//TODO: Collect bottles
 //TODO: Design Page
-//TODO: Move Clouds
 //TODO: Frage: Warum ist das Container-Div-Element höher als das Canvas-Element?
 //TODO: Favicon
-//TODO: Endboss hurts Character
 
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
@@ -17,6 +17,7 @@ async function init() {
     await world.loadCharacter('./game/pepe.json');
     await world.loadEnemies();
     await world.loadBottleTemplate('./game/bottle.json');
+    world.loadCollectibles();
     await world.loadEndboss('./game/polloLoco.json');
     hideElement('loadingCtn');
     document.getElementById('buttonStartGame').disabled= false;

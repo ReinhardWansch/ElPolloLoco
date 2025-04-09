@@ -12,8 +12,9 @@ class World {
     backgrounds = [];
     character;
     enemies = [];
-    bottles = [];
+    collectibles = [];
     endboss;
+    bottles = [];
 
     constructor(ctx) {
         this.ctx = ctx;
@@ -149,6 +150,20 @@ class World {
         }
     }
 
+    /*** Load Collectibles ***/
+    /*************************/
+
+    loadCollectibles() {
+        for (let json of this.level.collectibles) {
+            if (json.type == 'bottle') {
+                let newBottleCollectible = Object.create(this.objectTemplates['bottle']);
+                newBottleCollectible.x = json.spawnX;
+                newBottleCollectible.y = json.spawnY;
+                this.collectibles.push(newBottleCollectible);
+            }
+        }
+    }
+
     /*** Helper ***/
     /**************/
 
@@ -172,21 +187,22 @@ class World {
         this.checkStatus();
         window.requestAnimationFrame(() => {
             if (this.isGameRunning) this.draw(this.ctx)
-        });
+            });
     }
-
+    
     moveCharacter() {
         if (this.keyboard.ArrowRight && this.cameraX >= this.level.rightBorderCameraX)
             this.cameraX -= this.character.speedX;
         if (this.keyboard.ArrowLeft && this.cameraX <= this.level.leftBorderCameraX)
             this.cameraX += this.character.speedX;
     }
-
+    
     drawNonPlayerObjects() {
         this.ctx.translate(this.cameraX, 0); //move Camera
         this.drawBackgrounds();
         this.drawBottles();
         this.drawEnemies();
+        this.drawCollectibles();
         this.drawEndboss();
         this.ctx.translate(-this.cameraX, 0); //move Camera back
     }
@@ -201,6 +217,10 @@ class World {
 
     drawEnemies() {
         this.drawObjects(this.enemies);
+    }
+
+    drawCollectibles() {
+        this.drawObjects(this.collectibles);
     }
 
     drawEndboss() {
