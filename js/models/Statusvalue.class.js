@@ -29,4 +29,8 @@ class Statusvalue {
         let htmlElement = document.getElementById(this.htmlElementId);
         htmlElement.innerHTML = value;
     }
+
+    isZero() {
+        return this.getValue() <= 0;
+    }
 }

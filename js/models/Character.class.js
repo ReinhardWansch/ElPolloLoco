@@ -1,10 +1,12 @@
 class Character extends LivingObject {
     keyboard;
     jumpSpeed = -5;
+    bottleValue;
 
     constructor(imgPath, keyboard) {
         super(imgPath);
         this.keyboard = keyboard;
+        this.bottleValue = new Statusvalue('bottleValue');
     }
 
     draw(ctx) {

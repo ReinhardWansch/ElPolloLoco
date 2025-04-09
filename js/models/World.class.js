@@ -6,7 +6,7 @@ class World {
     isGameRunning = false;
     looseFunction;
     winFunction;
-    gameOverDelay= 1000;
+    gameOverDelay = 1000;
     level;
     objectTemplates = [];
     backgrounds = [];
@@ -130,19 +130,23 @@ class World {
         this.objectTemplates['bottle'] = bottleTemplate;
     }
 
+    //TODO: refactor
     spawnBottle() {
-        let newBottle = Object.create(this.objectTemplates['bottle']);
-        let template = this.objectTemplates['bottle'];
-        newBottle.x = -this.cameraX + this.character.x + template.characterOffsetX;
-        newBottle.y = this.character.y + template.characterOffsetY;
-        if (this.keyboard.ArrowRight || this.keyboard.ArrowLeft) {
-            newBottle.speedX += this.character.speedX * 0.75;
+        if (!this.character.bottleValue.isZero()) {
+            let newBottle = Object.create(this.objectTemplates['bottle']);
+            let template = this.objectTemplates['bottle'];
+            newBottle.x = -this.cameraX + this.character.x + template.characterOffsetX;
+            newBottle.y = this.character.y + template.characterOffsetY;
+            if (this.keyboard.ArrowRight || this.keyboard.ArrowLeft) {
+                newBottle.speedX += this.character.speedX * 0.75;
+            }
+            if (this.character.isFlippedHorizontally) newBottle.speedX *= -1;
+            newBottle.startMotion();
+            newBottle.animate('rotate');
+            newBottle.applyGravity(this.gravity);
+            this.bottles.push(newBottle);
+            this.character.bottleValue.decrease();
         }
-        if (this.character.isFlippedHorizontally) newBottle.speedX *= -1;
-        newBottle.startMotion();
-        newBottle.animate('rotate');
-        newBottle.applyGravity(this.gravity);
-        this.bottles.push(newBottle);
     }
 
     /*** Helper ***/
@@ -150,8 +154,8 @@ class World {
 
     async loadObjectImages(json, object) {
         object.loadAnimationImagesFromJson(json);
-        let imageDecoded= object.decodeImage();
-        let imagesAllDecoded= object.decodeImagesAll();
+        let imageDecoded = object.decodeImage();
+        let imagesAllDecoded = object.decodeImagesAll();
         return Promise.all([imageDecoded, imagesAllDecoded]);
     }
 
