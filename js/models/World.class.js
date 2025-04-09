@@ -250,12 +250,12 @@ class World {
     /*################*/
 
     checkCollisions() {
-        this.checkCharacterCollision();
+        this.checkEnemyCollision();
         this.checkBottleCollision();
         this.checkCollectibleCollisions();
     }
 
-    checkCharacterCollision() {
+    checkEnemyCollision() {
         this.enemies.forEach((enemy) => {
             if (this.character.isCollision(enemy, -this.cameraX)) {
                 if (enemy.isCausingDemage)

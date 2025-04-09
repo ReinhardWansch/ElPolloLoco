@@ -12,8 +12,8 @@ let isGameRunning = false;
 async function init() {
     world.looseFunction = looseGame;
     world.winFunction = winGame;
-    // await world.loadLevel('./game/level1.json');
-    await world.loadLevel('./game/level0.json');
+    await world.loadLevel('./game/level1.json');
+    // await world.loadLevel('./game/level0.json');
     await world.loadCharacter('./game/pepe.json');
     await world.loadEnemies();
     await world.loadBottleTemplate('./game/bottle.json');

@@ -114,6 +114,15 @@
             "speedX": -1
         }
     ],
+
+    "collectibles": [
+        {
+            "type": "bottle",
+            "spawnX": 300,
+            "spawnY": 170
+        }
+    ],
+
     "endboss": {
         "type": "polloLoco",
         "spawnX": 600,
