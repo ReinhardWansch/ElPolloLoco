@@ -257,7 +257,6 @@ class World {
             });
             //endboss collision
             if (bottle.isCollision(this.endboss)) {
-                console.log('bottle endboss collision'); ///DEBUG
                 this.bottles.splice(this.bottles.indexOf(bottle), 1);
                 this.endboss.hurt();
             }

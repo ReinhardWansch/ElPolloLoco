@@ -37,8 +37,6 @@ class Endboss extends LivingObject {
         }, attackDuration);
     }
 
-    die() {..}
-
     getAnimationDuration(animationName) {
         return this.animationImages[animationName].imageDuration * this.animationImages[animationName].images.length;
     }

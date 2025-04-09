@@ -6,7 +6,7 @@ class LivingObject extends MoveableObject {
 
     hurt() {
         if (this.healthbar.isEmpty()) {
-            this.die();     
+            this.die();
         } else if (this.currentAnimationName != 'hurt') {
             this.animate('hurt');
             this.healthbar.decrease();

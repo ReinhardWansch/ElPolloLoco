@@ -2,6 +2,7 @@
 //TODO: Move Clouds
 //TODO: Frage: Warum ist das Container-Div-Element höher als das Canvas-Element?
 //TODO: Favicon
+//TODO: Endboss hurts Character
 
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");

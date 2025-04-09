@@ -19,7 +19,6 @@ class HitableObject extends AnimatedObject {
     }
 
     isCollision(otherObject, xOffset) {
-        console.log('isCollision(..)'); ///DEBUG
         let thisCoords = this.getHitboxCoordinates();
         let otherCoords = otherObject.getHitboxCoordinates();
         if (xOffset) thisCoords.x = thisCoords.x + xOffset;
