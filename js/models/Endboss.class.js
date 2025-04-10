@@ -1,6 +1,6 @@
 class Endboss extends LivingObject {
     world
-    isActive= false;
+    isActive = false;
     actionLoop;
 
     constructor(imgPath, world) {
@@ -19,17 +19,28 @@ class Endboss extends LivingObject {
         this.stopMotionX();
         this.animate('walk');
         this.startMotionX();
-    }   
-    
+    }
+
     attack() {
+        this.world.sounds['endbossAttack'].play();
         this.stopMotionX();
         this.animate('attack');
         window.setTimeout(this.world.spawnChick.bind(this.world), 1500);
     }
 
+    hurt() {
+        this.world.sounds['endbossHurt'].play();
+        this.x += 10;
+        if (this.healthbar.isEmpty()) {
+            this.die();
+        } else if (this.currentAnimationName != 'hurt') {
+            this.healthbar.decrease();
+        }
+    }
+
     startActionLoop() {
         let attackDuration = this.getAnimationDuration('attack');
-        this.actionLoop= window.setInterval(() => {
+        this.actionLoop = window.setInterval(() => {
             if (this.isActive) {
                 let randomNumer = Math.floor(Math.random() * 2);
                 if (randomNumer < 1) {
@@ -51,9 +62,7 @@ class Endboss extends LivingObject {
     }
 
     stopActionLoop() {
-        if (this.actionLoop) {
-            clearInterval(this.actionLoop);
-            this.actionLoop = null;
-        }
+        clearInterval(this.actionLoop);
+        this.actionLoop = null;
     }
 }

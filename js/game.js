@@ -22,7 +22,7 @@ async function init() {
     await world.loadBottleTemplate('./game/bottle.json');
     await world.loadChickTemplate('./game/chick.json');
     world.loadCollectibles();
-    await world.loadEndboss('./game/polloLoco.json');
+    await world.loadEndboss();
     world.loadSounds();
     hideElement('loadingCtn');
     document.getElementById('buttonStartGame').disabled = false;
@@ -68,6 +68,7 @@ function startEnemyMovement() {
 
 function looseGame() {
     world.isGameRunning = false;
+    world.endboss.stopActionLoop();
     showElement('looseScreenCtn');
 }
 
@@ -77,11 +78,12 @@ function winGame() {
 }
 
 async function restartGame() {
-    world.character= null;
-    world.enemies= [];
-    world.bottles= [];
-    world.chicks= [];
-    world.endboss= null;
+    world.cameraX = 0;
+    world.character = null;
+    world.enemies = [];
+    world.bottles = [];
+    world.chicks = [];
+    world.endboss = null;
     await world.loadCharacter('./game/pepe.json');
     await world.loadEnemies();
     await world.loadEndboss();

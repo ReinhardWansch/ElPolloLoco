@@ -26,10 +26,16 @@ class Character extends LivingObject {
     jump() {
         if (!this.airborne) {
             this.animate('jump');
+            world.sounds['jump'].play();
             this.y -= 1;
             this.airborne = true;
             this.speedY = this.jumpSpeed;
         }
+    }
+
+    hurt() {
+        world.sounds['characterHurt'].play();
+        super.hurt();
     }
 
     getFlag_StartWalkAnimation() {

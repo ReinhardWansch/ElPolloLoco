@@ -183,11 +183,19 @@ class World {
     /*******************/
 
     loadSounds() {
+        // character
+        this.sounds['jump'] = new Audio('./sounds/jump-6462 (mp3cut.net).mp3');
+        this.sounds['characterHurt'] = new Audio('./sounds/pepeHurt.mp3');
         // bottle
-        let bottleThrow = new Audio('./sounds/whoosh-pro-3-sfx-223360 (mp3cut.net).mp3');
-        this.sounds['bottleThrow'] = bottleThrow;
-        let bottleSplash = new Audio('./sounds/glass-break-316720.mp3');
-        this.sounds['bottleSplash'] = bottleSplash;
+        this.sounds['bottleCollect'] = new Audio('./sounds/bottle-clink-101000 (mp3cut.net).mp3');
+        this.sounds['bottleThrow'] = new Audio('./sounds/bottleThrow (mp3cut.net).mp3');
+        this.sounds['bottleSplash'] = new Audio('./sounds/glass-break-316720.mp3');
+        // chicken
+        this.sounds['chickenDie'] = new Audio('./sounds/chickenDie.mp3');
+        // endboss
+        this.sounds['endbossHurt'] = new Audio('./sounds/endbossHurt.mp3');
+        this.sounds['chickPeep'] = new Audio('./sounds/chickPeep.mp3');
+        this.sounds['endbossAttack'] = new Audio('./sounds/endbossAttack.mp3');
     }
 
     /*** Helper ***/
@@ -301,6 +309,7 @@ class World {
                 if (bottle.isCollision(enemy)) {
                     this.bottles.splice(this.bottles.indexOf(bottle), 1);
                     if (bottle.isCausingDemage) {
+                        this.sounds['chickenDie'].play();
                         enemy.isCausingDemage = false;
                         enemy.stopMotion();
                         enemy.animate('die');
@@ -319,6 +328,7 @@ class World {
     checkCollectibleCollisions() {
         this.collectibles.forEach((collectibleI) => {
             if (this.character.isCollision(collectibleI, -this.cameraX)) {
+                this.sounds['bottleCollect'].play();
                 this.collectibles.splice(this.collectibles.indexOf(collectibleI), 1);
                 this.character.bottleValue.increase();
             }
@@ -390,9 +400,10 @@ class World {
     /*## DEBUG ##*/
     /*###########*/
 
-    spawnChick(){
+    spawnChick() {
+        this.sounds['chickPeep'].play();
         let newChick = Object.create(this.objectTemplates['chick']);
-        newChick.x = this.endboss.x + this.objectTemplates['chick'].bossOffsetX;    
+        newChick.x = this.endboss.x + this.objectTemplates['chick'].bossOffsetX;
         newChick.y = this.endboss.y + this.objectTemplates['chick'].bossOffsetY;
         newChick.isCausingDemage = true;
         newChick.rotate(-90);
