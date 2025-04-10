@@ -55,7 +55,7 @@
             "pathToJson": "./game/chicken.json",
             "spawnX": 1800,
             "spawnY": 300,
-            "speedX": -2
+            "speedX": -0.5
         },
         {
             "type": "chicken",
@@ -76,7 +76,7 @@
             "pathToJson": "./game/chicken.json",
             "spawnX": 2800,
             "spawnY": 300,
-            "speedX": -2
+            "speedX": -1
         },
         {
             "type": "chicken",

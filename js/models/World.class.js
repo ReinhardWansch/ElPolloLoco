@@ -6,7 +6,7 @@ class World {
     isGameRunning = false;
     looseFunction;
     winFunction;
-    gameOverDelay = 1000;
+    gameOverDelay = 500;
     level;
     objectTemplates = [];
     backgrounds = [];

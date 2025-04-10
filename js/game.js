@@ -43,6 +43,8 @@ function addMobileControlHandlers() {
 
 function startGame() {
     hideElement('startScreenCtn');
+    hideElement('looseScreenCtn');
+    hideElement('winScreenCtn');
     world.isGameRunning = true;
     world.draw(ctx);
     world.applyGravity(world.gravity);
@@ -71,6 +73,18 @@ function looseGame() {
 function winGame() {
     world.isGameRunning = false;
     showElement('winScreenCtn');
+}
+
+async function restartGame() {
+    world.character= null;
+    world.enemies= [];
+    world.bottles= [];
+    world.chicks= [];
+    world.endboss= null;
+    await world.loadCharacter('./game/pepe.json');
+    await world.loadEnemies();
+    await world.loadEndboss();
+    startGame();
 }
 
 /*#############*/
