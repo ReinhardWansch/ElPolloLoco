@@ -9,6 +9,7 @@ class Endboss extends LivingObject {
     }
 
     activate() {
+        this.world.sounds['endbossAttack'].play();
         let alertDuration = this.getAnimationDuration('alert');
         this.isActive = true;
         this.animate('alert');

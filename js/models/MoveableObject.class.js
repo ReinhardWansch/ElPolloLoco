@@ -53,7 +53,6 @@ class MoveableObject extends HitableObject {
     /*## ACCELERATION ##*/
     /*##################*/
 
-    //TODO refactor applyGravity
     applyGravity(g) {
         this.stopMotionY();
         this.currentMotionIntervalY = window.setInterval(() => {
@@ -79,7 +78,4 @@ class MoveableObject extends HitableObject {
         this.accelerationY = a;
     }
 
-    /*##########*/
-    /*## MISC ##*/
-    /*##########*/
 }

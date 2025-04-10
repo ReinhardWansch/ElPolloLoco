@@ -72,13 +72,4 @@ class AnimatedObject extends DrawableObject {
         this.currentAnimationName = null;
     }
 
-
-
-
-    /*###########*/
-    /*## DEBUG ##*/
-    /*###########*/
-
-    logHeight() {
-    }
 }

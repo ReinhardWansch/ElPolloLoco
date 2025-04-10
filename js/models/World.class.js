@@ -40,7 +40,6 @@ class World {
     /*** Load Backgrounds ***/
     /*******************/
 
-    //TODO: start movement of background objects at another place
     async loadBackgrounds() {
         for (let json of this.level.backgrounds) {
             let newBackgroundObject = new BackgroundObject(json.imagePath, json.loopsX);
@@ -115,7 +114,6 @@ class World {
         return this.endboss.decodeImagesAll();
     }
 
-    //TODO: refactor, axtract loadObjectTemplate function, in json-file: bossOffset -> offset 
     async loadChickTemplate(pathToJson) {
         let chickJson = await fetch(pathToJson).then(res => res.json());
         let chickTemplate = new MoveableObject(chickJson.staticImagePath);
@@ -130,7 +128,6 @@ class World {
     /*** Load Bottles ***/
     /********************/
 
-    //TODO: refactor, axtract loadObjectTemplate function, in json-file: characterOffset -> offset
     async loadBottleTemplate(pathToJson) {
         let bottleJson = await fetch(pathToJson).then(res => res.json());
         let bottleTemplate = new Bottle(bottleJson.staticImagePath);
@@ -288,7 +285,6 @@ class World {
         this.checkBottleCollision();
         this.checkCollectibleCollisions();
         this.checkBossCollision();
-        //chick collision
     }
 
     checkEnemyCollision() {
@@ -300,8 +296,6 @@ class World {
         });
     }
 
-    // TODO: refactor: extract killEnemy function
-    // TODO: end game if endboss is dead
     checkBottleCollision() {
         this.bottles.forEach((bottle) => {
             this.enemies.forEach((enemy) => {
@@ -338,15 +332,6 @@ class World {
     checkBossCollision() {
         if (this.character.isCollision(this.endboss, -this.cameraX))
             this.character.hurt();
-    }
-
-    checkChickCollision() {
-        this.enemies.forEach((enemy) => {
-            if (this.character.isCollision(enemy, -this.cameraX)) {
-                if (enemy.isCausingDemage)
-                    this.character.hurt();
-            }
-        });
     }
 
     /*###################*/

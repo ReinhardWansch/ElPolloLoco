@@ -43,7 +43,6 @@ class HitableObject extends AnimatedObject {
         }
     }
 
-    
 
     /*###########*/
     /*## DEBUG ##*/

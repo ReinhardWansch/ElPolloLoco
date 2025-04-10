@@ -1,9 +1,3 @@
-//TODO: Design Level1
-//TODO: Design Page
-//TODO: Sounds
-//TODO: Frage: Warum ist das Container-Div-Element höher als das Canvas-Element?
-//TODO: Favicon
-
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 let world = new World(ctx);
@@ -104,35 +98,4 @@ function showElement(elementId) {
 
 function enableButton(elemId) {
     document.getElementById(elemId).classList.remove('button-disabled');
-}
-
-
-/*###########*/
-/*## DEBUG ##*/
-/*###########*/
-
-// let testCanvas = document.getElementById("testCanvasElem");
-// let testCtx = testCanvas.getContext("2d");
-function tuEs() {
-    let rightButton = document.getElementById('mobileButtonRight');
-    console.log(rightButton); ///DEBUG
-    rightButton.addEventListener('keydown', () => {
-        console.log('ich werde gedrückt, rechts'); ///DEBUG
-        world.keyboard.ArrowRight = true;
-    });
-    rightButton.addEventListener('touchend', () => {
-        world.character.keyboard.ArrowRight = false;
-    });
-}
-
-function tuEs2() {
-    let rightButton = document.getElementById('mobileButtonRight');
-    rightButton.addEventListener('touchstart', () => {
-        console.log('Right button touched'); // DEBUG
-        world.keyboard.ArrowRight = true;
-    });
-    rightButton.addEventListener('touchend', () => {
-        console.log('Right button touch ended'); // DEBUG
-        world.keyboard.ArrowRight = false;
-    });
 }

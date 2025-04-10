@@ -4,7 +4,6 @@ class Bottle extends MoveableObject {
     constructor (imgPath) {
         super(imgPath);
         this.isCausingDemage= true;
-        // this.decodeImagesAll().then(()=>this.animate('rotate'));
     }
 
     draw(ctx) {
