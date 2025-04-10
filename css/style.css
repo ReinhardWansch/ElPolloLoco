@@ -121,11 +121,24 @@ h1 {
     top: 0;
     min-width: 100%;
     min-height: 100%;
-    background-color: lightcoral;
+    /* background-color: lightcoral; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#startScreenCtn {
+    background: 
+    url('/img/9_intro_outro_screens/start/startscreen_1.png'),
+    linear-gradient(#079dc8, #994409);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#debug{
+
 }
 
 #loadingCtn {
@@ -220,5 +233,5 @@ h1 {
 #startScreenCtn,
 #looseScreenCtn,
 #winScreenCtn {
-    display: none;
+    /* display: none; */
 }
