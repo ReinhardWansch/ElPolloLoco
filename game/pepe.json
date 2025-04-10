@@ -3,7 +3,7 @@
     "positionX": 75,
     "height": 300,
     "speedX": 10,
-    "jumpSpeed": -10,
+    "jumpSpeed": -12.5,
     "healthbarId": "healthbar",
     "hitbox": {
         "x": 30,
@@ -58,7 +58,7 @@
         },
         {
             "name": "jump",
-            "imageDuration": 75,
+            "imageDuration": 100,
             "animationLoops": 1,
             "imagePaths": [
                 "./img/2_character_pepe/3_jump/J-31.png",

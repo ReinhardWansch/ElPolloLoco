@@ -25,7 +25,6 @@ class Endboss extends LivingObject {
         this.stopMotionX();
         this.animate('attack');
         window.setTimeout(this.world.spawnChick.bind(this.world), 1500);
-        // this.world.spawnChick();
     }
 
     startActionLoop() {
@@ -46,5 +45,17 @@ class Endboss extends LivingObject {
 
     getAnimationDuration(animationName) {
         return this.animationImages[animationName].imageDuration * this.animationImages[animationName].images.length;
+    }
+
+    die() {
+        this.stopActionLoop();
+        super.die();
+    }
+
+    stopActionLoop() {
+        if (this.actionLoop) {
+            clearInterval(this.actionLoop);
+            this.actionLoop = null;
+        }
     }
 }

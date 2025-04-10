@@ -1,6 +1,6 @@
 {
     "staticImagePath": "./img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
-    "height": 25,
+    "height": 50,
     "bossOffsetX": 40,
     "bossOffsetY": 200,
     "speedX": -8,

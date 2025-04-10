@@ -25,7 +25,6 @@ class DrawableObject {
         }
         if (this.isFlippedHorizontally) this.transformCtxFlipHorizontally(ctx);
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-        this.drawBoundingBox(ctx); ///DEBUG
         ctx.restore();
         this.restorePosition();
     }
