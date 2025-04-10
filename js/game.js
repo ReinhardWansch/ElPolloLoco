@@ -69,6 +69,10 @@ function showElement(elementId) {
     document.getElementById(elementId).classList.remove('d-none');
 }
 
+function enableButton(elemId) {
+    document.getElementById(elemId).classList.remove('button-disabled');
+}
+
 
 /*###########*/
 /*## DEBUG ##*/
