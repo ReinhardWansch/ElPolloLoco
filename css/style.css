@@ -131,6 +131,8 @@ h1 {
     align-items: center;
 }
 
+/* startscreen */
+
 #startScreenCtn {
     padding-top: 1rem;
     display: flex;
@@ -169,6 +171,39 @@ h1 {
     }
 }
 
+/* winscreen */
+
+#winScreenCtn {
+    background-color: black;
+    background-image: url('/img/page/grilled-chicken.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#wonTextImg,
+#lostTextImg {
+    width: 80%;
+}
+
+#buttonRestartGameWon,
+#buttonRestartGameLost {
+    font-size: 2rem;
+}
+
+/* looseScreen */
+
+#looseScreenCtn {
+    display: flex !important;
+    background-color: black;
+    background-image: url('/img/page/pollo-loco-lost.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+
 /*############*/
 /*## MOBILE ##*/
 /*############*/
@@ -178,7 +213,9 @@ h1 {
         font-size: 2rem;
     }
     
-    #buttonStartGame {
+    #buttonStartGame,
+    #buttonRestartGameWon,
+    #buttonRestartGameLost {
         font-size: 1em;
         border-radius: 0.5em;
     }
@@ -245,7 +282,6 @@ h1 {
     padding: 0.5rem;
     background-color: darkorange;
     font-family: 'Zabars';
-    /* color: white; */
 }
 
 .button:hover {
