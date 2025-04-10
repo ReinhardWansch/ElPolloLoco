@@ -23,6 +23,7 @@ async function init() {
     await world.loadChickTemplate('./game/chick.json');
     world.loadCollectibles();
     await world.loadEndboss('./game/polloLoco.json');
+    world.loadSounds();
     hideElement('loadingCtn');
     document.getElementById('buttonStartGame').disabled = false;
 }

@@ -10,7 +10,10 @@ class Bottle extends MoveableObject {
     draw(ctx) {
         if (!this.airborne) {
             this.isCausingDemage = false;
-            if (this.currentAnimationName != 'splash') this.animate('splash');
+            if (this.currentAnimationName != 'splash') {
+                this.animate('splash');
+                world.sounds['bottleSplash'].play();
+            };
             this.stopMotion();
             window.setTimeout(() => { this.isDestroyed = true; }, 675);
         }

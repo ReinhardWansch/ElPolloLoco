@@ -15,6 +15,7 @@ class World {
     collectibles = [];
     endboss;
     bottles = [];
+    sounds = [];
 
     constructor(ctx) {
         this.ctx = ctx;
@@ -159,6 +160,7 @@ class World {
             newBottle.animate('rotate');
             newBottle.applyGravity(this.gravity);
             this.bottles.push(newBottle);
+            this.sounds['bottleThrow'].play();
             this.character.bottleValue.decrease();
         }
     }
@@ -175,6 +177,17 @@ class World {
                 this.collectibles.push(newBottleCollectible);
             }
         }
+    }
+
+    /*** Load Sounds ***/
+    /*******************/
+
+    loadSounds() {
+        // bottle
+        let bottleThrow = new Audio('./sounds/whoosh-pro-3-sfx-223360 (mp3cut.net).mp3');
+        this.sounds['bottleThrow'] = bottleThrow;
+        let bottleSplash = new Audio('./sounds/glass-break-316720.mp3');
+        this.sounds['bottleSplash'] = bottleSplash;
     }
 
     /*** Helper ***/
