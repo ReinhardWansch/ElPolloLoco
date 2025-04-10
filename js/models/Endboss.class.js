@@ -37,8 +37,6 @@ class Endboss extends LivingObject {
                 } else {
                     this.attack();
                 }
-            } else {
-                this.actionLoop = null;
             }
         }, attackDuration);
     }

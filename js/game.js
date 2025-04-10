@@ -7,7 +7,6 @@
 let canvas = document.getElementById("canvasElem");
 let ctx = canvas.getContext("2d");
 let world = new World(ctx);
-let isGameRunning = false;
 
 /*##########*/
 /*## INIT ##*/
@@ -49,7 +48,6 @@ function startGame() {
     world.applyGravity(world.gravity);
     startBackgroundMovement();
     startEnemyMovement();
-    isGameRunning = true;
 }
 
 function startBackgroundMovement() {
