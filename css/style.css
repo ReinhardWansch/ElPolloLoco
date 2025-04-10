@@ -18,7 +18,7 @@ canvas {
 
 @font-face {
     font-family: 'Zabars';
-    src: url('/fonts/zabars.ttf') format('truetype');
+    src: url('../fonts/zabars.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -39,7 +39,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url(/img/page/desert-5112222_1280.png);
+    background-image: url('../img/page/desert-5112222_1280.png');
     background-size: cover;
     background-position: center;
 }
@@ -140,7 +140,7 @@ h1 {
     justify-content: start;
     align-items: center;
     background: 
-        url('/img/9_intro_outro_screens/start/startscreen_1.png'),
+        url('../img/9_intro_outro_screens/start/startscreen_1.png'),
         linear-gradient(#079dc8, #994409);
     background-size: contain;
     background-position: center;
