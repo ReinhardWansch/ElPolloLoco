@@ -9,11 +9,15 @@ let ctx = canvas.getContext("2d");
 let world = new World(ctx);
 let isGameRunning = false;
 
+/*##########*/
+/*## INIT ##*/
+/*##########*/
+
 async function init() {
     world.looseFunction = looseGame;
     world.winFunction = winGame;
-    // await world.loadLevel('./game/level1.json');
-    await world.loadLevel('./game/level0.json');
+    addMobileControlHandlers();
+    await world.loadLevel('./game/level1.json');
     await world.loadCharacter('./game/pepe.json');
     await world.loadEnemies();
     await world.loadBottleTemplate('./game/bottle.json');
@@ -21,8 +25,22 @@ async function init() {
     world.loadCollectibles();
     await world.loadEndboss('./game/polloLoco.json');
     hideElement('loadingCtn');
-    document.getElementById('buttonStartGame').disabled= false;
+    document.getElementById('buttonStartGame').disabled = false;
 }
+
+function addMobileControlHandlers() {
+    let rightButton = document.getElementById('mobileButtonRight');
+    rightButton.addEventListener('touchstart', () => {
+        world.keyboard.ArrowRight = true;
+    });
+    rightButton.addEventListener('touchend', () => {
+        world.keyboard.ArrowRight = false;
+    });
+}
+
+/*##########*/
+/*## GAME ##*/
+/*##########*/
 
 function startGame() {
     hideElement('startScreenCtn');
@@ -81,6 +99,25 @@ function enableButton(elemId) {
 // let testCanvas = document.getElementById("testCanvasElem");
 // let testCtx = testCanvas.getContext("2d");
 function tuEs() {
-    let x= document.getElementById('winScreenCtn');
-    x.requestFullscreen();
+    let rightButton = document.getElementById('mobileButtonRight');
+    console.log(rightButton); ///DEBUG
+    rightButton.addEventListener('keydown', () => {
+        console.log('ich werde gedrückt, rechts'); ///DEBUG
+        world.keyboard.ArrowRight = true;
+    });
+    rightButton.addEventListener('touchend', () => {
+        world.character.keyboard.ArrowRight = false;
+    });
+}
+
+function tuEs2() {
+    let rightButton = document.getElementById('mobileButtonRight');
+    rightButton.addEventListener('touchstart', () => {
+        console.log('Right button touched'); // DEBUG
+        world.keyboard.ArrowRight = true;
+    });
+    rightButton.addEventListener('touchend', () => {
+        console.log('Right button touch ended'); // DEBUG
+        world.keyboard.ArrowRight = false;
+    });
 }

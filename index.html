@@ -52,12 +52,12 @@
                     <div id="controlsDirectionCtn" class="button-group">
                         <!-- <button id="buttonLeft" class="controlButton">&#x2B05;</button>
                         <button id="buttonLeft" class="controlButton">&#x27A1;</button> -->
-                        <img src="./img/page/left-arrow_15093165.png" class="control-button" alt="">
-                        <img src="./img/page/right-arrow_15093165.png" class="control-button" alt="">
+                        <img id="mobileButtonLeft" src="./img/page/left-arrow_15093165.png" class="control-button" >
+                        <img id="mobileButtonRight" src="./img/page/right-arrow_15093165.png" class="control-button" alt="">
                     </div>
                     <div id="controlsActionCtn" class="button-group">
-                        <img src="./img/page/bottle_15093165.png" class="control-button" alt="">
-                        <img src="./img/page/up-arrow_15093165.png" class="control-button" alt="">
+                        <img src="./img/page/bottle_15093165.png" class="control-button" alt="" onclick="world.spawnBottle()">
+                        <img src="./img/page/up-arrow_15093165.png" class="control-button" onclick="world.character.jump()">
                     </div>
                 </div>
 
