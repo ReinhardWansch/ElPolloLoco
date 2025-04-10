@@ -194,15 +194,12 @@ h1 {
 /* looseScreen */
 
 #looseScreenCtn {
-    display: flex !important;
     background-color: black;
     background-image: url('/img/page/pollo-loco-lost.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
-
-
 
 /*############*/
 /*## MOBILE ##*/
@@ -270,6 +267,24 @@ h1 {
     #infoCtn {
         display: none;
     }
+}
+
+/*#####################*/
+/*## MOBILE CONTROLS ##*/
+/*#####################*/
+
+.button-group {
+    display: flex;
+    gap: 2%;
+    padding: 2%;
+}
+
+#controlsActionCtn {
+    justify-content: end;
+}
+
+.control-button {
+    width: 20%;
 }
 
 /*#############*/
