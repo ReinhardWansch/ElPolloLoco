@@ -13,12 +13,45 @@ canvas {
 }
 
 /*###########*/
+/*## FONTS ##*/
+/*###########*/
+
+@font-face {
+    font-family: 'Zabars';
+    src: url('/fonts/zabars.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Zabars', serif;
+}
+
+/*###########*/
 /*## STYLE ##*/
 /*###########*/
+
+body {
+    height: 100vh;
+    height: 100dvh;
+    padding-top: clamp(2rem, -3.447rem + 11.348vw, 4rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url(/img/page/desert-5112222_1280.png);
+    background-size: cover;
+    background-position: center;
+}
+
+h1 {
+    font-size: clamp(3rem, 0.277rem + 5.674vw, 4rem);
+    padding-bottom: 1rem;
+}
 
 .centerCtn {
     display: flex;
     justify-content: center;
+    align-items: center;;
 }
 
 .canvasCtn {
@@ -109,20 +142,37 @@ canvas {
 /*## MOBILE ##*/
 /*############*/
 
+@media screen and (width < 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+
+/*** Landscape ***/
+/*****************/
+
+/* @media screen and (orientation: landscape) { */
 @media screen and (width < 768px) and (orientation: landscape) {
+    body {
+        padding-top: 0;
+    }
+
     h1 {
         display: none;
     }
 
     .centerCtn {
         height: 100vh;
-        background-color: darkgray;
     }
 
     .canvasCtn {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    #canvasElem {
         height: 100%;
-        display: flex;
-        align-items: center;
     }
 
     #startScreenCtn,
@@ -134,6 +184,10 @@ canvas {
     #mobileControlsCtn {
         display: flex;
     }
+
+    #infoCtn {
+        display: none;
+    }
 }
 
 /*#############*/
@@ -142,4 +196,15 @@ canvas {
 
 .d-none {
     display: none !important;
+}
+
+
+/*###########*/
+/*## DEBUG ##*/
+/*###########*/
+
+#startScreenCtn,
+#looseScreenCtn,
+#winScreenCtn {
+    display: none;
 }
